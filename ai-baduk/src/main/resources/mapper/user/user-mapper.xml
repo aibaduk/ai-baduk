@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- SQL Mapping -->
+<mapper namespace="com.ai.login.dao.UserMapper">
+    <!-- 로그인 -->
+    <select id="getUserAccount" resultType="com.ai.login.vo.UserVo">
+        SELECT USER_ID
+             , FST_CRER_ID
+             , FST_CRE_DTM
+             , AUDIT_ID
+             , AUDIT_DTM
+             , USER_NM
+             , USER_SEX
+             , USER_AUTH
+             , USER_PW
+             , USER_GRADE
+             , PHONE_NUM1
+             , PHONE_NUM2
+             , PHONE_NUM3
+             , ADDRESS
+             , BIRTH
+             , EMAIL
+             , JOB
+             , TEAM
+             , LEVEL
+          FROM CU_USER
+         WHERE USER_ID= #{userId}
+    </select>
+
+    <!-- 회원가입 -->
+    <insert id="saveUser" parameterType="com.ai.login.vo.UserVo">
+        INSERT INTO CU_USER (
+			USER_ID
+            , FST_CRER_ID
+            , FST_CRE_DTM
+            , AUDIT_ID
+            , AUDIT_DTM
+            , USER_NM
+            , USER_SEX
+            , USER_AUTH
+            , USER_PW
+            , USER_GRADE
+            , PHONE_NUM1
+            , PHONE_NUM2
+            , PHONE_NUM3
+            , ADDRESS
+            , BIRTH
+            , EMAIL
+            , JOB
+            , TEAM
+            , LEVEL
+        )
+        VALUES(
+        	#{userId}
+        	, #{ssLoginId}
+        	, NOW()
+        	, #{ssLoginId}
+        	, NOW()
+        	, #{userNm}
+        	, #{userSex}
+        	, #{userAuth}
+        	, #{userPw}
+        	, #{userGrade}
+        	, #{phoneNum1}
+        	, #{phoneNum2}
+        	, #{phoneNum3}
+        	, #{address}
+        	, #{birth}
+        	, #{email}
+        	, #{job}
+        	, #{team}
+        	, #{level}
+        );
+    </insert>
+
+</mapper>

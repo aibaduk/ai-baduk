@@ -1,0 +1,19 @@
+/* 나눔바른고딕 웹폰트 v1.11 https://github.com/hiun/NanumBarunGothic , https://github.com/moonspam/NanumBarunGothic*/
+@font-face {
+ font-family: 'MalgunGothic';
+ font-weight: 400;
+ src: url("fonts/MalgunGothic.eot");
+ src: url("fonts/MalgunGothic.eot"?#iefix) format('embedded-opentype'),
+      url("fonts/MalgunGothic.woff2") format('woff2'),
+      url("fonts/MalgunGothic.woff") format('woff'),
+      url("fonts/MalgunGothic.ttf") format('truetype');
+}
+@font-face {
+ font-family: 'MalgunGothic';
+ font-weight: 700;
+ src: url("fonts/MalgunGothicBold.eot");
+ src: url("fonts/MalgunGothicBold.eot"?#iefix) format('embedded-opentype'),
+      url("fonts/MalgunGothicBold.woff2") format('woff2'),
+      url("fonts/MalgunGothicBold.woff") format('woff'),
+      url("fonts/MalgunGothicBold.ttf") format('truetype');
+}

@@ -1,0 +1,68 @@
+/**
+ * 체크박스 이벤트
+ */
+$(document).on('click', '#allCheck', function() {
+	$('[id^=chk_]').prop('checked', $(this).is(':checked'));
+});
+$(document).on('click', '[id^=chk_]', function() {
+	let total = $("[id^=chk_]").length;
+	let checked = $("[id^=chk_]:checked").length;
+	$('#allCheck').prop("checked", (total == checked));
+});
+
+/**
+ * 페이징 처리
+ * @param {pageInfo} rs 페이지 정보
+ * @param {int} colcnt 컬럼수
+ */
+function paginateArea(rs, colcnt) {
+	let pageInfo = rs.pageInfo;
+	// $('').text(parseCurrency(pageInfo.totalCount));
+	if (pageInfo.totalCount == 0) {
+		noResult(colcnt);
+		$('.pagination').hide();
+	} else {
+		$('input[name=pageNo]').val(pageInfo.pageNo);
+		$('input[name=pageSize]').val(pageInfo.pageSize);
+		pagerObject(pageInfo);
+		$('.pagination').show();
+	}
+}
+
+/**
+ * 검색 데이터 결과 없는 케이스
+ * @param {int} colcnt 페이지 정보
+ * @param {String} id 영역 id
+ */
+function noResult(colcnt, id) {
+	let elem = id || '.table-col > tbody';
+	$(elem).html('<tr><td colspan='+colcnt+'>일치하는 검색결과가 없습니다.</td></tr>');
+}
+
+/**
+ * 화폐 변환
+ * @param {int} num 페이지 정보
+ */
+function parseCurrency(num) {
+	return isNull(num) ? 0 : String(num).replace(/\B(?=([0-9]{3})+(?![0-9]))/g, ',');
+}
+
+/**
+ * null 체크
+ * @param {String} val 체크할 변수
+ */
+function isNullOrEmpty(val) {
+	return (typeof val === undefined || val == null || val.length <= 0) ? true : false;
+}
+
+/**
+ * 문자열 연결
+ * 가이드: "{1}{2}{3}".format(4, 5, 9);
+ */
+String.prototype.format = function() {
+    var formatted = this;
+    for( var arg in arguments ) {
+        formatted = formatted.replace("{" + arg + "}", arguments[arg]);
+    }
+    return formatted;
+};

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- SQL Mapping -->
+<mapper namespace="com.ai.admin.dao.CodeMapper">
+	<!-- 공통코드 리스트 조회 -->
+	<select id="selectCodeList" parameterType="com.ai.admin.vo.CodeSearchVo" resultType="com.ai.admin.vo.CodeVo">
+		SELECT CC.L_CD
+			 , CC.M_CD AS CODE_ID
+			 , CC.FST_CRER_ID
+			 , IFNULL((SELECT USER_NM FROM CU_USER WHERE USER_ID = CC.FST_CRER_ID), CC.FST_CRER_ID) AS FST_CRER_NM
+			 , DATE_FORMAT(CC.FST_CRE_DTM, '%Y-%m-%d %h:%i') AS FST_CRE_DTM
+			 , CC.AUDIT_ID
+			 , IFNULL((SELECT USER_NM FROM CU_USER WHERE USER_ID = CC.AUDIT_ID), CC.AUDIT_ID) AS AUDIT_NM
+		     , DATE_FORMAT(CC.AUDIT_DTM, '%Y-%m-%d %h:%i') AS AUDIT_DTM
+			 , CC.CODE_NM
+			 , CC.SORT_SEQ
+			 , CC.REF1
+			 , CC.REF2
+			 , CC.REF3
+			 , CC.ETC
+		  FROM CM_CODE CC
+		 WHERE 1 = 1
+		   AND CC.M_CD = '*'
+		   <if test='@org.apache.commons.lang3.StringUtils@isNotEmpty(searchValue)'>
+			   <if test='@org.apache.commons.lang3.StringUtils@equals(searchKey, "lCd")'>
+				   AND CC.L_CD LIKE CONCAT('%', #{searchValue}, '%')
+			   </if>
+			   <if test='@org.apache.commons.lang3.StringUtils@equals(searchKey, "codeNm")'>
+				   AND CC.CODE_NM LIKE CONCAT('%', #{searchValue}, '%')
+			   </if>
+		   </if>
+		 ORDER BY FST_CRER_ID DESC
+	</select>
+
+	<select id="selectCodeByLCd" parameterType="java.lang.String" resultType="com.ai.admin.vo.CodeVo">
+		SELECT CC.L_CD AS UPPER_CODE_ID
+			 , CC.M_CD AS CODE_ID
+			 , CC.FST_CRER_ID
+			 , IFNULL((SELECT USER_NM FROM CU_USER WHERE USER_ID = CC.FST_CRER_ID), CC.FST_CRER_ID) AS FST_CRER_NM
+			 , DATE_FORMAT(CC.FST_CRE_DTM, '%Y-%m-%d %h:%i') AS FST_CRE_DTM
+			 , CC.AUDIT_ID
+			 , IFNULL((SELECT USER_NM FROM CU_USER WHERE USER_ID = CC.AUDIT_ID), CC.AUDIT_ID) AS AUDIT_NM
+		     , DATE_FORMAT(CC.AUDIT_DTM, '%Y-%m-%d %h:%i') AS AUDIT_DTM
+			 , CC.CODE_NM
+			 , CC.SORT_SEQ
+			 , CC.REF1
+			 , CC.REF2
+			 , CC.REF3
+			 , CC.ETC
+		  FROM CM_CODE CC
+		 WHERE 1 = 1
+		   AND CC.L_CD = #{lCd}
+		 ORDER BY SORT_SEQ ASC, M_CD
+	</select>
+
+	<select id="selectCode" parameterType="java.lang.String" resultType="com.ai.admin.vo.CodeVo">
+		SELECT CC.L_CD
+			 , CC.M_CD AS CODE_ID
+			 , CC.FST_CRER_ID
+			 , IFNULL((SELECT USER_NM FROM CU_USER WHERE USER_ID = CC.FST_CRER_ID), CC.FST_CRER_ID) AS FST_CRER_NM
+			 , DATE_FORMAT(CC.FST_CRE_DTM, '%Y-%m-%d %h:%i') AS FST_CRE_DTM
+			 , CC.AUDIT_ID
+			 , IFNULL((SELECT USER_NM FROM CU_USER WHERE USER_ID = CC.AUDIT_ID), CC.AUDIT_ID) AS AUDIT_NM
+		     , DATE_FORMAT(CC.AUDIT_DTM, '%Y-%m-%d %h:%i') AS AUDIT_DTM
+			 , CC.CODE_NM
+			 , CC.SORT_SEQ
+			 , CC.REF1
+			 , CC.REF2
+			 , CC.REF3
+			 , CC.ETC
+		  FROM CM_CODE CC
+		 WHERE 1 = 1
+		   AND CC.M_CD <![CDATA[<>]]> '*'
+		   AND CC.L_CD = #{lCd}
+		 ORDER BY SORT_SEQ ASC
+	</select>
+
+</mapper>

@@ -1,0 +1,121 @@
+@charset "utf-8";
+
+/*=========================================== Reset ================================================*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video, button {margin:0; padding:0; border:0; vertical-align:baseline; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box;}
+input, select, textarea {margin:0; padding:0; box-sizing:border-box;}
+textarea {resize:none;}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {display:block;}
+
+* {margin:0; padding:0; -webkit-text-size-adjust:none;}/* 아이폰 가로모드시 글씨 커지는 문제 */
+i, em {font-style:normal;}
+blockquote, q {quotes:none;}
+sub {vertical-align:sub; font-size:smaller; line-height:0;}
+sup {vertical-align:super; font-size:smaller; line-height:0;}
+img, fieldset {vertical-align:middle;}
+a {color:inherit; vertical-align:inherit; text-decoration:none;}
+/* a:link, a:hover {text-decoration:none;} */
+h1,h2,h3,h4,h5,h6 {color:inherit; font-weight:inherit; font-size: inherit;}
+ol, ul, li {list-style:none;}
+table {width:100%; border-collapse:separate; border-spacing:0; table-layout:fixed; word-break:normal;}
+th, td {vertical-align:middle;}
+caption, legend {width:1px; height:1px; margin:-1px 0 0 0; padding:0; border:0; /* clip:rect(0 0 0 0) !important; */ overflow:hidden; font-size:0; color:transparent; line-height:0;}
+fieldset, legend {border:0; background-color:transparent;}
+/*hr {display:none;}*/
+hr {height:0; border:0; background-color:transparent;}
+button {display:inline-block; border:0; background-color:transparent; font-size:inherit; text-align:center; cursor:pointer; overflow:visible; -webkit-appearance:button;}
+
+/* 아이폰(사파리) 터치 메뉴 활성화 관련 */
+a, button,
+[role=button], [role=link], [role=tab] {/*outline:none;*/ -webkit-touch-callout:none;}
+/* 아이폰(사파리) form 요소 박스선 없애기 */
+input,
+select,
+textarea {-webkit-appearance:none; -moz-appearance:none; -ms-appearance:none; -o-appearance:none; appearance:none; -webkit-border-radius:0;}
+
+/*================================================ Form ================================================*/
+input,
+textarea {line-height:1.2;/*입력폼에서 춤추지 않는 최소 줄간 1.2*/ vertical-align:middle;}
+/* input:not([type=checkbox]):not([type=radio]):not([type=range]),
+select,
+textarea {width:100%; color:#222;font-family:'Roboto Light', 'NotoSans Light', 'Malgun Gothic', '맑은 고딕', 'Apple SD Gothic Neo', sans-serif;font-size:1.6rem; background-color:#fff;background-clip:padding-box;border:0;border-bottom:1px solid #d3d3d3; transition:border-color ease-in-out 0.225s; -webkit-transition:border-color ease-in-out 0.225s;} */
+
+select {background:transparent;}
+textarea {padding:18px 15px; color:#666; font-size:14px; line-height:1.4; resize:none;}
+
+input::-ms-clear {display:none;}
+select::-ms-expand {display:none;}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {-webkit-appearance:none;}
+
+em, address {font-style:normal}
+/* placeholder, focus *
+input:not([type=checkbox]):not([type=radio])::placeholder,
+select::placeholder,
+textarea::placeholder {color:#999; font-size:15px; opacity:1;}
+input:not([type=checkbox]):not([type=radio])::-webkit-input-placeholder,
+select::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {color:#999; font-size:15px; opacity:1;}
+input:not([type=checkbox]):not([type=radio])::-moz-placeholder,
+select::-moz-placeholder,
+textarea::-moz-placeholder {color:#999; font-size:15px; opacity:1;}
+input:not([type=checkbox]):not([type=radio]):-ms-input-placeholder,
+select:-ms-input-placeholder,
+textarea:-ms-input-placeholder {color:#999 !important; font-size:15px; opacity:1;}
+
+input::placeholder {text-align:left !important;}
+input::-webkit-input-placeholder {text-align:left !important;}
+input:-ms-input-placeholder {text-align:left !important;}
+
+input:not([type=checkbox]):not([type=radio]):focus::-webkit-input-placeholder,
+select:focus::-webkit-input-placeholder,
+textarea:focus::-webkit-input-placeholder {color:#222; opacity:0;}
+input:not([type=checkbox]):not([type=radio]):focus::-moz-placeholder,
+select:focus::-moz-placeholder,
+textarea:focus::-moz-placeholder {color:#222; opacity:0;}
+input:not([type=checkbox]):not([type=radio]):focus:-ms-input-placeholder,
+select:focus:-ms-input-placeholder,
+textarea:focus:-ms-input-placeholder {color:#222; opacity:0;}
+
+/*================================================ Basic ================================================*/
+.clear:before,
+.clear:after {display:block; content:'';}
+.clear:after {clear:both;}
+.clear {*zoom:1;}
+* html .clear {height:1%;}/* Hides from IE-mac */
+
+.rel {position:relative !important;}
+.abs {position:absolute !important;}
+.blk {display:block !important;}
+.inB {display:inline-block !important;}
+.tb {display:table !important;}
+.tbCell, .tbCell.nowrap {display:table-cell !important;}
+.nowrap {display:inline-block; white-space:nowrap !important;}
+.ellip {display:inline-block; max-width:100%; text-overflow:ellipsis; white-space:nowrap; overflow:hidden;}
+.blind {display:inline-block; position:absolute !important; width:1px; height:1px; margin:-1px; border:0; overflow:hidden; clip:rect(1px, 1px, 1px, 1px); clip-path:inset(50%);}
+
+/*================================================ 정렬 ================================================*/
+.fl {float:left;}
+.fr {float:right;}
+.fn {float:none !important;}
+
+.ac {text-align:center !important;}
+.al {text-align:left !important;}
+.ar {text-align:right !important;}
+
+.vm {vertical-align:middle !important}
+.vt {vertical-align:top !important}
+.vb {vertical-align:bottom !important}
