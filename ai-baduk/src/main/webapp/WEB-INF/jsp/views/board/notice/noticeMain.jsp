@@ -108,7 +108,7 @@ function setData() {
 }
 </script>
 <body>
-	<div id="wrap">
+	<div class="wrapper">
 		<%@ include file="/WEB-INF/jsp/views/common/header.jsp" %>
 		<form id="searchForm">
 			<input type="hidden" name="pageNo" value="1">
@@ -139,30 +139,29 @@ function setData() {
 		                                    <button id="btn-select">검색</button>
 		                                </div>
 		                            </div>
-		                            <table class="table-col">
-		                                <colgroup>
-		                                    <col width="5%">
-		                                    <col width="10%">
-		                                    <col width="*">
-		                                    <col width="10%">
-		                                    <col width="10%">
-		                                    <col width="10%">
-		                                    <col width="13%">
-		                                </colgroup>
+		                            <table class="qna">
 		                                <thead>
 		                                    <tr>
-		                                    	<th><input type="checkbox" id="allCheck"><label for="allCheck"></label></th>
-		                                        <th>NO</th>
+		                                    	<th class="show-pc">
+			                                    	<div class="fm-group">
+														<div class="fm-check fm-inline fm-round">
+															<input class="fm-check-input" type="checkbox" name="allCheck" id="allCheck">
+															<label class="fm-check-label" for="allCheck"></label>
+														</div>
+													</div>
+		                                    	</th>
+		                                        <th class="show-pc">NO</th>
 		                                        <th>제목</th>
-		                                        <th>첨부여부</th>
-		                                        <th>첨부파일</th>
-		                                        <th>등록자</th>
+		                                        <th>첨부</th>
+		                                        <th class="show-pc">첨부파일</th>
+		                                        <th class="show-pc">등록자</th>
 		                                        <th>등록일</th>
 		                                    </tr>
 		                                </thead>
 		                                <tbody id="notice-tbody"></tbody>
 		                            </table>
 		                            <div class="btn-wrap">
+                                    	<!-- <button type="button" class="btn-more">더보기</button> -->
 		                            	<div class="pagination"></div>
 			                            <div class="btn-right">
 		                                    <a href="javascript:void(0)" id="btn-insert" class="btns point btn-role-s">등록</a>
@@ -182,12 +181,22 @@ function setData() {
 <!-- Template 소스 {{:boardGubun}}-->
 <script type="text/template" id="notice-template">
 <tr {{if impoYn == 'Y'}}class="hot"{{/if}}>
-	<td><input type="checkbox" id="chk_{{:(#index + 1)}}" data-id="{{:boardId}}"><label for="chk_{{:(#index + 1)}}"></label></td>
-	<td>{{if impoYn == 'Y'}}HOT{{else}}{{:rowId}}{{/if}}</td>
-	<td class="l-data subject"><a href="/board/notice/detail?boardGubun=01&boardId={{:boardId}}">{{:boardTit}}{{if newYn == 'Y'}}<em>new</em>{{/if}}</a></td>
+	<td class="show-pc">
+		<div class="fm-group">
+			<div class="fm-check fm-inline fm-round">
+				<input class="fm-check-input" type="checkbox" id="chk_{{:(#index + 1)}}" data-id="{{:boardId}}">
+				<label class="fm-check-label" for="chk_{{:(#index + 1)}}"></label>
+			</div>
+		</div>
+	</td>
+	<td class="show-pc">{{if impoYn == 'Y'}}HOT{{else}}{{:rowId}}{{/if}}</td>
+	<td class="l-data subject">
+		<span><a href="/board/notice/detail?boardGubun=01&boardId={{:boardId}}">{{:boardTit}}</a></span>
+		{{if newYn == 'Y'}}<span><em>new</em></span>{{/if}}
+	</td>
 	<td>{{:fileYn}}</td>
-	<td>{{if fileYn == 'N'}}-{{else}}<a href="javascript:void(0)" class="file-zip-download" data-id="{{:boardId}}"><img src="/static/images/icon_file.png" alt="첨부파일 다운로드"></a>{{/if}}</td>
-	<td>{{:fstCrerNm}}</td>
+	<td class="show-pc">{{if fileYn == 'N'}}-{{else}}<a href="javascript:void(0)" class="file-zip-download" data-id="{{:boardId}}"><img src="/static/images/icon_file.png" alt="첨부파일 다운로드"></a>{{/if}}</td>
+	<td class="show-pc">{{:fstCrerNm}}</td>
 	<td>{{:fstCreDtm}}</td>
 </tr>
 </script>

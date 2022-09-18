@@ -206,7 +206,7 @@ function noticeFileDownload(file) {
 }
 </script>
 <body>
-	<div id="wrap">
+	<div class="wrapper">
 		<%@ include file="/WEB-INF/jsp/views/common/header.jsp" %>
 		<input type="hidden" name="boardGubun" value="01">
 		<c:set var="isInsert" value="${empty noticeDetailInfo }"></c:set>
@@ -233,18 +233,24 @@ function noticeFileDownload(file) {
 		                                </li>
 		                                <li class="file">
 		                                    <span class="form-ele">
-		                                    	<label for="file">첨부파일</label><input type="text" id="boardFile" name="boardFile" readonly="readonly"><button id="btn-file">찾아보기</button>
+		                                    	<label for="file">첨부파일</label><input type="text" id="boardFile" name="boardFile" readonly="readonly"><button class="btns" id="btn-file">찾아보기</button>
 		                                    	<input type="file" id="uploadFile" name="uploadFile" multiple style="display: none;">
-		                                    	<label for="impo" style="margin-left: 12px;">중요도여부</label>
-		                                    	<span class="form-check form-check-inline">
-												  <input class="form-check-input" style="width: 30px;" type="radio" name="impoYn" id="impoY" value="Y">
-												  <label class="form-check-label" style="width: 30px;" for="impoY">Y</label>
-												</span>
-												<span class="form-check form-check-inline">
-												  <input class="form-check-input" style="width: 30px;" type="radio" name="impoYn" id="impoN" value="N" checked="checked">
-												  <label class="form-check-label" style="width: 30px;" for="impoN">N</label>
-												</span>
 		                                    </span>
+		                                </li>
+		                                <li class="file">
+		                                    <div class="form-ele">
+		                                    	<label for="impo" class="fm-label">중요여부</label>
+		                                    	<div class="fm-group" style="display: inline;">
+					                                <div class="fm-check fm-inline">
+					                                    <input class="fm-check-input" type="radio" name="impoYn" id="impoY" value="Y">
+					                                    <label class="fm-check-label" for="impoY">Y</label>
+					                                </div>
+					                                <div class="fm-check fm-inline">
+					                                    <input class="fm-check-input" type="radio" name="impoYn" id="impoN" value="N" checked="checked">
+					                                    <label class="fm-check-label" for="impoN">N</label>
+					                                </div>
+					                            </div>
+				                            </div>
 		                                </li>
 		                                <li class="cont">
 		                                    <textarea col="100" row="50" id="boardCtt" name="boardCtt"></textarea>
@@ -272,29 +278,30 @@ function noticeFileDownload(file) {
 		                                </li>
 		                                <li class="file">
 		                                    <span class="form-ele">
-		                                    	<label for="file">첨부파일</label><input type="text" id="boardFile" name="boardFile" readonly="readonly"><button id="btn-file">찾아보기</button>
+		                                    	<label for="file">첨부파일</label><input type="text" id="boardFile" name="boardFile" readonly="readonly"><button class="btns" id="btn-file">찾아보기</button>
 		                                    	<input type="file" id="uploadFile" name="uploadFile" multiple style="display: none;">
-		                                    	<label for="impo" style="margin-left: 12px;">중요도여부</label>
-		                                    	<span class="form-check form-check-inline">
-												  <input class="form-check-input" style="width: 30px;" type="radio" name="impoYn" id="impoY" value="Y" <c:if test="${noticeDetailInfo.impoYn eq 'Y' }">checked="checked"</c:if>>
-												  <label class="form-check-label" style="width: 30px;" for="impoY">Y</label>
-												</span>
-												<span class="form-check form-check-inline">
-												  <input class="form-check-input" style="width: 30px;" type="radio" name="impoYn" id="impoN" value="N" <c:if test="${noticeDetailInfo.impoYn eq 'N' }">checked="checked"</c:if>>
-												  <label class="form-check-label" style="width: 30px;" for="impoN">N</label>
-												</span>
 		                                    </span>
 		                                </li>
+		                                <li class="file_text">
+		                                    <c:forEach items="${noticeDetailInfo.fileList }" var="file">
+	                                    		<a href="javascript:void(0)" class="file-download" data-name="${file.fileNm}_${file.fileOgNm}">${file.fileOgNm}</a>
+	                                    		<span class='custem_close btn-delete-file' data-id="${file.fileId}" data-name="${file.fileNm}_${file.fileOgNm}">&times;</span>
+	                                    	</c:forEach>
+		                                </li>
 		                                <li class="file">
-		                                    <span class="form-ele">
-		                                    	<label for="file">현재 첨부파일</label>
-		                                    	<span>
-			                                    	<c:forEach items="${noticeDetailInfo.fileList }" var="file">
-														<a href="javascript:void(0)" class="file-download" data-name="${file.fileNm}_${file.fileOgNm}">${file.fileOgNm}</a>
-														<span class='custem_close btn-delete-file' data-id="${file.fileId}" data-name="${file.fileNm}_${file.fileOgNm}">&times;</span>
-			                                    	</c:forEach>
-		                                    	</span>
-		                                    </span>
+		                                    <div class="form-ele">
+		                                    	<label for="impo" class="fm-label">중요여부</label>
+		                                    	<div class="fm-group" style="display: inline;">
+					                                <div class="fm-check fm-inline">
+					                                    <input class="fm-check-input" type="radio" name="impoYn" id="impoY" value="Y" <c:if test="${noticeDetailInfo.impoYn eq 'Y' }">checked="checked"</c:if>>
+					                                    <label class="fm-check-label" for="impoY">Y</label>
+					                                </div>
+					                                <div class="fm-check fm-inline">
+					                                    <input class="fm-check-input" type="radio" name="impoYn" id="impoN" value="N" <c:if test="${noticeDetailInfo.impoYn eq 'N' }">checked="checked"</c:if>>
+					                                    <label class="fm-check-label" for="impoN">N</label>
+					                                </div>
+					                            </div>
+				                            </div>
 		                                </li>
 		                                <li class="cont">
 		                                    <textarea col="100" row="50" id="boardCtt" name="boardCtt">${noticeDetailInfo.boardCtt }</textarea>
@@ -304,21 +311,21 @@ function noticeFileDownload(file) {
 	                        </div>
 	                        <!-- 일반사용자 view 화면 -->
 	                        <!-- <div class="btn-wrap">
-	                        	<a href="javascript:void(0)" id="btn-cancle" class="btns normal">목록</a>
+	                        	<a href="javascript:void(0)" id="btn-cancle" class="btns normal fr">목록</a>
 	                        </div> -->
 	                        <!-- 관리자 write 화면 -->
                             <div class="btn-wrap">
 	                            <c:if test="${isInsert }">
-	                                <a href="javascript:void(0)" id="btn-insert" class="btns point">등록</a>
-	                                <a href="javascript:void(0)" id="btn-cancle" class="btns normal">취소</a>
+	                                <a href="javascript:void(0)" id="btn-insert" class="btns point fl">등록</a>
+	                                <a href="javascript:void(0)" id="btn-cancle" class="btns normal fl">취소</a>
                                 </c:if>
 	                            <c:if test="${isDetail }">
 	                                <div class="btn-left">
-	                                    <a href="javascript:void(0)" id="btn-update" class="btns point">수정</a>
-	                                    <a href="javascript:void(0)" id="btn-delete" class="btns gray">삭제</a>
+	                                    <a href="javascript:void(0)" id="btn-update" class="btns point fl">수정</a>
+	                                    <a href="javascript:void(0)" id="btn-delete" class="btns gray fl">삭제</a>
 	                                </div>
 	                                <div class="btn-right">
-	                                    <a href="javascript:void(0)" id="btn-cancle" class="btns normal">목록</a>
+	                                    <a href="javascript:void(0)" id="btn-cancle" class="btns normal fr">목록</a>
 	                                </div>
                                 </c:if>
                             </div>

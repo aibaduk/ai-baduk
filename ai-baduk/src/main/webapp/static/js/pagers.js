@@ -34,7 +34,7 @@ function dispalyPager(pageInfo) {
 			let pageNum = i + indexNum;
 
 			if (pageNo == pageNum) {
-				html += '<span class="btn-num on"><a href="javascript:void(0)" title="현재페이지">'+pageNum+'</a></span>';
+				html += '<span class="btn-num active"><a href="javascript:void(0)" title="현재페이지">'+pageNum+'</a></span>';
 			} else {
 				html += '<span class="btn-num"><a href="javascript:goPage('+pageNum+')">'+pageNum+'</a></span>';
 			}
