@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,13 +53,13 @@ public class BoardController {
 	}
 
 	/**
-	 * @implNote questions main.
+	 * @implNote question main.
 	 * @param model
 	 * @return
 	 */
-	@GetMapping("/questions/main")
-	public String questionsMain(Model model) {
-		return "board/questions/questionsMain";
+	@GetMapping("/question/main")
+	public String questionMain(Model model) {
+		return "board/question/questionMain";
 	}
 
 	/**
@@ -116,12 +117,76 @@ public class BoardController {
 	}
 
 	/**
+	 * @implNote question insert.
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/question/insert")
+	public String questionInsert(Model model) {
+		return "board/question/questionDetail";
+	}
+
+	/**
+	 * @implNote page question detail Linked and select board info.
+	 * @param boardVo
+	 * @return
+	 */
+	@GetMapping("/question/detail")
+	public String questionDetail(Model model, BoardVo boardVo) {
+		model.addAttribute("questionDetailInfo", boardService.selectBoardOne(boardVo));
+		return "board/question/questionDetail";
+	}
+
+	/**
+	 * @implNote info insert.
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/info/insert")
+	public String infoInsert(Model model) {
+		return "board/info/infoDetail";
+	}
+
+	/**
+	 * @implNote page info detail Linked and select board info.
+	 * @param boardVo
+	 * @return
+	 */
+	@GetMapping("/info/detail")
+	public String infoDetail(Model model, BoardVo boardVo) {
+		model.addAttribute("infoDetailInfo", boardService.selectBoardOne(boardVo));
+		return "board/info/infoDetail";
+	}
+
+	/**
+	 * @implNote storage insert.
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/storage/insert")
+	public String storageInsert(Model model) {
+		return "board/storage/storageDetail";
+	}
+
+	/**
+	 * @implNote page notice detail Linked and select board info.
+	 * @param boardVo
+	 * @return
+	 */
+	@GetMapping("/storage/detail")
+	public String storageDetail(Model model, BoardVo boardVo) {
+		model.addAttribute("storageDetailInfo", boardService.selectBoardOne(boardVo));
+		return "board/storage/storageDetail";
+	}
+
+	/**
 	 * @implNote insert board and file upload.
 	 * @param boardVo
 	 * @return
 	 */
-	@PostMapping("/notice/insert")
+	@PostMapping("/{path}/insert")
 	public String insertBoard(Model model
+			, @PathVariable("path") String path
 			, BoardVo boardVo
 			, @RequestParam(value="uploadFiles", required = false) List<MultipartFile> fileList
 			) {
@@ -139,8 +204,9 @@ public class BoardController {
 	 * @param boardVo
 	 * @return
 	 */
-	@PostMapping("/notice/update")
+	@PostMapping("/{path}/update")
 	public String updateBoard(Model model
+			, @PathVariable("path") String path
 			, BoardVo boardVo
 			, @RequestParam(value="uploadFiles", required = false) List<MultipartFile> fileList
 			) {
@@ -159,8 +225,8 @@ public class BoardController {
 	 * @param boardList
 	 * @return
 	 */
-	@PostMapping("/notice/delete")
-	public String deleteBoard(Model model, @RequestBody List<BoardVo> boardList) {
+	@PostMapping("/{path}/delete")
+	public String deleteBoard(Model model, @PathVariable("path") String path, @RequestBody List<BoardVo> boardList) {
 		try {
 			boardService.deleteBoard(boardList);
 			model.addAttribute("result", true);
@@ -175,8 +241,8 @@ public class BoardController {
 	 * @param boardVo
 	 * @return
 	 */
-	@PostMapping("/notice/fileDelete")
-	public String deleteBoardFile(Model model, @RequestBody BoardFileVo boardFileVo) {
+	@PostMapping("/{path}/fileDelete")
+	public String deleteBoardFile(Model model, @PathVariable("path") String path, @RequestBody BoardFileVo boardFileVo) {
 		try {
 			boardService.deleteBoardFile(boardFileVo);
 			model.addAttribute("boardId", boardFileVo.getBoardId());
@@ -193,8 +259,8 @@ public class BoardController {
 	 * @return
 	 * @throws IOException
 	 */
-	@GetMapping("/notice/fileDownload")
-	public ResponseEntity<Resource> boardFileDownload(Model model, BoardFileVo boardFileVo) throws IOException {
+	@GetMapping("/{path}/fileDownload")
+	public ResponseEntity<Resource> boardFileDownload(Model model, @PathVariable("path") String path, BoardFileVo boardFileVo) throws IOException {
 		return boardService.boardFileDownload(boardFileVo);
 	}
 
@@ -204,10 +270,11 @@ public class BoardController {
 	 * @param boardVo
 	 * @return
 	 */
-	@GetMapping("/notice/zipFileDownload")
-	public String zipFileDownload(Model model, HttpServletResponse response, BoardVo boardVo) {
+	@GetMapping("/{path}/zipFileDownload")
+	public String zipFileDownload(Model model, @PathVariable("path") String path, HttpServletResponse response, BoardVo boardVo) {
 		try {
-			boardService.zipFileDownload(response, boardVo);
+			String zipFileName = path + ".zip";
+			boardService.zipFileDownload(zipFileName, response, boardVo);
 			model.addAttribute("result", true);
 		} catch (Exception e) {
 			model.addAttribute("msg", e.getMessage());

@@ -46,6 +46,15 @@ public class BoardService {
 	@Value("${upload.board.notice.path}")
 	private String NOTICE_PATH;
 
+	@Value("${upload.board.question.path}")
+	private String QUESTION_PATH;
+
+	@Value("${upload.board.info.path}")
+	private String INFO_PATH;
+
+	@Value("${upload.board.storage.path}")
+	private String STORAGE_PATH;
+
 	/**
 	 * @implNote select board list.
 	 * @param boardSearchVo
@@ -88,7 +97,7 @@ public class BoardService {
 		// 1. boardId 채번.
 		String boardId = boardMapper.selectBoardId(boardVo.getBoardGubun());
 		// 2. file 경로 설정 (기본경로 + 메뉴경로 + 채번)
-		String uploadPath = UPLOAD_DEFAULT_PATH + NOTICE_PATH + boardId;
+		String uploadPath = getUploadPath(boardVo.getBoardGubun(), boardId);
 		// 3. file upload / board_file insert
 		if (!Objects.isNull(fileList)) {
 			for (MultipartFile multi : fileList) {
@@ -122,7 +131,7 @@ public class BoardService {
 	public void updateBoard(BoardVo boardVo, List<MultipartFile> fileList) throws IllegalStateException, IOException {
 		// 2. file 경로 설정 (기본경로 + 메뉴경로 + 채번)
 		String boardId = boardVo.getBoardId();
-		String uploadPath = UPLOAD_DEFAULT_PATH + NOTICE_PATH + boardId;
+		String uploadPath = getUploadPath(boardVo.getBoardGubun(), boardId);
 		// 3. file upload / board_file insert
 		if (!Objects.isNull(fileList)) {
 			for (MultipartFile multi : fileList) {
@@ -166,7 +175,7 @@ public class BoardService {
 	@Transactional
 	public void deleteBoardFile(BoardFileVo boardFileVo) {
 		// 1. 파일경로상에 있는 물리적인 파일 삭제
-		String uploadPath = UPLOAD_DEFAULT_PATH + NOTICE_PATH + boardFileVo.getBoardId();
+		String uploadPath = getUploadPath(boardFileVo.getBoardGubun(), boardFileVo.getBoardId());
 		fileService.fileDelete(uploadPath, boardFileVo.getFileNm());
 		// 2. 데이터베이스 파일 테이블 삭제
 		boardMapper.deleteBoardFile(boardFileVo);
@@ -182,7 +191,7 @@ public class BoardService {
 		String boardId = boardFileVo.getBoardId();
 		String fileNm = boardFileVo.getFileNm();
 		String fileOgNm = boardFileVo.getFileOgNm();
-		String uploadPath = UPLOAD_DEFAULT_PATH + NOTICE_PATH + boardId;
+		String uploadPath = getUploadPath(boardFileVo.getBoardGubun(), boardId);
 		return fileService.fileDownload(uploadPath, fileNm, fileOgNm);
 	}
 
@@ -192,15 +201,36 @@ public class BoardService {
 	 * @param boardVo
 	 * @return
 	 */
-	public void zipFileDownload(HttpServletResponse response, BoardVo boardVo) {
+	public void zipFileDownload(String zipFileName, HttpServletResponse response, BoardVo boardVo) {
 		List<BoardFileVo> boardFileList = boardMapper.selectBoardFile(boardVo);
 		List<String> fileList = new ArrayList<>();
-		String zipFileName = "notice.zip";
-		String uploadPath = UPLOAD_DEFAULT_PATH + NOTICE_PATH + boardVo.getBoardId();
+		String uploadPath = getUploadPath(boardVo.getBoardGubun(), boardVo.getBoardId());
 		boardFileList.forEach(file -> {
 			fileList.add(String.format("%s/%s_%s", uploadPath, file.getFileNm(), file.getFileOgNm()));
 		});
 		fileService.zipFileDownload(response, zipFileName, fileList);
+	}
+
+	private String getUploadPath(final String boardGubun, final String boardId) {
+		StringBuilder sb = new StringBuilder();
+		String path = "";
+		switch (boardGubun) {
+		case "01":
+			path = NOTICE_PATH;
+			break;
+		case "02":
+			path = QUESTION_PATH;
+			break;
+		case "03":
+			path = INFO_PATH;
+			break;
+		case "04":
+			path = STORAGE_PATH;
+			break;
+		default:
+			break;
+		}
+		return sb.append(UPLOAD_DEFAULT_PATH).append(path).append(boardId).toString();
 	}
 
 	/**

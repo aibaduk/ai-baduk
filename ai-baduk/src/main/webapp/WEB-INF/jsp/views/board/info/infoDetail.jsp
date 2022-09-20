@@ -3,46 +3,46 @@
 <html>
 <head>
 	<%@ include file="/WEB-INF/jsp/views/common/head.jsp" %>
-	<title>공지사항 상세</title>
+	<title>바둑AI소식 상세</title>
 </head>
 <script type="text/javascript">
-	let mainUrl = '/board/notice/main';
-	let insertMsg = '공지사항을 등록하시겠습니까?';
-	let insertUrl = '/board/notice/insert';
-	let insertComplteMsg = '공지사항이 등록되었습니다.';
-	let path = 'notice';
-	let boardGubun = '01';
-	let updateMsg = '공지사항을 수정하시겠습니까?';
-	let updateUrl = '/board/notice/update';
-	let updateComplteMsg = '공지사항이 수정되었습니다.';
-	let updateValidMsg = '공지사항 제목을 입력하세요.';
-	let deleteMsg = '공지사항을 삭제하시겠습니까?';
-	let deleteUrl = '/board/notice/delete';
-	let deleteComplteMsg = '공지사항이 삭제되었습니다.';
-	let fileDeleteUrl = '/board/notice/fileDelete';
+	let mainUrl = '/board/info/main';
+	let insertMsg = '바둑AI소식을 등록하시겠습니까?';
+	let insertUrl = '/board/info/insert';
+	let insertComplteMsg = '바둑AI소식이 등록되었습니다.';
+	let path = 'info';
+	let boardGubun = '03';
+	let updateMsg = '바둑AI소식을 수정하시겠습니까?';
+	let updateUrl = '/board/info/update';
+	let updateComplteMsg = '바둑AI소식이 수정되었습니다.';
+	let updateValidMsg = '바둑AI소식 제목을 입력하세요.';
+	let deleteMsg = '바둑AI소식을 삭제하시겠습니까?';
+	let deleteUrl = '/board/info/delete';
+	let deleteComplteMsg = '바둑AI소식이 삭제되었습니다.';
+	let fileDeleteUrl = '/board/info/fileDelete';
 </script>
 <script type="text/javascript" src="/static/js/board/boardDetail.js?var=${version }"></script>
 <body>
 	<div class="wrapper">
 		<%@ include file="/WEB-INF/jsp/views/common/header.jsp" %>
-		<input type="hidden" name="boardGubun" value="01">
-		<c:set var="isInsert" value="${empty noticeDetailInfo }"></c:set>
-		<c:set var="isDetail" value="${not empty noticeDetailInfo }"></c:set>
-		<input type="hidden" name="boardId" value="${noticeDetailInfo.boardId }">
+		<input type="hidden" name="boardGubun" value="03">
+		<c:set var="isInsert" value="${empty infoDetailInfo }"></c:set>
+		<c:set var="isDetail" value="${not empty infoDetailInfo }"></c:set>
+		<input type="hidden" name="boardId" value="${infoDetailInfo.boardId }">
 		<section class="container">
        		<div class="keyvi"></div>
        		<section class="content brd">
 	            <div class="inner">
 	                <div class="tab-wrap ea4">
 	                    <ul class="tab-menu">
-	                        <li class="on"><a href="javascript:void(0)">공지사항</a></li>
+	                        <li><a href="/board/notice/main">공지사항</a></li>
 	                        <li><a href="/board/question/main">자주묻는질문</a></li>
-	                        <li><a href="/board/info/main">바둑AI소식</a></li>
+	                        <li class="on"><a href="javascript:void(0)">바둑AI소식</a></li>
 	                        <li><a href="/board/storage/main">자료실</a></li>
 	                    </ul>
 	                    <div class="inner-depth">
 	                        <div class="tab-inner">
-	                            <h2>공지사항</h2>
+	                            <h2>바둑AI소식</h2>
 	                            <c:if test="${isInsert }">
 		                            <ul class="write-box">
 		                                <li class="tit">
@@ -77,21 +77,21 @@
 	                            <c:if test="${isDetail }">
 	                            	<!-- 일반사용자 view 화면 -->
 	                            	<%-- <ul class="view-box">
-		                                <li class="tit">${noticeDetailInfo.boardTit }</li>
+		                                <li class="tit">${infoDetailInfo.boardTit }</li>
 		                                <li class="file">
-		                                    <c:forEach items="${noticeDetailInfo.fileList }" var="file">
+		                                    <c:forEach items="${infoDetailInfo.fileList }" var="file">
 	                                    		<a href="javascript:void(0)" class="file-download" data-name="${file.fileNm}_${file.fileOgNm}">${file.fileOgNm}</a>
 	                                    	</c:forEach>
-		                                    <span class="date">${noticeDetailInfo.auditDtm }</span>
+		                                    <span class="date">${infoDetailInfo.auditDtm }</span>
 		                                </li>
 		                                <li class="cont">
-		                                    ${noticeDetailInfo.boardCtt }
+		                                    ${infoDetailInfo.boardCtt }
 		                                </li>
 		                            </ul> --%>
 		                            <!-- 관리자 write 화면 -->
 		                            <ul class="write-box">
 		                                <li class="tit">
-		                                    <span class="form-ele"><label for="tit">제목</label><input type="text" id="boardTit" name="boardTit" value="${noticeDetailInfo.boardTit }"></span>
+		                                    <span class="form-ele"><label for="tit">제목</label><input type="text" id="boardTit" name="boardTit" value="${infoDetailInfo.boardTit }"></span>
 		                                </li>
 		                                <li class="file">
 		                                    <span class="form-ele">
@@ -100,7 +100,7 @@
 		                                    </span>
 		                                </li>
 		                                <li class="file_text">
-		                                    <c:forEach items="${noticeDetailInfo.fileList }" var="file">
+		                                    <c:forEach items="${infoDetailInfo.fileList }" var="file">
 	                                    		<a href="javascript:void(0)" class="file-download" data-name="${file.fileNm}_${file.fileOgNm}">${file.fileOgNm}</a>
 	                                    		<span class='custem_close btn-delete-file' data-id="${file.fileId}" data-name="${file.fileNm}_${file.fileOgNm}">&times;</span>
 	                                    	</c:forEach>
@@ -110,18 +110,18 @@
 		                                    	<label for="impo" class="fm-label">중요여부</label>
 		                                    	<div class="fm-group" style="display: inline;">
 					                                <div class="fm-check fm-inline">
-					                                    <input class="fm-check-input" type="radio" name="impoYn" id="impoY" value="Y" <c:if test="${noticeDetailInfo.impoYn eq 'Y' }">checked="checked"</c:if>>
+					                                    <input class="fm-check-input" type="radio" name="impoYn" id="impoY" value="Y" <c:if test="${infoDetailInfo.impoYn eq 'Y' }">checked="checked"</c:if>>
 					                                    <label class="fm-check-label" for="impoY">Y</label>
 					                                </div>
 					                                <div class="fm-check fm-inline">
-					                                    <input class="fm-check-input" type="radio" name="impoYn" id="impoN" value="N" <c:if test="${noticeDetailInfo.impoYn eq 'N' }">checked="checked"</c:if>>
+					                                    <input class="fm-check-input" type="radio" name="impoYn" id="impoN" value="N" <c:if test="${infoDetailInfo.impoYn eq 'N' }">checked="checked"</c:if>>
 					                                    <label class="fm-check-label" for="impoN">N</label>
 					                                </div>
 					                            </div>
 				                            </div>
 		                                </li>
 		                                <li class="cont">
-		                                    <textarea col="100" row="50" id="boardCtt" name="boardCtt">${noticeDetailInfo.boardCtt }</textarea>
+		                                    <textarea col="100" row="50" id="boardCtt" name="boardCtt">${infoDetailInfo.boardCtt }</textarea>
 		                                </li>
 		                            </ul>
 	                            </c:if>

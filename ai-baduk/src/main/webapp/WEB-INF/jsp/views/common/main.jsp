@@ -95,25 +95,25 @@ $(function() {
                     <div>
 	                    <h3>학습자료 업데이트</h3>
 	                    <ul>
-	                        <c:if test="${empty questionsList}">
+	                        <c:if test="${empty questionList}">
 	                        	<li>
 	                        		<p>
 	                        			<span>등록된 학습자료가 없습니다.</span>
 	                        		</p>
 	                        	</li>
 	                        </c:if>
-	                        <c:if test="${not empty questionsList}">
-		                        <c:forEach items="${questionsList }" var="questions">
+	                        <c:if test="${not empty questionList}">
+		                        <c:forEach items="${questionList }" var="question">
 	                            	<li>
 	                            		<p>
-	                            			<span><a href="/board/notice/detail?boardGubun=02&boardId=${questions.boardId }">${questions.boardTit }</a></span>
-		                            		<c:if test="${questions.newYn eq 'Y' }"><span><em>new</em></span></c:if>
+	                            			<span><a href="/board/question/detail?boardGubun=02&boardId=${question.boardId }">${question.boardTit }</a></span>
+		                            		<c:if test="${question.newYn eq 'Y' }"><span><em>new</em></span></c:if>
 		                            	</p>
 	                            	</li>
 	                            </c:forEach>
 	                        </c:if>
 	                    </ul>
-	                    <a href="/board/questions/main" class="btn-more">더보기</a>
+	                    <a href="/board/question/main" class="btn-more">더보기</a>
 	                </div>
                     <div>
 	                    <h3>공지사항</h3>
@@ -152,7 +152,7 @@ $(function() {
 		                        <c:forEach items="${infoList }" var="info">
 	                            	<li>
 	                            		<p>
-	                            			<span><a href="/board/notice/detail?boardGubun=03&boardId=${info.boardId }">${info.boardTit }</a></span>
+	                            			<span><a href="/board/info/detail?boardGubun=03&boardId=${info.boardId }">${info.boardTit }</a></span>
 		                            		<c:if test="${info.newYn eq 'Y' }"><span><em>new</em></span></c:if>
 		                            	</p>
 	                            	</li>

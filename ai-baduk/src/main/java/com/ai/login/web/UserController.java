@@ -1,6 +1,11 @@
 package com.ai.login.web;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -27,6 +32,9 @@ public class UserController {
 	@Autowired
 	private BoardService boardService;
 
+	@Autowired
+	private HttpServletRequest request;
+
 	/**
      * localhost:8080 시 login 으로 redirect
      * @return
@@ -38,7 +46,7 @@ public class UserController {
     		model.addAttribute("userInfo", userVo);
     	}
 		model.addAttribute("noticeList", boardService.selectBoardListByExternal(Constants.BOARD_GUBUN_NOTICE, Constants.DATE_CONTROL_DAY, Constants.MAIN_BOARD_LIST_CNT));
-		model.addAttribute("questionsList", boardService.selectBoardListByExternal(Constants.BOARD_GUBUN_QUESTIONS, Constants.DATE_CONTROL_DAY, Constants.MAIN_BOARD_LIST_CNT));
+		model.addAttribute("questionList", boardService.selectBoardListByExternal(Constants.BOARD_GUBUN_QUESTIONS, Constants.DATE_CONTROL_DAY, Constants.MAIN_BOARD_LIST_CNT));
 		model.addAttribute("infoList", boardService.selectBoardListByExternal(Constants.BOARD_GUBUN_INFO, Constants.DATE_CONTROL_DAY, Constants.MAIN_BOARD_LIST_CNT));
         return "common/main";
     }
@@ -50,10 +58,14 @@ public class UserController {
     @GetMapping("/login")
     public String login(Model model, Authentication authentication){
     	if (!Objects.isNull(authentication)) {
+    		HttpSession session = request.getSession();
+        	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+            Date now = new Date();
+        	session.setAttribute("version", simpleDateFormat.format(now));
     		UserVo userVo = (UserVo) authentication.getPrincipal();  //userDetail 객체를 가져옴
     		model.addAttribute("userInfo", userVo);
     		model.addAttribute("noticeList", boardService.selectBoardListByExternal(Constants.BOARD_GUBUN_NOTICE, Constants.DATE_CONTROL_DAY, Constants.MAIN_BOARD_LIST_CNT));
-    		model.addAttribute("questionsList", boardService.selectBoardListByExternal(Constants.BOARD_GUBUN_QUESTIONS, Constants.DATE_CONTROL_DAY, Constants.MAIN_BOARD_LIST_CNT));
+    		model.addAttribute("questionList", boardService.selectBoardListByExternal(Constants.BOARD_GUBUN_QUESTIONS, Constants.DATE_CONTROL_DAY, Constants.MAIN_BOARD_LIST_CNT));
     		model.addAttribute("infoList", boardService.selectBoardListByExternal(Constants.BOARD_GUBUN_INFO, Constants.DATE_CONTROL_DAY, Constants.MAIN_BOARD_LIST_CNT));
     	} else {
     		model.addAttribute("errMsg", "아이디/비밀번호를 확인하세요.");
