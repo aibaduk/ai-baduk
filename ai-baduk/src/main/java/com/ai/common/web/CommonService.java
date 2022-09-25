@@ -16,6 +16,6 @@ public class CommonService {
 	public static void setSessionData(final BaseVo baseVo) {
 		Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		UserVo userVo = (object.equals("anonymousUser")) ? new UserVo() : (UserVo)object;
-		baseVo.setSsLoginId(userVo.getUserId());
+		baseVo.setSsLoginId(userVo.getSsLoginId());
 	}
 }

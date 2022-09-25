@@ -24,9 +24,17 @@
              , EMAIL
              , JOB
              , TEAM
-             , LEVEL
+             , F_GET_CODE_NAME('CU003', LEVEL) AS LEVEL
+             , USER_ID AS SS_LOGIN_ID
           FROM CU_USER
-         WHERE USER_ID= #{userId}
+         WHERE USER_ID = #{userId}
+    </select>
+
+    <!-- 회원가입 존재여부 체크 -->
+    <select id="selectExistsUser" resultType="java.lang.String">
+        SELECT IF(COUNT(*) > 0, 'Y', 'N') AS EXISTS_USER
+          FROM CU_USER
+         WHERE USER_ID = #{userId}
     </select>
 
     <!-- 회원가입 -->

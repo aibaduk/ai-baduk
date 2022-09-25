@@ -28,25 +28,7 @@ $(function() {
 
 		$('#frm').submit();
 		return false;
-
 	});
-
-	$('#btn-top-logout').click(function() {
-		window.location.href='/logout';
-	});
-
-	// 로그인 성공시 로그인 성공 화면으로 전환
-	if (!isNullOrEmpty('${userInfo }')) {
-		$('.loginForm').show();
-		$('#frm').hide();
-		$('#btn-top-logout').show();
-		$('#btn-top-login').hide();
-	} else {
-		$('.loginForm').hide();
-		$('#frm').show();
-		$('#btn-top-login').show();
-		$('#btn-top-logout').hide();
-	}
 
 	// 로그인 실패시 alert 띄우기
 	if (!isNullOrEmpty('${errMsg }')) {
@@ -61,29 +43,29 @@ $(function() {
 		<div class="container main">
             <section class="keyvi">
                 <div class="log-box">
-                    <!-- 로그인 전 -->
+                    <c:if test="${empty userInfo }">
                     <h3>LOGIN</h3>
-                    <form id="frm" action="/login_proc" method="post" style="display: none;">
-	                    <span class="form-ele"><label for="userId" class="ir-blind">아이디</label><input type="text" id="userId" name="username" placeholder="아이디를 입력해주세요."></span>
-	                    <span class="form-ele"><label for="userPw" class="ir-blind">비밀번호</label><input type="password" id="userPw" name="password" placeholder="비밀번호를 입력해주세요."></span>
-	                    <button id="btn-login">로그인</button>
-	                    <div>
-	                        <a href="javascript:void(0)">아이디/비밀번호를 잊으셨나요?</a>
-	                        <a href="javascript:void(0)">회원가입 안내</a>
-	                    </div>
-	                </form>
-                    <!-- //로그인 전 -->
-                    <!-- 로그인 후 -->
-	                <div id="loginForm" class="info loginForm" style="display: none;">
-	                    <span class="${userInfo.userGrade }"></span><!-- silver, gold, vip, vvip -->
-	                    <strong>${userInfo.userNm }</strong>님 환영합니다.
-	                    <a href="#">내정보 수정</a>
-	                </div>
-	                <div class="learning loginForm">
+	                    <form id="frm" action="/login_proc" method="post">
+		                    <span class="form-ele"><label for="userId" class="ir-blind">아이디</label><input type="text" id="userId" name="username" placeholder="아이디를 입력해주세요."></span>
+		                    <span class="form-ele"><label for="userPw" class="ir-blind">비밀번호</label><input type="password" id="userPw" name="password" placeholder="비밀번호를 입력해주세요."></span>
+		                    <button id="btn-login">로그인</button>
+		                    <div>
+		                        <a href="javascript:void(0)">아이디/비밀번호를 잊으셨나요?</a>
+		                        <a href="javascript:void(0)">회원가입 안내</a>
+		                    </div>
+		                </form>
+                    </c:if>
+                    <c:if test="${not empty userInfo }">
+		                <div class="info">
+		                    <span class="${userInfo.userGrade }"></span><!-- silver, gold, vip, vvip -->
+		                    <strong>${userInfo.userNm }</strong>님 환영합니다.
+		                    <a href="#">내정보 수정</a>
+		                </div>
+                    </c:if>
+	                <!-- <div class="learning">
 	                    <a href="#" download class="btn-submit">학습자료제출</a>
 	                    <a href="#" download class="btn-receive">학습자료받기</a>
-	                </div>
-	                <!-- //로그인 후 -->
+	                </div> -->
 	                <div class="btn-wrap">
 	                    <a href="javascript:void(0)" id="btn-chrome-download">크롬 다운로드</a>
 	                    <a href="javascript:void(0)" target="_blank">기보 프로그램</a>

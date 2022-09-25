@@ -9,6 +9,9 @@ public interface UserMapper {
 	// 로그인
     UserVo getUserAccount(String userId);
 
+    // 회원가입 존재여부 체크
+    String selectExistsUser(String userId);
+
     // 회원가입
     void saveUser(UserVo userVo);
 }

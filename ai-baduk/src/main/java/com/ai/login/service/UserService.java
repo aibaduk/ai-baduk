@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ai.common.exception.BizException;
 import com.ai.login.dao.UserMapper;
 import com.ai.login.vo.UserVo;
 
@@ -20,9 +21,13 @@ public class UserService implements UserDetailsService{
     private final UserMapper userMapper;
 
     @Transactional
-    public void joinUser(UserVo userVo){
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    public void joinUser(UserVo userVo) {
+    	if("Y".equals(userMapper.selectExistsUser(userVo.getUserId()))) {
+    		throw new BizException("동일한 ID로 가입된 회원이 존재합니다.");
+    	}
+    	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         userVo.setUserPw(passwordEncoder.encode(userVo.getPassword()));
+        userVo.setSsLoginId("ADMIN");
         userMapper.saveUser(userVo);
     }
 

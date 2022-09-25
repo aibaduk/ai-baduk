@@ -10,6 +10,40 @@ $(document).on('click', '[id^=chk_]', function() {
 	$('#allCheck').prop("checked", (total == checked));
 });
 
+var ai = {
+	isValidate: function(o) {
+		var isPass = true;
+		$.each(o.find(':input'), function(i, item) {
+			if($(item).attr('required')) {
+				var type = $(item).attr('type');
+				if (type == 'checkbox' || type == 'radio') {
+					if ($(':input[name='+$(item).attr('name')+']:checked').length == 0) {
+						var txt = $(item).attr('title');
+						if (isNullOrEmpty(txt)) {
+							txt = $(item).attr('placeholder');
+						}
+						alert(txt + '은 필수입니다.');
+						$(item).focus();
+						isPass = false;
+						return false;
+					}
+				} else {
+					if (isNullOrEmpty($(item).val())) {
+						var txt = $(item).attr('title');
+						if (isNullOrEmpty(txt)) {
+							txt = $(item).attr('placeholder');
+						}
+						alert(txt + '은 필수입니다.');
+						$(item).focus();
+						isPass = false;
+						return false;
+					}
+ 				}
+			}
+		});
+		return isPass;
+	}
+}
 /**
  * 페이징 처리
  * @param {pageInfo} rs 페이지 정보
@@ -66,3 +100,11 @@ String.prototype.format = function() {
     }
     return formatted;
 };
+
+/**
+ * null 치환
+ * @param {String} val 체크/반환할 변수
+ */
+function fnNull(val) {
+	return (typeof val === undefined || val == null || val.length <= 0) ? '' : val;
+}

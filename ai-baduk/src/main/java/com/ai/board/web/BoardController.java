@@ -271,15 +271,9 @@ public class BoardController {
 	 * @return
 	 */
 	@GetMapping("/{path}/zipFileDownload")
-	public String zipFileDownload(Model model, @PathVariable("path") String path, HttpServletResponse response, BoardVo boardVo) {
-		try {
-			String zipFileName = path + ".zip";
-			boardService.zipFileDownload(zipFileName, response, boardVo);
-			model.addAttribute("result", true);
-		} catch (Exception e) {
-			model.addAttribute("msg", e.getMessage());
-		}
-		return Constants.JSON_VIEW;
+	public void zipFileDownload(Model model, @PathVariable("path") String path, HttpServletResponse response, BoardVo boardVo) {
+		String zipFileName = path + ".zip";
+		boardService.zipFileDownload(zipFileName, response, boardVo);
 	}
 
 }

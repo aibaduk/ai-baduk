@@ -1,11 +1,6 @@
 package com.ai.login.web;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Objects;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -16,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.ai.admin.service.CodeService;
 import com.ai.board.service.BoardService;
+import com.ai.common.exception.BizException;
 import com.ai.common.util.Constants;
 import com.ai.login.service.UserService;
 import com.ai.login.vo.UserVo;
@@ -31,9 +27,6 @@ public class UserController {
 
 	@Autowired
 	private BoardService boardService;
-
-	@Autowired
-	private HttpServletRequest request;
 
 	/**
      * localhost:8080 시 login 으로 redirect
@@ -58,10 +51,6 @@ public class UserController {
     @GetMapping("/login")
     public String login(Model model, Authentication authentication){
     	if (!Objects.isNull(authentication)) {
-    		HttpSession session = request.getSession();
-        	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-            Date now = new Date();
-        	session.setAttribute("version", simpleDateFormat.format(now));
     		UserVo userVo = (UserVo) authentication.getPrincipal();  //userDetail 객체를 가져옴
     		model.addAttribute("userInfo", userVo);
     		model.addAttribute("noticeList", boardService.selectBoardListByExternal(Constants.BOARD_GUBUN_NOTICE, Constants.DATE_CONTROL_DAY, Constants.MAIN_BOARD_LIST_CNT));
@@ -100,11 +89,19 @@ public class UserController {
      * 회원가입 진행
      * @param userVo
      * @return
+     * @throws BizException
+     * @throws Exception
      */
     @PostMapping("/signUp")
-    public String signUp(UserVo userVo) {
-    	userService.joinUser(userVo);
-        return "redirect:/login";
+    public String signUp(Model model, UserVo userVo) {
+    	try {
+			userService.joinUser(userVo);
+			model.addAttribute("result", true);
+		} catch (Exception e) {
+			model.addAttribute("msg", e.getMessage());
+		}
+    	return Constants.JSON_VIEW;
+//        return "redirect:/login";
     }
 
     /**
