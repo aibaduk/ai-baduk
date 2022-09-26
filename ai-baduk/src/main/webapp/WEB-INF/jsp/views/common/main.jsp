@@ -12,6 +12,10 @@ $(function() {
 		window.location.href='/chrome-download';
 	});
 
+	$('#btn-gibo-download').click(function() {
+		window.location.href='/gibo-download';
+	});
+
 	$('#btn-login').click(function() {
 		let userId = $('#userId').val();
 		if (isNullOrEmpty(userId)) {
@@ -28,6 +32,13 @@ $(function() {
 
 		$('#frm').submit();
 		return false;
+	});
+
+	$('#info_1, #info_2').click(function() {
+		let id = $(this).attr('id');
+		let text = $(this).text();
+		let msg = (id.indexOf('_1') != -1) ? text : text.replace(' 안내', '') + '을 하고싶으신가요?';
+		alert(msg + '\nAI바둑연구소로 연락바랍니다. 02-3290-3190');
 	});
 
 	// 로그인 실패시 alert 띄우기
@@ -50,8 +61,8 @@ $(function() {
 		                    <span class="form-ele"><label for="userPw" class="ir-blind">비밀번호</label><input type="password" id="userPw" name="password" placeholder="비밀번호를 입력해주세요."></span>
 		                    <button id="btn-login">로그인</button>
 		                    <div>
-		                        <a href="javascript:void(0)">아이디/비밀번호를 잊으셨나요?</a>
-		                        <a href="javascript:void(0)">회원가입 안내</a>
+		                        <a href="javascript:void(0)" id="info_1">아이디/비밀번호를 잊으셨나요?</a>
+		                        <a href="javascript:void(0)" id="info_2">회원가입 안내</a>
 		                    </div>
 		                </form>
                     </c:if>
@@ -68,19 +79,19 @@ $(function() {
 	                </div> -->
 	                <div class="btn-wrap">
 	                    <a href="javascript:void(0)" id="btn-chrome-download">크롬 다운로드</a>
-	                    <a href="javascript:void(0)" target="_blank">기보 프로그램</a>
+	                    <a href="javascript:void(0)" id="btn-gibo-download">기보 프로그램</a>
 	                </div>
                 </div>
             </section>
             <section class="board">
                 <div class="inner">
                     <div>
-	                    <h3>학습자료 업데이트</h3>
+	                    <h3>자주묻는질문</h3>
 	                    <ul>
 	                        <c:if test="${empty questionList}">
 	                        	<li>
 	                        		<p>
-	                        			<span>등록된 학습자료가 없습니다.</span>
+	                        			<span>등록된 자주묻는질문이 없습니다.</span>
 	                        		</p>
 	                        	</li>
 	                        </c:if>
@@ -147,8 +158,8 @@ $(function() {
             </section>
             <section class="main-banner">
                 <div class="inner">
-	                <a href="/introduce/main?tab=0"><img src="/static/images/banner_introduce.jpg" alt=""></a>
-	                <a href="/introduce/main?tab=1"><img src="/static/images/banner_curriculum.jpg" alt=""></a>
+	                <a href="/introduce/introduce/main"><img src="/static/images/banner_introduce.jpg" alt=""></a>
+	                <a href="/introduce/curriculum/main"><img src="/static/images/banner_curriculum.jpg" alt=""></a>
 	            </div>
             </section>
         </div>

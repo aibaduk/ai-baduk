@@ -3,7 +3,7 @@
 <html>
 <head>
 	<%@ include file="/WEB-INF/jsp/views/common/head.jsp" %>
-	<title>공통코드 메인</title>
+	<title>사용자관리 메인</title>
 </head>
 <script type="text/javascript">
 $(function() {
@@ -13,14 +13,14 @@ $(function() {
 		return false;
 	});
 	$('#btn-insert').click(function() {
-		window.location.href="/admin/code/insert";
+		window.location.href="/admin/signUp";
 	});
 
 	goPage(1);
 });
 
 /**
- * 공통코드 조회
+ * 사용자관리 조회
  * @param {int} pageNo 페이지번호
  */
 function goPage(pageNo) {
@@ -28,11 +28,11 @@ function goPage(pageNo) {
 	$('[name=pageNo]').val(pageNo);
 	$.ajax({
 		type: 'get',
-		url: '/admin/code/select-list',
+		url: '/admin/user/select-list',
 		data: $('#searchForm').serialize(),
 		success: function (data) {
 			let result = data.result;
-			$('#code-tbody').html($.templates('#code-template').render(result.data));
+			$('#user-tbody').html($.templates('#user-template').render(result.data));
 			$('#allCheck').prop('checked', false);
 			paginateArea(result, 8);
 		}
@@ -51,25 +51,25 @@ function goPage(pageNo) {
 		            <div class="inner">
 		                <div class="tab-wrap ea4">
 		                    <ul class="tab-menu">
-		                        <li class="on"><a href="/admin/code/main">공통코드</a></li>
+		                        <li><a href="/admin/code/main">공통코드</a></li>
 		                        <li><a href="javascript:void(0)">메뉴관리</a></li>
-		                        <li><a href="/admin/user/main">사용자관리</a></li>
+		                        <li class="on"><a href="/admin/user/main">사용자관리</a></li>
 		                        <li><a href="/admin/signUp">회원가입</a></li>
 		                    </ul>
 		                    <div class="inner-depth">
 		                        <div class="tab-inner">
-		                            <h2>공통코드</h2>
+		                            <h2>사용자관리</h2>
 		                            <div class="search-wrap">
 		                                <select id="searchKey" name="searchKey" title="검색 구분 선택">
-		                                    <option value="lCd" selected>공통코드ID</option>
-		                                    <option value="codeNm">공통코드명</option>
+		                                    <option value="userId" selected>사용자ID</option>
+		                                    <option value="userNm">사용자명</option>
 		                                </select>
 		                                <div class="srch-word">
 		                                    <input type="text" id="searchValue" name="searchValue" title="검색어 입력">
 		                                    <button id="btn-select">검색</button>
 		                                </div>
 		                            </div>
-		                            <table class="table-col code">
+		                            <table class="table-col user">
 		                                <!-- <colgroup>
 		                                    <col width="5%">
 		                                    <col width="10%">
@@ -83,16 +83,16 @@ function goPage(pageNo) {
 		                                <thead>
 		                                    <tr>
 		                                    	<th>번호</th>
-		                                        <th>상위코드ID</th>
-		                                        <th>상위코드명</th>
-		                                        <th class="show-pc">비고1</th>
-		                                        <th class="show-pc">비고2</th>
-		                                        <th class="show-pc">비고3</th>
+		                                        <th>회원ID</th>
+		                                        <th>회원명</th>
+		                                        <th class="show-pc">성별</th>
+		                                        <th class="show-pc">권한</th>
+		                                        <th class="show-pc">회원등급</th>
 		                                        <th class="show-pc">등록자</th>
 		                                        <th>등록일</th>
 		                                    </tr>
 		                                </thead>
-		                                <tbody id="code-tbody"></tbody>
+		                                <tbody id="user-tbody"></tbody>
 		                            </table>
 		                            <div class="btn-wrap">
 		                            	<div class="pagination"></div>
@@ -110,14 +110,14 @@ function goPage(pageNo) {
 		<%@ include file="/WEB-INF/jsp/views/common/footer.jsp" %>
 	</div>
 </body>
-<script type="text/template" id="code-template">
+<script type="text/template" id="user-template">
 <tr>
 	<td>{{:rowId}}</td>
-	<td>{{:lcd}}</td>
-	<td class="subject"><a href="/admin/code/detail?lCd={{:lcd}}">{{:codeNm}}</a></td>
-	<td class="show-pc">{{:ref1}}</td>
-	<td class="show-pc">{{:ref2}}</td>
-	<td class="show-pc">{{:ref3}}</td>
+	<td class="subject"><a href="/admin/user/detail?userId={{:userId}}">{{:userId}}</a></td>
+	<td>{{:userNm}}</td>
+	<td class="show-pc">{{:userSexNm}}</td>
+	<td class="show-pc">{{:userAuth}}</td>
+	<td class="show-pc">{{:userGradeNm}}</td>
 	<td class="show-pc">{{:fstCrerNm}}</td>
 	<td>{{:fstCreDtm}}</td>
 </tr>

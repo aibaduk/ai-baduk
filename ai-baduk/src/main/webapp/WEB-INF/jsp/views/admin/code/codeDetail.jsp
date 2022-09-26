@@ -41,10 +41,6 @@ function codeUpdate() {
 	if (confirm('공통코드를 수정하시겠습니까?')) {
 		let upperCodeId = $('#upperCodeId').val();
 		let upperCodeNm = $('#upperCodeNm').val();
-
-		console.log(upperCodeId);
-		console.log(upperCodeNm);
-
 		let codeList = new Array();
 		$('#code-tbody > tr').each(function(i, item) {
 			let code = new Object();
@@ -56,30 +52,6 @@ function codeUpdate() {
 			code.sortSeq = $(this).find('input').val();
 			codeList.push(code);
 		});
-
-
-
-
-		/* let data = new Array();
-		let param = {
-			boardGubun: $('input:hidden[name=boardGubun]').val(),
-			boardId: $('input:hidden[name=boardId]').val()
-		};
-		data.push(param);
-		$.ajax({
-			type: 'post',
-			url: '/board/notice/delete',
-			contentType: 'application/json',
-			data: JSON.stringify(data),
-			success: function (data) {
-				if (data.result) {
-					alert('공지사항이 삭제되었습니다.');
-					window.location.href="/board/notice/main";
-				} else {
-					alert(data.msg);
-				}
-			}
-		}); */
 	}
 }
 </script>
@@ -93,12 +65,11 @@ function codeUpdate() {
 		        <div class="keyvi"></div>
 		        <section class="content brd">
 		            <div class="inner">
-		                <div class="tab-wrap ea5">
+		                <div class="tab-wrap ea4">
 		                    <ul class="tab-menu">
 		                        <li class="on"><a href="/admin/code/main">공통코드</a></li>
 		                        <li><a href="javascript:void(0)">메뉴관리</a></li>
-		                        <li><a href="javascript:void(0)">사용자관리</a></li>
-		                        <li><a href="javascript:void(0)">분석정보</a></li>
+		                        <li><a href="/admin/user/main">사용자관리</a></li>
 		                        <li><a href="/admin/signUp">회원가입</a></li>
 		                    </ul>
 		                    <div class="inner-depth">

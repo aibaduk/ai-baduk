@@ -8,6 +8,9 @@
 <script type="text/javascript">
 $(function() {
 	"use strict"
+	$('#signUp-tit').click(function() {
+		window.location.href='/';
+	});
 	$('#btn-signUp').click(function() {
 //		if (!singUp.validate()) {
 		if (!ai.isValidate($('#form'))) {
@@ -118,11 +121,10 @@ var singUp = {
 <body>
 	<div class="wrapper">
 		<form id="form" method="post" action="/signUp">
-			<!-- container(s) -->
 	        <div class="container join">
 	            <section>
 	                <div class="inner">
-	                    <a href="/"><h1>한국바둑AI연구소</h1></a>
+	                    <h1 id="signUp-tit">한국바둑AI연구소</h1>
 	                    <ul>
 	                        <li>
 	                            <label for="" class="fm-label">아이디 <span class="essential">*</span></label>
@@ -172,9 +174,9 @@ var singUp = {
 	                        <li>
 	                            <label for="" class="fm-label">연락 가능 번호 <span class="essential">*</span></label>
 	                            <div class="fm-group phone">
-	                                <span><input type="text" id="phoneNum1" name="phoneNum1" title="연락 가능 번호1" placeholder="" required></span>
-	                                <span><input type="text" id="phoneNum2" name="phoneNum2" title="연락 가능 번호2" placeholder="" required></span>
-	                                <span><input type="text" id="phoneNum3" name="phoneNum3" title="연락 가능 번호3" placeholder="" required></span>
+	                                <span><input type="text" id="phoneNum1" name="phoneNum1" title="연락 가능 번호1" placeholder="" required maxlength="3"></span>
+	                                <span><input type="text" id="phoneNum2" name="phoneNum2" title="연락 가능 번호2" placeholder="" required maxlength="4"></span>
+	                                <span><input type="text" id="phoneNum3" name="phoneNum3" title="연락 가능 번호3" placeholder="" required maxlength="4"></span>
 	                            </div>
 	                        </li>
 	                        <li>
@@ -243,7 +245,6 @@ var singUp = {
 	                </div>
 	            </section>
 	        </div>
-	        <!-- container(e) -->
 	    </form>
 		<%@ include file="/WEB-INF/jsp/views/common/footer.jsp" %>
 	</div>

@@ -27,6 +27,9 @@ public class MainController {
 	@Value("${upload.chrome.path}")
 	private String CHROME_PATH;
 
+	@Value("${upload.gibo.path}")
+	private String GIBO_PATH;
+
 	/**
 	 * @implNote main.
 	 * @param model
@@ -43,9 +46,20 @@ public class MainController {
 	 * @throws IOException
 	 */
 	@GetMapping("/chrome-download")
-	public ResponseEntity<Resource> boardFileDownload(Model model) throws IOException {
+	public ResponseEntity<Resource> chromeDownload(Model model) throws IOException {
 		String uploadPath = UPLOAD_DEFAULT_PATH + CHROME_PATH;
 		return fileService.fileDownload(uploadPath, "ChromeSetup.exe", "ChromeSetup.exe");
+	}
+
+	/**
+	 * @implNote download gibo file.
+	 * @return
+	 * @throws IOException
+	 */
+	@GetMapping("/gibo-download")
+	public ResponseEntity<Resource> giboDownload(Model model) throws IOException {
+		String uploadPath = UPLOAD_DEFAULT_PATH + GIBO_PATH;
+		return fileService.fileDownload(uploadPath, "giboEdit.exe", "giboEdit.exe");
 	}
 
 }

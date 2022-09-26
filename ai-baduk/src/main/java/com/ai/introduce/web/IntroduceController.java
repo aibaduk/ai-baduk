@@ -19,9 +19,19 @@ public class IntroduceController {
 	 * @param model
 	 * @return
 	 */
-	@GetMapping("/main")
-	public String noticeMain(Model model) {
+	@GetMapping("/introduce/main")
+	public String introduceMain(Model model) {
 		return "introduce/introduceMain";
+	}
+
+	/**
+	 * @implNote introduce main.
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/curriculum/main")
+	public String curriculumMain(Model model) {
+		return "introduce/curriculumMain";
 	}
 
 }

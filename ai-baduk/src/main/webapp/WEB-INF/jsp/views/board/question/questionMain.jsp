@@ -59,9 +59,9 @@
 														</div>
 													</div>
 		                                    	</th>
-		                                        <th class="show-pc">NO</th>
+		                                        <th>NO</th>
 		                                        <th>제목</th>
-		                                        <th>첨부</th>
+		                                        <th class="show-pc">첨부</th>
 		                                        <th class="show-pc">첨부파일</th>
 		                                        <th class="show-pc">등록자</th>
 		                                        <th>등록일</th>
@@ -98,12 +98,12 @@
 			</div>
 		</div>
 	</td>
-	<td class="show-pc">{{if impoYn == 'Y'}}HOT{{else}}{{:rowId}}{{/if}}</td>
+	<td>{{if impoYn == 'Y'}}HOT{{else}}{{:rowId}}{{/if}}</td>
 	<td class="l-data subject">
 		<span><a href="/board/question/detail?boardGubun=02&boardId={{:boardId}}">{{:boardTit}}</a></span>
 		{{if newYn == 'Y'}}<span><em>new</em></span>{{/if}}
 	</td>
-	<td>{{:fileYn}}</td>
+	<td class="show-pc">{{:fileYn}}</td>
 	<td class="show-pc">{{if fileYn == 'N'}}-{{else}}<a href="javascript:void(0)" class="file-zip-download" data-id="{{:boardId}}"><img src="/static/images/icon_file.png" alt="첨부파일 다운로드"></a>{{/if}}</td>
 	<td class="show-pc">{{:fstCrerNm}}</td>
 	<td>{{:fstCreDtm}}</td>
