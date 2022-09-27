@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ai.admin.service.CodeService;
 import com.ai.board.service.BoardService;
@@ -53,12 +54,10 @@ public class UserController {
     	if (!Objects.isNull(authentication)) {
     		UserVo userVo = (UserVo) authentication.getPrincipal();  //userDetail 객체를 가져옴
     		model.addAttribute("userInfo", userVo);
-    		model.addAttribute("noticeList", boardService.selectBoardListByExternal(Constants.BOARD_GUBUN_NOTICE, Constants.DATE_CONTROL_DAY, Constants.MAIN_BOARD_LIST_CNT));
-    		model.addAttribute("questionList", boardService.selectBoardListByExternal(Constants.BOARD_GUBUN_QUESTIONS, Constants.DATE_CONTROL_DAY, Constants.MAIN_BOARD_LIST_CNT));
-    		model.addAttribute("infoList", boardService.selectBoardListByExternal(Constants.BOARD_GUBUN_INFO, Constants.DATE_CONTROL_DAY, Constants.MAIN_BOARD_LIST_CNT));
-    	} else {
-    		model.addAttribute("errMsg", "아이디/비밀번호를 확인하세요.");
     	}
+    	model.addAttribute("noticeList", boardService.selectBoardListByExternal(Constants.BOARD_GUBUN_NOTICE, Constants.DATE_CONTROL_DAY, Constants.MAIN_BOARD_LIST_CNT));
+    	model.addAttribute("questionList", boardService.selectBoardListByExternal(Constants.BOARD_GUBUN_QUESTIONS, Constants.DATE_CONTROL_DAY, Constants.MAIN_BOARD_LIST_CNT));
+    	model.addAttribute("infoList", boardService.selectBoardListByExternal(Constants.BOARD_GUBUN_INFO, Constants.DATE_CONTROL_DAY, Constants.MAIN_BOARD_LIST_CNT));
         return "common/main";
     }
 
@@ -67,8 +66,8 @@ public class UserController {
      * @return
      */
     @GetMapping("/access_denied")
-    public String accessDenied(Model model) {
-    	model.addAttribute("errMsg", "아이디/비밀번호를 확인하세요.");
+    public String accessDenied(Model model, RedirectAttributes redirectAttribute) {
+    	redirectAttribute.addFlashAttribute("errMsg", "아이디/비밀번호를 확인하세요.");
     	return "redirect:/login";
     }
 
@@ -101,7 +100,6 @@ public class UserController {
 			model.addAttribute("msg", e.getMessage());
 		}
     	return Constants.JSON_VIEW;
-//        return "redirect:/login";
     }
 
     /**

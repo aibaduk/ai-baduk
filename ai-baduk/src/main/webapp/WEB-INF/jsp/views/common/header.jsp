@@ -48,6 +48,11 @@ $(function() {
             <a href="/board/notice/main">게시판</a>
             <a href="/admin/code/main">관리자 페이지</a>
         </nav>
+        <c:if test="${user ne 'anonymousUser'}">
+	        <div class="logtop">
+	            <a href="/logout">로그아웃</a>
+	        </div>
+        </c:if>
         <aside>
             <div>
                 <div class="aside-top">

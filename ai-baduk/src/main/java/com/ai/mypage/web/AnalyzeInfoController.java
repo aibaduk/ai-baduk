@@ -5,11 +5,7 @@ import java.util.Iterator;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -112,7 +107,7 @@ public class AnalyzeInfoController {
 		Workbook wb = excelService.sampleExcelDown(sheetName, titleList);
 
     	response.setContentType("ms-vnd/excel");
-    	response.setHeader("Content-Disposition", "attachment;filename=샘플분석정보.xlsx"); // 저장될 파일명 지정
+    	response.setHeader("Content-Disposition", "attachment;filename=info.xlsx"); // 저장될 파일명 지정
     	wb.write(response.getOutputStream());
     	wb.close();
 	}

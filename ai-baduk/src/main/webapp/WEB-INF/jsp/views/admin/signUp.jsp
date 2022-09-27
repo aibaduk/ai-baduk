@@ -12,7 +12,6 @@ $(function() {
 		window.location.href='/';
 	});
 	$('#btn-signUp').click(function() {
-//		if (!singUp.validate()) {
 		if (!ai.isValidate($('#form'))) {
 			return;
 		}
@@ -58,36 +57,6 @@ var singUp = {
 		}
 		$('#userDay').val(tmpDayVal).prop('selected', true);
 	},
-	/* validate: function() {
-		let userId = $('#userId').val();
-		if (isNullOrEmpty(userId)) {
-			alert('아이디를 입력하세요');
-			$('#userId').focus();
-			return false;
-		}
-		let userNm = $('#userNm').val();
-		if (isNullOrEmpty(userNm)) {
-			alert('이름을 입력하세요');
-			$('#userNm').focus();
-			return false;
-		}
-		let userPw = $('#userPw').val(); // 자바스크립트 정규식 https://tjddnjs625.tistory.com/28
-		if (isNullOrEmpty(userPw)) {
-			alert('비밀번호를 입력하세요');
-			$('#userPw').focus();
-			return false;
-		}
-		let phoneNum1 = $('#phoneNum1').val();
-		let phoneNum2 = $('#phoneNum2').val();
-		let phoneNum3 = $('#phoneNum3').val();
-		if (isNullOrEmpty(phoneNum1) || isNullOrEmpty(phoneNum2) || isNullOrEmpty(phoneNum3)) {
-			alert('연락가능번호를 입력하세요');
-			let id = isNullOrEmpty(phoneNum1) ? 'phoneNum1' : isNullOrEmpty(phoneNum2) ? 'phoneNum2' : 'phoneNum3';
-			$('#'+id).focus();
-			return false;
-		}
-		return true;
-	}, */
 	setData: function() {
 		let userYear = fnNull($('#userYear').val());
 		let userMonth = fnNull($('#userMonth').val());
@@ -108,7 +77,7 @@ var singUp = {
 			success: function (data) {
 				if (data.result) {
 					alert('회원가입이 되었습니다.');
-					window.location.href='/admin/user/main'; // main, singUp, 사용자 관리 선택
+					window.location.href='/admin/user/main';
 				} else {
 					alert(data.msg);
 				}
@@ -172,11 +141,11 @@ var singUp = {
 	                            </div>
 	                        </li>
 	                        <li>
-	                            <label for="" class="fm-label">연락 가능 번호 <span class="essential">*</span></label>
+	                            <label for="" class="fm-label">연락가능번호 <span class="essential">*</span></label>
 	                            <div class="fm-group phone">
-	                                <span><input type="text" id="phoneNum1" name="phoneNum1" title="연락 가능 번호1" placeholder="" required maxlength="3"></span>
-	                                <span><input type="text" id="phoneNum2" name="phoneNum2" title="연락 가능 번호2" placeholder="" required maxlength="4"></span>
-	                                <span><input type="text" id="phoneNum3" name="phoneNum3" title="연락 가능 번호3" placeholder="" required maxlength="4"></span>
+	                                <span><input type="text" id="phoneNum1" name="phoneNum1" title="연락가능번호" placeholder="" required maxlength="3"></span>
+	                                <span><input type="text" id="phoneNum2" name="phoneNum2" title="연락가능번호" placeholder="" required maxlength="4"></span>
+	                                <span><input type="text" id="phoneNum3" name="phoneNum3" title="연락가능번호" placeholder="" required maxlength="4"></span>
 	                            </div>
 	                        </li>
 	                        <li>
