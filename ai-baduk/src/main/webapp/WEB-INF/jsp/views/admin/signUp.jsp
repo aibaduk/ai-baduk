@@ -108,7 +108,7 @@ var singUp = {
 			success: function (data) {
 				if (data.result) {
 					alert('회원가입이 되었습니다.');
-					window.location.href='/'; // main, singUp, 사용자 관리 선택
+					window.location.href='/admin/user/main'; // main, singUp, 사용자 관리 선택
 				} else {
 					alert(data.msg);
 				}

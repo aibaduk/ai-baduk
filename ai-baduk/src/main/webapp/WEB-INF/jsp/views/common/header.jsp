@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/views/common/taglib.jsp" %>
+<sec:authentication var="user" property="principal"/>
 <script type="text/javascript">
 $(function() {
 	"use strict"
@@ -51,14 +52,14 @@ $(function() {
             <div>
                 <div class="aside-top">
                     <div class="util">
-                        <c:if test="${not empty userInfo }">
-                        	<button type="button" class="btns" id="btn-mypage" data-id=${userInfo.userId }>내정보 수정</button>
+                        <c:if test="${user ne 'anonymousUser'}">
+                        	<button type="button" class="btns" id="btn-mypage" data-id=${user.userId }>내정보 수정</button>
                         	<button type="button" class="btns" id="btn-logout">로그아웃</button>
                         </c:if>
                         <button type="button" class="btn-close">닫기</button>
                     </div>
                     <div class="log-box">
-                        <c:if test="${empty userInfo }">
+                        <c:if test="${user eq 'anonymousUser'}">
 	                        <h3>LOGIN</h3>
 	                        <form id="mFrm" action="/login_proc" method="post">
 	                            <span class="form-ele"><label for="userID" class="blind">아이디</label><input type="text" id="mUserId" name="username" placeholder="아이디를 입력해주세요."></span>
@@ -70,10 +71,10 @@ $(function() {
 	                            </div>
 	                        </form>
 	                    </c:if>
-                        <c:if test="${not empty userInfo }">
+                        <c:if test="${user ne 'anonymousUser'}">
 			                <div class="info">
-			                    <span class="${userInfo.userGrade }">${userInfo.userGrade }</span><!-- silver, gold, vip, vvip -->
-			                    <p><strong>${userInfo.userNm }</strong>님 환영합니다.</p>
+			                    <span class="${user.userGrade }">${user.userGrade }</span><!-- silver, gold, vip, vvip -->
+			                    <p><strong>${user.userNm }</strong>님 환영합니다.</p>
 			                </div>
 	                    </c:if>
 	                    <!-- <div class="learning loginForm">

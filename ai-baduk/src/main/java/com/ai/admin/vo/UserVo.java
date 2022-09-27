@@ -65,4 +65,13 @@ public class UserVo extends BaseVo {
     /** 기력(CU003) */
     private String levelNm;
 
+    /** 기존 패스워드 */
+    private String oldPW;
+
+    /** 변경 패스워드 */
+    private String newPW;
+
+    /** 변경 패스워드 체크 */
+    private String newPWcheck;
+
 }

@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ai.admin.service.CodeService;
-import com.ai.admin.service.UserMgmtService;
+import com.ai.admin.service.UserService;
 import com.ai.admin.vo.UserSearchVo;
 import com.ai.admin.vo.UserVo;
+import com.ai.common.exception.BizException;
 import com.ai.common.util.Constants;
 import com.ai.common.vo.PageResult;
 import com.ai.common.vo.pageInfoVo;
@@ -24,13 +26,13 @@ import lombok.extern.slf4j.Slf4j;
  * @since 2022. 09. 25
  * @implSpec user controller view.
  */
-@Controller
+@Controller("UserMgmtController")
 @RequestMapping("/admin/user")
 @Slf4j
-public class UserMgmtController {
+public class UserController {
 
 	@Autowired
-	UserMgmtService userService;
+	UserService userService;
 
 	@Autowired
 	CodeService codeService;
@@ -71,5 +73,41 @@ public class UserMgmtController {
     	model.addAttribute("codeCU004", codeService.selectCode("CU004"));
     	model.addAttribute("userDetailInfo", userService.selectUserOne(userVo));
 		return "admin/user/userDetail";
+	}
+
+	/**
+	 * @implNote update user.
+	 * @param userVo
+	 * @return
+	 */
+	@PostMapping("/update")
+	public String updateUser(Model model, UserVo userVo) {
+		try {
+			userService.updateUser(userVo);
+			model.addAttribute("userId", userVo.getUserId());
+			model.addAttribute("result", true);
+		} catch (BizException e) {
+			model.addAttribute("msg", e.getMessage());
+			model.addAttribute("code", e.getErrCode());
+		}
+		return Constants.JSON_VIEW;
+	}
+
+	/**
+	 * @implNote update password.
+	 * @param userVo
+	 * @return
+	 */
+	@PostMapping("/update-password")
+	public String updatePassword(Model model, UserVo userVo) {
+		try {
+			userService.updatePassword(userVo);
+			model.addAttribute("userId", userVo.getUserId());
+			model.addAttribute("result", true);
+		} catch (BizException e) {
+			model.addAttribute("msg", e.getMessage());
+			model.addAttribute("code", e.getErrCode());
+		}
+		return Constants.JSON_VIEW;
 	}
 }
