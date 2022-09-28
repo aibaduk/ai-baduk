@@ -114,7 +114,7 @@ function goPage(pageNo) {
 <tr>
 	<td>{{:rowId}}</td>
 	<td class="subject"><a href="/admin/user/detail?userId={{:userId}}">{{:userId}}</a></td>
-	<td>{{:userNm}}</td>
+	<td class="l-data">{{:userNm}}</td>
 	<td class="show-pc">{{:userSexNm}}</td>
 	<td class="show-pc">{{:userAuth}}</td>
 	<td class="show-pc">{{:userGradeNm}}</td>

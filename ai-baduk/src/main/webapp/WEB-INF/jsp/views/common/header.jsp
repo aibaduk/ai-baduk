@@ -22,7 +22,7 @@ $(function() {
 		return false;
 	});
 
-	$('#btn-mypage').click(function() {
+	$('#btn-mobile-mypage').click(function() {
 		window.location.href='/admin/user/detail?userId='+$(this).data('id');
 	});
 
@@ -58,7 +58,7 @@ $(function() {
                 <div class="aside-top">
                     <div class="util">
                         <c:if test="${user ne 'anonymousUser'}">
-                        	<button type="button" class="btns" id="btn-mypage" data-id=${user.userId }>내정보 수정</button>
+                        	<button type="button" class="btns" id="btn-mobile-mypage" data-id=${user.userId }>내정보 수정</button>
                         	<button type="button" class="btns" id="btn-logout">로그아웃</button>
                         </c:if>
                         <button type="button" class="btn-close">닫기</button>

@@ -316,8 +316,8 @@ footer p{margin-top:2vw; font-size:3.2vw;color:#afafaf;}
 /* 사용자관리 20220926 */
 .brd .user th:nth-child(1){width:12%;}
 .brd .user th:nth-child(2){width:35%;}
-.brd .user th:nth-child(3){width:25%;}
-.brd .user th:nth-child(8){width:28%;}
+.brd .user th:nth-child(3){width:28%;}
+.brd .user th:nth-child(8){width:25%;}
 
 .brd .news th:nth-child(2){width:75%;}
 .brd .news th:nth-child(3){width:25%; border-right:0;}
@@ -386,6 +386,8 @@ footer p{margin-top:2vw; font-size:3.2vw;color:#afafaf;}
 
 .essential{color:red;}
 .custem-fm-radio{margin-left: 0 !important;}
+.l-data{text-align:left;}
+.r-data{text-align:right;}
 
 @media only screen and (min-width:751px){
     /* btn */

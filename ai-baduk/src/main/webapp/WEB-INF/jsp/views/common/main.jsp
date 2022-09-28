@@ -34,6 +34,10 @@ $(function() {
 		return false;
 	});
 
+	$('#btn-mypage').click(function() {
+		window.location.href='/admin/user/detail?userId='+$(this).data('id');
+	});
+
 	$('#info_1, #info_2').click(function() {
 		let id = $(this).attr('id');
 		let text = $(this).text();
@@ -54,8 +58,8 @@ $(function() {
 		<div class="container main">
             <section class="keyvi">
                 <div class="log-box">
-                    <c:if test="${empty userInfo }">
-                    <h3>LOGIN</h3>
+                    <c:if test="${user eq 'anonymousUser'}">
+                    	<h3>LOGIN</h3>
 	                    <form id="frm" action="/login_proc" method="post">
 		                    <span class="form-ele"><label for="userId" class="ir-blind">아이디</label><input type="text" id="userId" name="username" placeholder="아이디를 입력해주세요."></span>
 		                    <span class="form-ele"><label for="userPw" class="ir-blind">비밀번호</label><input type="password" id="userPw" name="password" placeholder="비밀번호를 입력해주세요."></span>
@@ -66,11 +70,11 @@ $(function() {
 		                    </div>
 		                </form>
                     </c:if>
-                    <c:if test="${not empty userInfo }">
+                    <c:if test="${user ne 'anonymousUser'}">
 		                <div class="info">
-		                    <span class="${userInfo.userGrade }"></span><!-- silver, gold, vip, vvip -->
-		                    <strong>${userInfo.userNm }</strong>님 환영합니다.
-		                    <a href="#">내정보 수정</a>
+		                    <span class="${user.userGrade }"></span><!-- silver, gold, vip, vvip -->
+		                    <strong>${user.userNm }</strong>님 환영합니다.
+		                    <a href="javascript:void(0)" id="btn-mypage" data-id=${user.userId }>내정보 수정</a>
 		                </div>
                     </c:if>
 	                <!-- <div class="learning">
