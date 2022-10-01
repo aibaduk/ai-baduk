@@ -1,5 +1,7 @@
 package com.ai.admin.vo;
 
+import java.util.List;
+
 import com.ai.common.vo.BaseVo;
 
 import lombok.Getter;
@@ -13,9 +15,6 @@ public class CodeVo extends BaseVo {
 
 	/** 대분류코드 */
 	private String lCd;
-
-	/** 대분류코드 */
-	private String upperCodeId;
 
 	/** 중분류코드 */
 	private String mCd;
@@ -40,5 +39,14 @@ public class CodeVo extends BaseVo {
 
 	/** 메모 */
 	private String etc;
+
+	/** 상위 코드 */
+	private String majorId;
+
+	/** 상위 코드명 */
+	private String majorNm;
+
+	/** 코드 저장 리스트*/
+	private List<CodeVo> codeList;
 
 }

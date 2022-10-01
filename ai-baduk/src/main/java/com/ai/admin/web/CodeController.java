@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -87,18 +88,19 @@ public class CodeController {
 	}
 
 	/**
-	 * @implNote insert code.
-	 * @param codeList
+	 * @implNote merge code.
+	 * @param codeVo
 	 * @return
 	 */
-	@PostMapping("/insert")
-	public String insertCode(Model model, List<CodeVo> codeList) {
+	@PostMapping("/merge")
+	public String mergeCode(Model model, @RequestBody CodeVo codeVo) {
 		try {
-			model.addAttribute("codeId", codeService.insertCode(codeList));
+			model.addAttribute("lCd", codeService.mergeCode(codeVo));
 			model.addAttribute("result", true);
 		} catch (Exception e) {
 			model.addAttribute("msg", e.getMessage());
 		}
 		return Constants.JSON_VIEW;
 	}
+
 }

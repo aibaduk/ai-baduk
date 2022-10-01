@@ -1,6 +1,5 @@
 package com.ai.admin.service;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -11,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ai.admin.dao.CodeMapper;
 import com.ai.admin.vo.CodeSearchVo;
 import com.ai.admin.vo.CodeVo;
+import com.ai.common.web.CommonService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -62,39 +62,28 @@ public class CodeService {
 	}
 
 	/**
-	 * @implNote insert board and file upload.
-	 * @param boardVo
-	 * @param fileList
+	 * @implNote merge code.
+	 * @param codeVo
 	 * @return
-	 * @throws IOException
-	 * @throws IllegalStateException
 	 */
 	@Transactional
-	public String insertCode(List<CodeVo> codeList) {
-//		// 1. boardId 채번.
-//		String boardId = boardMapper.selectBoardId(boardVo.getBoardGubun());
-//		// 2. file 경로 설정 (기본경로 + 메뉴경로 + 채번)
-//		String uploadPath = UPLOAD_DEFAULT_PATH + NOTICE_PATH + boardId;
-//		// 3. file upload / board_file insert
-//		if (!Objects.isNull(fileList)) {
-//			for (MultipartFile multi : fileList) {
-//				if (!multi.isEmpty()) {
-//					String fileNm = UUID.randomUUID().toString();
-//					String fileOgNm = multi.getOriginalFilename();
-//					fileService.fileUpload(uploadPath, fileNm, fileOgNm, multi);
-//					BoardFileVo boardFileVo = new BoardFileVo();
-//					boardFileVo.setBoardId(boardId);
-//					boardFileVo.setBoardGubun(boardVo.getBoardGubun());
-//					boardFileVo.setFileNm(fileNm);
-//					boardFileVo.setFileOgNm(fileOgNm);
-//					boardMapper.insertBordFile(boardFileVo);
-//				}
-//			}
-//		}
-//		// 4. board insert
-//		boardVo.setBoardId(boardId);
-//		boardMapper.insertBoard(boardVo);
-		return "";
+	public String mergeCode(CodeVo codeVo) {
+		// major
+		CodeVo majorVo = new CodeVo();
+		CommonService.setSessionData(majorVo);
+		majorVo.setLCd(codeVo.getMajorId());
+		majorVo.setMCd("*");
+		majorVo.setCodeNm(codeVo.getMajorNm());
+		majorVo.setSortSeq("0");
+		codeMapper.mergeCode(majorVo);
+		// minor
+		for (CodeVo minorVo : codeVo.getCodeList()) {
+			CommonService.setSessionData(minorVo);
+			minorVo.setLCd(codeVo.getMajorId());
+			minorVo.setMCd(minorVo.getCodeId());
+			codeMapper.mergeCode(minorVo);
+		}
+		return codeVo.getMajorId();
 	}
 
 }

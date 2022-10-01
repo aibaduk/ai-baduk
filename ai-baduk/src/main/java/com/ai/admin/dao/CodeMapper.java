@@ -35,4 +35,11 @@ public interface CodeMapper {
 	 */
 	public List<CodeVo> selectCode(String lCd);
 
+	/**
+	 * @implNote merge code.
+	 * @param codeVo
+	 * @return int
+	 */
+	public int mergeCode(CodeVo codeVo);
+
 }

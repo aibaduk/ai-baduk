@@ -9,8 +9,8 @@
 $(function() {
 	"use strict"
 
-	$('#btn-insert').click(function() {
-		codeUpdate();
+	$('#btn-save').click(function() {
+		code.save();
 	});
 
 	$('#btn-cancle').click(function() {
@@ -18,45 +18,119 @@ $(function() {
 	});
 
 	$('#btn-add').click(function() {
-		let codeHtml = '';
-
-		codeHtml += '<tr>';
-		codeHtml += '<td><input type="text" value="" style="width:95%"/></td>';
-		codeHtml += '<td class="l-data"><input type="text" value="" style="width:95%"/></td>';
-		codeHtml += '<td><input type="text" value="" style="width:95%"/></td>';
-		codeHtml += '<td><input type="text" value="" style="width:95%"/></td>';
-		codeHtml += '<td><input type="text" value="" style="width:95%"/></td>';
-		codeHtml += '<td><input type="text" value="" style="width:95%"/></td>';
-		codeHtml += '</tr>';
-
-		$('#code-tbody').append(codeHtml);
+		$('#code-tbody').append(code.addHtml());
 	});
+
+	code.init();
 });
 
-/**
- * 공통코드 수정
- */
-function codeUpdate() {
-	"use strict"
-	if (confirm('공통코드를 수정하시겠습니까?')) {
-		let upperCodeId = $('#upperCodeId').val();
-		let upperCodeNm = $('#upperCodeNm').val();
+var code = {
+	init: function() {
 		let codeList = new Array();
-		$('#code-tbody > tr').each(function(i, item) {
+		<c:forEach items="${codeList }" var="code">
+			<c:if test="${code.codeId ne '*'}">
+		    	var code = {};
+		    	code.codeId = '${code.codeId }';
+		    	code.codeNm = '${code.codeNm }';
+		    	code.ref1 = '${code.ref1 }';
+		    	code.ref2 = '${code.ref2 }';
+		    	code.ref3 = '${code.ref3 }';
+		    	code.sortSeq = '${code.sortSeq }';
+		    	codeList.push(code);
+			</c:if>
+		</c:forEach>
+		$.each(codeList, function(count, item) {
+			let codeHtml = '';
+			codeHtml += '<tr>';
+			codeHtml += 	'<td><div class="fm-group" style="width: 90%;"><input type="text" id="codeId-'+count+'" name="codeId" value="'+item.codeId+'" maxlength="20"/></div></td>';
+			codeHtml += 	'<td><div class="fm-group" style="width: 90%;"><input type="text" id="codeNm-'+count+'" name="codeNm" value="'+item.codeNm+'"/></div></td>';
+			codeHtml += 	'<td><div class="fm-group" style="width: 90%;"><input type="text" id="ref1-'+count+'" name="ref1" value="'+item.ref1+'"/></div></td>';
+			codeHtml += 	'<td><div class="fm-group" style="width: 90%;"><input type="text" id="ref2-'+count+'" name="ref2" value="'+item.ref2+'"/></div></td>';
+			codeHtml += 	'<td><div class="fm-group" style="width: 90%;"><input type="text" id="ref3-'+count+'" name="ref3" value="'+item.ref3+'"/></div></td>';
+			codeHtml += 	'<td><div class="fm-group" style="width: 90%;"><input type="text" id="sortSeq-'+count+'" name="sortSeq" value="'+item.sortSeq+'"/></div></td>';
+			codeHtml += '</tr>';
+			$('#code-tbody').append(codeHtml);
+		});
+	},
+	addHtml: function() {
+		let count = $('#code-tbody tr').length;
+		let codeHtml = '';
+		codeHtml += '<tr>';
+		codeHtml += 	'<td><div class="fm-group" style="width: 90%;"><input type="text" id="codeId-'+count+'" name="codeId" value="" maxlength="20"/></div></td>';
+		codeHtml += 	'<td><div class="fm-group" style="width: 90%;"><input type="text" id="codeNm-'+count+'" name="codeNm" value=""/></div></td>';
+		codeHtml += 	'<td><div class="fm-group" style="width: 90%;"><input type="text" id="ref1-'+count+'" name="ref1" value=""/></div></td>';
+		codeHtml += 	'<td><div class="fm-group" style="width: 90%;"><input type="text" id="ref2-'+count+'" name="ref2" value=""/></div></td>';
+		codeHtml += 	'<td><div class="fm-group" style="width: 90%;"><input type="text" id="ref3-'+count+'" name="ref3" value=""/></div></td>';
+		codeHtml += 	'<td><div class="fm-group" style="width: 90%;"><input type="text" id="sortSeq-'+count+'" name="sortSeq" value=""/></div></td>';
+		codeHtml += '</tr>';
+		return codeHtml;
+	},
+	save: function() {
+		if (!code.validate()) {
+			return;
+		}
+		var msg = $('#code_tit span').text();
+		if (confirm('공통코드를 '+msg+'하시겠습니까?')) {
+			$.ajax({
+				type: 'post',
+				url: '/admin/code/merge',
+				contentType: 'application/json',
+				data: JSON.stringify(code.setData()),
+				success: function (data) {
+					if (data.result) {
+						alert('공통코드가 저장되었습니다.');
+						window.location.href='/admin/code/detail?lCd='+data.lCd;
+					} else {
+						alert(data.msg);
+					}
+				}
+			});
+		}
+	},
+	validate: function() {
+		let flag = true;
+		if ($('#code-tbody tr').length < 1) {
+			alert('추가할 공통코드를 입력하세요.');
+			flag = false;
+		}
+		$('#code-tbody tr').each(function(i, item) {
+			if (isNullOrEmpty($(item).find(':input[name=codeId]').val())) {
+				alert('하위코드ID를 입력하세요.');
+				$(item).find(':input[name=codeId]').focus();
+				flag = false;
+				return false;
+			}
+			if (isNullOrEmpty($(item).find(':input[name=sortSeq]').val())) {
+				alert('정렬순번을 입력하세요.');
+				$(item).find(':input[name=sortSeq]').focus();
+				flag = false;
+				return false;
+			}
+		});
+		return flag;
+	},
+	setData: function() {
+		let data = {};
+		data.majorId = $('#majorId').val().toUpperCase();
+		data.majorNm = $('#majorNm').val();
+		let codeList = new Array();
+		$('#code-tbody tr').each(function(i, item) {
 			let code = new Object();
-			code.codeId = $(this).text();
-			code.codeNm = $(this).find('input id^=codeNm').val();
-			code.ref1 = $(this).find('input').val();
-			code.ref2 = $(this).find('input').val();
-			code.ref3 = $(this).find('input').val();
-			code.sortSeq = $(this).find('input').val();
+			code.codeId = $(item).find(':input[name=codeId]').val();
+			code.codeNm = $(item).find(':input[name=codeNm]').val();
+			code.ref1 = $(item).find(':input[name=ref1]').val();
+			code.ref2 = $(item).find(':input[name=ref2]').val();
+			code.ref3 = $(item).find(':input[name=ref3]').val();
+			code.sortSeq = $(item).find(':input[name=sortSeq]').val();
 			codeList.push(code);
 		});
+		data.codeList = codeList;
+		return data;
 	}
 }
 </script>
 <body>
-	<div id="wrap">
+	<div class="wrapper">
 		<%@ include file="/WEB-INF/jsp/views/common/header.jsp" %>
 		<form id="searchForm">
 			<c:set var="isInsert" value="${empty codeList }"></c:set>
@@ -74,35 +148,46 @@ function codeUpdate() {
 		                    </ul>
 		                    <div class="inner-depth">
 		                        <div class="tab-inner">
-		                            <h2>공통코드</h2>
+		                            <h2 id="code_tit">
+		                            	공통코드
+		                            	<span><c:if test="${isInsert }">등록</c:if></span>
+		                            	<span><c:if test="${isDetail }">수정</c:if></span>
+		                            </h2>
 		                            <div>
 		                            	<table>
 		                            		<colgroup>
-			                                    <col width="10%">
+			                                    <col width="8%">
 			                                    <col width="15%">
-			                                    <col width="10%">
+			                                    <col width="9%">
 			                                    <col width="40%">
-			                                    <col width="*">
 			                                </colgroup>
 		                            		<tbody>
 		                            			<tr>
 		                            				<th>상위코드</th>
 		                            				<c:if test="${isInsert }">
-		                            					<td class="l-data"><input type="text" id="upperCodeId" value="${upCodeVo.upperCodeId }" style="width:95%"/></td>
+		                            					<td>
+		                            						<div class="fm-group" style="width: 90%;">
+		                            							<input type="text" id="majorId" name="majorId" title="상위코드" value="${upCodeVo.majorId }" maxlength="5" style="text-transform: uppercase;"/>
+		                            						</div>
+		                            					</td>
 		                            				</c:if>
 		                            				<c:if test="${isDetail }">
-		                            					<input type="hidden" id="upperCodeId" value="${upCodeVo.upperCodeId }">
-		                            					<td class="l-data">${upCodeVo.upperCodeId }</td>
+		                            					<input type="hidden" id="majorId" value="${upCodeVo.majorId }">
+		                            					<td class="l-data">${upCodeVo.majorId }</td>
 		                            				</c:if>
 		                            				<th>상위코드명</th>
-		                            				<td><input type="text" id="upperCodeNm" value="${upCodeVo.codeNm }" style="width:95%"/></td>
 		                            				<td>
-					                                    <a href="javascript:void(0)" id="btn-add" class="btns point btn-role-s">추가</a>
-		                            				</td>
+	                            						<div class="fm-group" style="width: 90%;">
+	                            							<input type="text" id="majorNm" name="majorNm" title="상위코드" value="${upCodeVo.codeNm }" maxlength="20">
+	                            						</div>
+	                            					</td>
 		                            			</tr>
 		                            		</tbody>
 		                            	</table>
 		                            </div>
+		                            <div class="btn-wrap">
+                                    	<a href="javascript:void(0)" id="btn-add" class="btns point btn-role-s fr">추가</a>
+                         			</div>
 		                            <table class="table-col">
 		                                <colgroup>
 		                                    <col width="10%">
@@ -122,25 +207,12 @@ function codeUpdate() {
 		                                        <th>정렬순번</th>
 		                                    </tr>
 		                                </thead>
-		                                <tbody id="code-tbody">
-		                                	<c:forEach items="${codeList }" var="code" varStatus="status">
-			                                	<c:if test="${code.codeId ne '*'}">
-				                                	<tr>
-														<td>${code.codeId }</td>
-														<td class="l-data"><input type="text" id="codeNm${status.index }" value="${code.codeNm }" style="width:95%"/></td>
-														<td><input type="text" id="ref1${status.index }" value="${code.ref1 }" style="width:95%"/></td>
-														<td><input type="text" id="ref2${status.index }" value="${code.ref2 }" style="width:95%"/></td>
-														<td><input type="text" id="ref3${status.index }" value="${code.ref3 }" style="width:95%"/></td>
-														<td><input type="text" id="sortSeq${status.index }" value="${code.sortSeq }" style="width:95%"/></td>
-				                                	</tr>
-			                                	</c:if>
-		                                    </c:forEach>
-		                                </tbody>
+		                                <tbody id="code-tbody"></tbody>
 		                            </table>
 		                            <div class="btn-wrap">
 		                            	<div class="pagination"></div>
 			                            <div class="btn-right">
-		                                    <a href="javascript:void(0)" id="btn-insert" class="btns point btn-role-s">저장</a>
+		                                    <a href="javascript:void(0)" id="btn-save" class="btns point btn-role-s">저장</a>
 		                                    <a href="javascript:void(0)" id="btn-cancle" class="btns gray">취소</a>
 		                                </div>
 		                            </div>
