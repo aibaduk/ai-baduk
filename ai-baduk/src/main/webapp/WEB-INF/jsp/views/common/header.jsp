@@ -27,7 +27,7 @@ $(function() {
 	});
 
 	$('#btn-logout').click(function() {
-		window.location.href='/logout';
+		window.location.href='/auth/logout';
 	});
 
 	$('#info_mobile_1, #info_mobile_2').click(function() {
@@ -50,7 +50,7 @@ $(function() {
         </nav>
         <c:if test="${user ne 'anonymousUser'}">
 	        <div class="logtop">
-	            <a href="/logout">로그아웃</a>
+	            <a href="/auth/logout">로그아웃</a>
 	        </div>
         </c:if>
         <aside>
@@ -66,7 +66,7 @@ $(function() {
                     <div class="log-box">
                         <c:if test="${user eq 'anonymousUser'}">
 	                        <h3>LOGIN</h3>
-	                        <form id="mFrm" action="/login_proc" method="post">
+	                        <form id="mFrm" action="/auth/login_proc" method="post">
 	                            <span class="form-ele"><label for="userID" class="blind">아이디</label><input type="text" id="mUserId" name="username" placeholder="아이디를 입력해주세요."></span>
 	                            <span class="form-ele"><label for="userPW" class="blind">비밀번호</label><input type="password" id="mUserPw" name="password" placeholder="비밀번호를 입력해주세요."></span>
 	                            <button type="button" id="btn-mobile-login">로그인</button>

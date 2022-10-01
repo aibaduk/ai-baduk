@@ -1,4 +1,4 @@
-package com.ai.login.vo;
+package com.ai.auth.vo;
 
 import java.util.Collection;
 import java.util.Collections;

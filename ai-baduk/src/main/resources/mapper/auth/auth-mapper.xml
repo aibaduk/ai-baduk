@@ -3,9 +3,9 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- SQL Mapping -->
-<mapper namespace="com.ai.login.dao.UserMapper">
+<mapper namespace="com.ai.auth.dao.AuthMapper">
     <!-- 로그인 -->
-    <select id="getUserAccount" resultType="com.ai.login.vo.UserVo">
+    <select id="getUserAccount" resultType="com.ai.auth.vo.UserVo">
         SELECT USER_ID
              , FST_CRER_ID
              , FST_CRE_DTM
@@ -38,7 +38,7 @@
     </select>
 
     <!-- 회원가입 -->
-    <insert id="saveUser" parameterType="com.ai.login.vo.UserVo">
+    <insert id="saveUser" parameterType="com.ai.auth.vo.UserVo">
         INSERT INTO CU_USER (
 			USER_ID
             , FST_CRER_ID

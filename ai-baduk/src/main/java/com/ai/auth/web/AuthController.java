@@ -1,4 +1,4 @@
-package com.ai.login.web;
+package com.ai.auth.web;
 
 import java.util.Objects;
 
@@ -8,20 +8,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ai.admin.service.CodeService;
+import com.ai.auth.service.AuthService;
+import com.ai.auth.vo.UserVo;
 import com.ai.board.service.BoardService;
 import com.ai.common.exception.BizException;
 import com.ai.common.util.Constants;
-import com.ai.login.service.UserService;
-import com.ai.login.vo.UserVo;
 
 @Controller
-public class UserController {
+public class AuthController {
 
 	@Autowired
-	private UserService userService;
+	private AuthService authService;
 
 	@Autowired
 	private CodeService codeService;
@@ -49,7 +50,7 @@ public class UserController {
      * 로그인 폼 (현재 로그인 폼이 메인에 포함되어 있음)
      * @return
      */
-    @GetMapping("/login")
+    @GetMapping("/auth/login")
     public String login(Model model, Authentication authentication){
     	if (!Objects.isNull(authentication)) {
     		UserVo userVo = (UserVo) authentication.getPrincipal();  //userDetail 객체를 가져옴
@@ -61,14 +62,14 @@ public class UserController {
         return "common/main";
     }
 
-    /**
-     * 로그인 실패 폼
-     * @return
-     */
-    @GetMapping("/access_denied")
-    public String accessDenied(Model model, RedirectAttributes redirectAttribute) {
-    	redirectAttribute.addFlashAttribute("errMsg", "아이디/비밀번호를 확인하세요.");
-    	return "redirect:/login";
+    @GetMapping("/auth/fail")
+    public String temp(Model model
+  		, @RequestParam(value = "error", required = false) String error
+  		, @RequestParam(value = "exception", required = false) String exception
+  		, RedirectAttributes redirectAttribute){
+    	redirectAttribute.addFlashAttribute("error", error);
+    	redirectAttribute.addFlashAttribute("exception",exception);
+    	return "redirect:/";
     }
 
     /**
@@ -94,7 +95,7 @@ public class UserController {
     @PostMapping("/signUp")
     public String signUp(Model model, UserVo userVo) {
     	try {
-			userService.joinUser(userVo);
+    		authService.joinUser(userVo);
 			model.addAttribute("result", true);
 		} catch (Exception e) {
 			model.addAttribute("msg", e.getMessage());
@@ -102,17 +103,4 @@ public class UserController {
     	return Constants.JSON_VIEW;
     }
 
-    /**
-     * 유저 페이지
-     * @param model
-     * @param authentication
-     * @return
-     */
-    @GetMapping("/user_access")
-    public String userAccess(Model model, Authentication authentication) {
-        //Authentication 객체를 통해 유저 정보를 가져올 수 있다.
-//        UserVo userVo = (UserVo) authentication.getPrincipal();  //userDetail 객체를 가져옴
-//        model.addAttribute("userInfo", userVo);      //유저 아이디
-        return "redirect:/login";
-    }
 }

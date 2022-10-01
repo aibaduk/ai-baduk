@@ -22,7 +22,7 @@ import com.github.pagehelper.PageInfo;
  * @since 2022. 09. 25
  * @implSpec user service business logic.
  */
-@Service("UserMgmtService")
+@Service
 public class UserService {
 
 	@Autowired

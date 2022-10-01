@@ -46,8 +46,11 @@ $(function() {
 	});
 
 	// 로그인 실패시 alert 띄우기
-	if (!isNullOrEmpty('${errMsg }')) {
-		alert('${errMsg }');
+	/* if ('${errMsg}') {
+		alert('${errMsg}');
+	} */
+if ('${error}') {
+		alert('${exception}');
 	}
 
 });
@@ -60,7 +63,7 @@ $(function() {
                 <div class="log-box">
                     <c:if test="${user eq 'anonymousUser'}">
                     	<h3>LOGIN</h3>
-	                    <form id="frm" action="/login_proc" method="post">
+	                    <form id="frm" action="/auth/login_proc" method="post">
 		                    <span class="form-ele"><label for="userId" class="ir-blind">아이디</label><input type="text" id="userId" name="username" placeholder="아이디를 입력해주세요."></span>
 		                    <span class="form-ele"><label for="userPw" class="ir-blind">비밀번호</label><input type="password" id="userPw" name="password" placeholder="비밀번호를 입력해주세요."></span>
 		                    <button id="btn-login">로그인</button>

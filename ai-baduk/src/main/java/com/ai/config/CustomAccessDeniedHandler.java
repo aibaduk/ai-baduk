@@ -1,6 +1,7 @@
 package com.ai.config;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +25,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         String originalURL = urlPathHelper.getOriginatingRequestUri(request);
 
         //로직을 짜서 상황에 따라 보내줄 주소를 설정해주면 됨
-        response.sendRedirect("/");
+        String errorMessage = "해당 페이지의 권한이 없습니다.";
+        response.sendRedirect("/auth/fail?error=true&exception="+URLEncoder.encode(errorMessage, "UTF-8"));
     }
 }

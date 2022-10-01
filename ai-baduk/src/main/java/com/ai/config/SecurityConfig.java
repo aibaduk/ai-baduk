@@ -19,7 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 
-import com.ai.login.service.UserService;
+import com.ai.auth.service.AuthService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,7 +27,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private final UserService userService;
+	private final AuthService authService;
 
 	@Bean
 	PasswordEncoder getPasswordEncoder() {
@@ -64,7 +64,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.authorizeRequests()
         		.antMatchers("/static/**").permitAll()
-                .antMatchers("/", "/login", "/logout").permitAll()
+                .antMatchers("/", "/auth/login", "/auth/logout", "/auth/fail").permitAll()
+                .antMatchers("/chrome-download", "/gibo-download").permitAll()
                 .antMatchers("/introduce/**").permitAll()
                 .antMatchers("/board/**").permitAll()
         		.antMatchers("/admin/**").hasRole("ADMIN")
@@ -73,16 +74,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.exceptionHandling()
         		.accessDeniedHandler(new CustomAccessDeniedHandler());
         http.formLogin()
-        		.loginPage("/login")
-        		.loginProcessingUrl("/login_proc")
-    			.defaultSuccessUrl("/user_access")
-    			.failureUrl("/access_denied");
+        		.loginPage("/auth/login")
+        		.loginProcessingUrl("/auth/login_proc")
+        		.failureHandler(new CustomFailureHandler());
         http.logout()
-        		.logoutUrl("/logout")
+        		.logoutUrl("/auth/logout")
         		.logoutSuccessUrl("/")
         		.invalidateHttpSession(true);
     }
-
 
     /**
      * 로그인 인증 처리 메소드
@@ -91,6 +90,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(new BCryptPasswordEncoder());
+        auth.userDetailsService(authService).passwordEncoder(new BCryptPasswordEncoder());
     }
 }

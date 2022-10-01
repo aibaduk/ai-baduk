@@ -4,7 +4,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
 import com.ai.common.vo.BaseVo;
-import com.ai.login.vo.UserVo;
+import com.ai.auth.vo.UserVo;
 
 /**
  * @author 우동하

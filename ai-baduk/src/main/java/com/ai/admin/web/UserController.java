@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
  * @since 2022. 09. 25
  * @implSpec user controller view.
  */
-@Controller("UserMgmtController")
+@Controller
 @RequestMapping("/admin/user")
 @Slf4j
 public class UserController {

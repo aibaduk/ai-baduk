@@ -3,7 +3,6 @@ package com.ai.admin.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
 
 import com.ai.admin.vo.UserSearchVo;
 import com.ai.admin.vo.UserVo;
@@ -13,7 +12,6 @@ import com.ai.admin.vo.UserVo;
  * @since 2022. 09. 25
  * @implSpec user database connection.
  */
-@Repository("UserMgmtMapper")
 @Mapper
 public interface UserMapper {
 	/**

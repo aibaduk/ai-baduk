@@ -1,11 +1,11 @@
-package com.ai.login.dao;
+package com.ai.auth.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.ai.login.vo.UserVo;
+import com.ai.auth.vo.UserVo;
 
 @Mapper
-public interface UserMapper {
+public interface AuthMapper {
 	// 로그인
     UserVo getUserAccount(String userId);
 
