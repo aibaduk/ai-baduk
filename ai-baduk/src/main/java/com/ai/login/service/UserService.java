@@ -1,6 +1,9 @@
 package com.ai.login.service;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -38,6 +41,7 @@ public class UserService implements UserDetailsService{
         if (userVo == null){
             throw new UsernameNotFoundException("User not authorized.");
         }
+        userVo.setAuthorities(Arrays.asList(new SimpleGrantedAuthority(userVo.getUserAuth())));
         return userVo;
     }
 }

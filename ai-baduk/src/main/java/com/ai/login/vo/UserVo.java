@@ -29,6 +29,9 @@ public class UserVo implements UserDetails {
     private String level;
     private String ssLoginId;
 
+    @SuppressWarnings("unused")
+	private Collection<? extends GrantedAuthority> authorities;
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
