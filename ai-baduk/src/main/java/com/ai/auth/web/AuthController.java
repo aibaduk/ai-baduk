@@ -103,4 +103,13 @@ public class AuthController {
     	return Constants.JSON_VIEW;
     }
 
+    /**
+     * 행안부 주소 API 호출 예제 페이지
+     * @return
+     */
+    @GetMapping("/admin/postcodify/default")
+    public String postcodifyDefault(Model model) {
+    	return "admin/postcodifyDefault";
+    }
+
 }

@@ -66,7 +66,12 @@ var singUp = {
 		let emailId = $('#emailId').val();
 		let emailDomain = $('#emailDomain').val();
 		let email = "{0}@{1}".format(emailId, emailDomain);
+		email = (email == '@') ? '' : email;
 		$('#email').val(email);
+		let addr = fnNull($('#addr').val());
+		let detailAddr = fnNull($('#detailAddr').val());
+		let address = "{0}{1}".format(addr, detailAddr);
+		$('#address').val(address);
 	},
 	goAjaxJoin: function() {
 		singUp.setData();
@@ -127,7 +132,7 @@ var singUp = {
 	                        </li>
 	                        <li>
 	                            <label for="" class="fm-label">비밀번호 <span class="essential">*</span></label>
-	                            <div class="fm-group"><input type="password" id="userPw" name="userPw" placeholder=""></div>
+	                            <div class="fm-group"><input type="password" id="userPw" name="userPw" title="비밀번호" required></div>
 	                        </li>
 	                        <li>
 	                            <label for="" class="fm-label">고객등급</label>
@@ -153,7 +158,8 @@ var singUp = {
 	                            <div class="fm-group address">
 	                                <div>
 	                                    <input type="text" id="zipcode" placeholder="">
-	                                    <button type="button" onclick="execDaumPostcode()">찾아보기</button>
+	                                    <!-- <button type="button" onclick="execDaumPostcode()">찾아보기</button> 다음 API 호출 -->
+	                                    <button type="button" onclick="baduk.layerOpen($(this), 'popAddress')">찾아보기</button>
 	                                </div>
 	                                <span><input type="text" id="addr" placeholder=""></span>
 	                                <span><input type="text" id="detailAddr" placeholder=""></span>
@@ -218,6 +224,193 @@ var singUp = {
 		<%@ include file="/WEB-INF/jsp/views/common/footer.jsp" %>
 	</div>
 </body>
+<!-- 상세주소 팝업 -->
+<section class="wrap-layer-popup" id="popAddress">
+	<input type="hidden" id="currentPage" value="1"/>
+	<input type="hidden" id="countPerPage" value="100"/>
+    <div class="dimmed"></div>
+    <div class="pop-layer">
+        <div class="head">
+            <h1>주소 검색</h1>
+            <button class="btn-close">Close</button>
+        </div>
+        <div class="contents">
+            <div class="search">
+                <div>
+                    <input type="text" id="searchAddr" onkeydown="enterSearch();" placeholder="도로명주소, 건물명 또는 지번 입력">
+                    <button type="button" onClick="getAddr();"><span class="blind">검색</span></button>
+                </div>
+                <p>도로명/지번 주소를 입력해주세요.</p>
+            </div>
+            <!-- 검색 결과값 -->
+            <div class="list-wrap">
+                <div class="scroll">
+                    <ul id="addr_list"></ul>
+                </div>
+            </div>
+            <!-- //검색 결과값 -->
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+	// @brief 주소검색창 - 키보드 Enter키 입력
+	function enterSearch() {
+		var evt_code = (window.netscape) ? event.which : event.keyCode;
+		if (evt_code == 13) {
+			event.keyCode = 0;
+			getAddr();
+		}
+	}
+	// @brief 주소검색창 - 데이터 조회
+	function getAddr() {
+		// 적용예 (api 호출 전에 검색어 체크)
+		let keyword = document.getElementById("searchAddr");
+		if(!checkSearchedWord(keyword)) {
+			return;
+		}
+		$.ajax({
+			url: "http://www.juso.go.kr/addrlink/addrLinkApiJsonp.do",
+			type: "post",
+			data: {
+				confmKey : "U01TX0FVVEgyMDIyMTAwMjE2NTAzNzExMzAxODQ=",
+				currentPage : document.getElementById("currentPage").value,
+				countPerPage : document.getElementById("countPerPage").value,
+				keyword : keyword.value,
+				resultType : "json"
+			},
+			dataType : "jsonp",
+			crossDomain : true,
+			success : function(jsonStr) {
+				$("#list").html("");
+				let errCode = jsonStr.results.common.errorCode;
+				let errDesc = jsonStr.results.common.errorMessage;
+				if(errCode == "0") {
+					if(jsonStr != null) {
+						makeListJson(jsonStr);
+					}
+				} else {
+					alert(errDesc);
+				}
+			},
+			error : function(xhr, status, error) {
+				alert("주소검색 시 에러가 발생했습니다.");
+			}
+		});
+	}
+
+	// @brief 주소검색창 - 주소지 선택
+	function makeListJson(jsonStr) {
+		let htmlStr = '';
+		if(jsonStr.results.common.totalCount > 0) {
+			/* $("#totalCnt").html(jsonStr.results.common.totalCount); */
+			$(jsonStr.results.juso).each(function() {
+				let zipNo = this.zipNo;
+				let bdNm = this.bdNm;
+				let roadAddr = this.roadAddr;
+				let jibunAddr = this.jibunAddr;
+				htmlStr += '<li>';
+				htmlStr += 	   "<a href='javascript:void(0)' onClick='inputTextAddress(\""+zipNo+"\", \""+roadAddr+"\");'>";
+				htmlStr +=         '<strong>'+bdNm+'</strong>';
+				htmlStr +=         '<p><em>지번</em>'+jibunAddr+'</p>';
+				htmlStr +=         '<p><em>도로명</em>'+roadAddr+'</p>';
+				htmlStr +=     '</a>';
+				htmlStr += '</li>';
+			});
+			/* pageMake(jsonStr); */
+		} else {
+			htmlStr += '<li>조회된 데이터가 없습니다.<br/>다시 검색하여 주시기 바랍니다.</li>';
+		}
+		$("#addr_list").html(htmlStr);
+	}
+
+	// @brief 주소검색창 - 주소지 삽입
+	function inputTextAddress(zipcode, address) {
+		document.getElementById("zipcode").value = zipcode;
+		document.getElementById("addr").value = address;
+        $('.btn-close').trigger('click');
+	}
+
+	// @brief 주소검색창 - 닫기
+	function addressWindowClose() {
+		$("#searchAddr").val("");
+		$("#addr_list").empty();
+		/* $("#pagingList").empty(); */
+		$("#currentPage").val("1");
+	}
+
+	// @brief 주소검색창 - 특수문자 제거
+	function checkSearchedWord(obj) {
+		if(obj.value.length > 0) {
+			// 특수문자 제거
+			var expText = /[%=><]/;
+			if(expText.test(obj.value) == true) {
+				alert("특수문자를 입력 할수 없습니다.") ;
+				obj.value = obj.value.split(expText).join("");
+				return false;
+			}
+
+			// 특정문자열(sql예약어의 앞뒤공백포함) 제거
+			var sqlArray = new Array(
+				  "OR", "SELECT", "INSERT", "DELETE", "UPDATE", "CREATE"
+				  , "DROP", "EXEC", "UNION",  "FETCH", "DECLARE", "TRUNCATE"
+			);
+
+			// sql 예약어
+			var regex = "";
+			for(var num = 0; num < sqlArray.length; num++) {
+				regex = new RegExp(sqlArray[num], "gi") ;
+				if(regex.test(obj.value)) {
+					alert("\"" + sqlArray[num]+"\"와(과) 같은 특정문자로 검색할 수 없습니다.");
+					obj.value = obj.value.replace(regex, "");
+					return false;
+				}
+			}
+		}
+		return true ;
+	}
+
+	// @brief 주소검색창 - 페이징 생성
+	function pageMake(jsonStr) {
+		var total = jsonStr.results.common.totalCount;				// 총건수
+		var pageNum = document.getElementById("currentPage").value;	// 현재페이지
+        var pageBlock = Number(document.getElementById("countPerPage").value);	// 페이지당 출력 개수
+		var paggingStr = "";
+
+		// 검색 갯수가 페이지당 출력갯수보다 작으면 페이징을 나타내지 않는다.
+		if(total > pageBlock) {
+			var totalPages = Math.floor((total - 1) / pageNum) + 1;
+			var firstPage = Math.floor((pageNum - 1) / pageBlock) * pageBlock + 1;
+			if(firstPage <= 0) { firstPage = 1; };
+			var lastPage = (firstPage - 1) + pageBlock;
+			if(lastPage > totalPages) { lastPage = totalPages; };
+			var nextPage = lastPage + 1;
+			var prePage = firstPage - pageBlock;
+			if(firstPage > pageBlock) {
+				paggingStr += "<a href='javascript:;' onClick='goPage(" + prePage + ");'>◀</a>";
+				paggingStr += "&nbsp;";
+			}
+			for(let num = firstPage; lastPage >= num; num++) {
+				if(pageNum == num) {
+					paggingStr += "<a style='font-weight:bold;color:#0000FF;' href='javascript:;'>" + num + "</a>";
+					paggingStr += "&nbsp;";
+				} else {
+					paggingStr += "<a href='javascript:;' onClick='goPage(" + num + ");'>" + num + "</a>";
+					paggingStr += "&nbsp;";
+				}
+			}
+			if(lastPage < totalPages) {
+				paggingStr += "<a href='javascript:;' onClick='goPage(" + nextPage + ");'>▶</a>";
+			}
+		}
+        $("#pagingList").html(paggingStr);
+	}
+
+	// @brief 페이징 이동
+	function goPage(pageNum) {
+		document.getElementById("currentPage").value = pageNum;
+		getAddr();
+	}
+</script>
 <!-- <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
     function execDaumPostcode() {

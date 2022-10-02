@@ -45,11 +45,7 @@ $(function() {
 		alert(msg + '\nAI바둑연구소로 연락바랍니다. 02-3290-3190');
 	});
 
-	// 로그인 실패시 alert 띄우기
-	/* if ('${errMsg}') {
-		alert('${errMsg}');
-	} */
-if ('${error}') {
+	if ('${error}') {
 		alert('${exception}');
 	}
 

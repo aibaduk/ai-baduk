@@ -65,7 +65,7 @@
              , CU.PHONE_NUM2
              , CU.PHONE_NUM3
              , CU.ADDRESS
-     		 , DATE_FORMAT(CU.BIRTH, '%Y.%m.%d') AS BIRTH
+     		 , CU.BIRTH
              , CU.EMAIL
              , CU.JOB
              , CU.TEAM
@@ -86,6 +86,7 @@
 			 , PHONE_NUM2 = #{phoneNum2}
 			 , PHONE_NUM3 = #{phoneNum3}
 			 , ADDRESS = #{address}
+			 , BIRTH = #{birth}
 			 , EMAIL = #{email}
 			 , JOB = #{job}
 			 , TEAM = #{team}

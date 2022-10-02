@@ -11,7 +11,7 @@ $(function() {
 });
 </script>
 <body>
-	<div id="wrap">
+	<div class="wrapper">
 		<%@ include file="/WEB-INF/jsp/views/common/header.jsp" %>
 		<c:set var="isInsert" value="${empty analyzeInfoDetail }"></c:set>
 		<c:set var="isDetail" value="${not empty analyzeInfoDetail }"></c:set>
@@ -22,10 +22,7 @@ $(function() {
 	                <div class="tab-wrap ea2">
 	                    <ul class="tab-menu">
 	                        <li class="on"><a href="/mypage/analyzeInfo/detail">개인 분석정보</a></li>
-	                        <li><a href="javascript:void(0)">회원정보수정</a></li>
-	                        <!-- <li><a href="qna-list.html">1:1문의</a></li>
-	                        <li><a href="#">학습과제받기</a></li>
-	                        <li><a href="#">학습과제제출</a></li> -->
+	                        <li><a href="/mypage/user/detail">회원정보수정</a></li>
 	                    </ul>
 	                    <div class="inner-depth">
 	                        <div class="tab-inner">

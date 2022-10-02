@@ -3,7 +3,7 @@
 <html>
 <head>
 	<%@ include file="/WEB-INF/jsp/views/common/head.jsp" %>
-	<title>사용자관리 상세</title>
+	<title>회원정보 수정</title>
 </head>
 <script type="text/javascript">
 	$(function() {
@@ -12,80 +12,30 @@
 			user.update();
 		});
 
-		$('#btn-cancle').click(function() {
-			window.location.href="/admin/user/main";
-		});
-
 		$('#btn-update-password').click(function() {
 			user.changePasswoad();
 		});
-		for(let i=1920; i<=2020; i++) {
-			user.createOptionForElements('userYear', i);
-		}
-		var userYear = '${fn:substring(userDetailInfo.birth, 0, 4) }';
-		$('#userYear').val(userYear).prop('selected');
-
-		for(let i=1; i<=12; i++) {
-			i = (i < 10) ? "{0}{1}".format('0', i) : i;
-			user.createOptionForElements('userMonth', i);
-		}
-		var userMonth = '${fn:substring(userDetailInfo.birth, 4, 6) }';
-		$('#userMonth').val(userMonth).prop('selected');
-
-		for(let i=1; i<=31; i++) {
-			i = (i < 10) ? "{0}{1}".format('0', i) : i;
-			user.createOptionForElements('userDay', i);
-		}
-		var userDay = '${fn:substring(userDetailInfo.birth, 6, 8) }';
-		$('#userDay').val(userDay).prop('selected');
-
-		$('#userYear, #userMonth').change(function() {
-			user.changeTheDay();
-		});
 	});
 	var user = {
-		createOptionForElements: function(id, val) {
-			let option = '<option value="'+val+'">'+val+'</option>'
-			$('#'+id).append(option);
-		},
-		changeTheDay: function() {
-			let tmpDayVal = fnNull($('#userDay option:selected').val());
-			$('#userDay').html('');
-			$('#userDay').append('<option value="" disabled="disabled">일</option>');
-			let lastDayOfTheMonth = new Date($('#userYear').val(), $('#userMonth').val(), 0).getDate();
-			for(let i=1; i<=lastDayOfTheMonth; i++) {
-				i = (i < 10) ? "{0}{1}".format('0', i) : i;
-				user.createOptionForElements('userDay', i);
-			}
-			$('#userDay').val(tmpDayVal).prop('selected', true);
-		},
 		update: function() {
 			if (!ai.isValidate($('#form'))) {
 				return;
 			}
 			if (confirm('회원정보를 수정하시겠습니까?')) {
-				user.setData();
 				$.ajax({
 					type: 'post',
-					url: '/admin/user/update',
+					url: '/mypage/user/update',
 					data: $('#form').serialize(),
 					success: function (data) {
 						if (data.result) {
 							alert('회원정보가 수정되었습니다.');
-							window.location.href='/admin/user/detail?userId='+data.userId;
+							window.location.href='/mypage/user/detail';
 						} else {
 							alert(data.msg);
 						}
 					}
 				});
 			}
-		},
-		setData: function() {
-			let userYear = fnNull($('#userYear').val());
-			let userMonth = fnNull($('#userMonth').val());
-			let userDay = fnNull($('#userDay').val());
-			let birth = "{0}{1}{2}".format(userYear, userMonth, userDay);
-			$('#birth').val(birth);
 		},
 		changePasswoad: function() {
 			if (!ai.isValidate($('#password-form'))) {
@@ -94,12 +44,12 @@
 			if (confirm('비밀번호를 변경하시겠습니까?')) {
 				$.ajax({
 					type: 'post',
-					url: '/admin/user/update-password',
+					url: '/mypage/user/update-password',
 					data: $('#password-form').serialize(),
 					success: function (data) {
 						if (data.result) {
 							alert('비밀번호가 변경되었습니다.');
-							window.location.href='/admin/user/detail?userId='+data.userId;
+							window.location.href='/mypage/user/detail';
 						} else {
 							alert(data.msg);
 						}
@@ -117,19 +67,17 @@
 	            <div class="keyvi"></div>
 	            <section class="content personal">
 	                <div class="inner">
-	                    <div class="tab-wrap ea4">
+	                    <div class="tab-wrap ea2">
 		                    <ul class="tab-menu">
-		                        <li><a href="/admin/code/main">공통코드</a></li>
-		                        <li><a href="javascript:void(0)">메뉴관리</a></li>
-		                        <li class="on"><a href="/admin/user/main">사용자관리</a></li>
-		                        <li><a href="/admin/signUp">회원가입</a></li>
+		                        <li><a href="/mypage/analyzeInfo/detail">개인 분석정보</a></li>
+		                        <li class="on"><a href="/mypage/user/detail">회원정보수정</a></li>
 		                    </ul>
-	                        <div class="inner-depth">
+		                    <div class="inner-depth">
 	                            <div class="tab-inner">
 	                                <h2>회원정보수정</h2>
 	                                <ul>
 	                                    <li><strong>아이디</strong>${userDetailInfo.userId }<input type="hidden" id="userId" name="userId" value="${userDetailInfo.userId }"/></li>
-	                                    <li>
+	                                    <%-- <li>
 	                                    	<strong>권한</strong>
 	                                    	<div class="fm-group">
 			                                   	<c:forEach items="${codeCU004 }" var="item" varStatus="status">
@@ -141,15 +89,15 @@
 					                                </div>
 			                                   	</c:forEach>
 				                            </div>
-				                        </li>
+				                        </li> --%>
 	                                    <li><strong>비밀번호 수정</strong><button type="button" onclick="baduk.layerOpen($(this), 'popPW')">비밀번호 변경</button></li>
 	                                    <li>
 	                                    	<strong>이름</strong>
 	                                    	<div class="fm-group"><input type="text" id="userNm" name="userNm" title="이름" value="${userDetailInfo.userNm }" required></div>
 	                                    </li>
 	                                    <li>
-	                                    	<strong>성별</strong>
-	                                    	<div class="fm-group">
+	                                    	<strong>성별</strong>${userDetailInfo.userSexNm }
+	                                    	<%-- <div class="fm-group">
 			                                   	<c:forEach items="${codeCU001 }" var="item" varStatus="status">
 													<div class="fm-check fm-inline">
 					                                    <input class="fm-check-input" type="radio" id="userSex${item.codeId }" value="${item.codeId }"
@@ -158,11 +106,11 @@
 					                                    <label class="fm-check-label" for="userSex${item.codeId }">${item.codeNm }</label>
 					                                </div>
 			                                   	</c:forEach>
-				                            </div>
+				                            </div> --%>
 		                                </li>
 	                                    <li>
-	                                    	<strong>고객등급</strong>
-	                                    	<div class="fm-group" style="width: 500px;">
+	                                    	<strong>고객등급</strong>${userDetailInfo.userGradeNm }
+	                                    	<%-- <div class="fm-group" style="width: 500px;">
 			                                   	<c:forEach items="${codeCU002 }" var="item" varStatus="status">
 													<div class="fm-check fm-inline <c:if test="${status.index ne 0 and status.index % 2 == 0}">custem-fm-radio</c:if>">
 					                                    <input class="fm-check-input" type="radio" name="userGrade" id="userGrade${item.codeId }" value="${item.codeId }"
@@ -171,7 +119,7 @@
 					                                    <label class="fm-check-label" for="userGrade${item.codeId }">${item.codeNm }</label>
 					                                </div>
 			                                   	</c:forEach>
-				                            </div>
+				                            </div> --%>
 	                                    </li>
 	                                    <li>
 	                                    	<strong>연락가능번호</strong>
@@ -187,26 +135,7 @@
                                             	<span><input type="text" id="address" name="address" title="주소" value="${userDetailInfo.address }"></span>
                                         	</div>
 	                                    </li>
-	                                    <li><strong>생년월일</strong>
-	                                    	<div class="fm-group birthday">
-				                                <span>
-				                                    <select id="userYear" name="userYear" class="" title="">
-				                                        <option value="" disabled="disabled" selected="selected">연</option>
-				                                    </select>
-				                                </span>
-				                                <span>
-				                                    <select id="userMonth" name="userMonth" class="" title="">
-				                                        <option value="" disabled="disabled" selected="selected">월</option>
-				                                    </select>
-				                                </span>
-				                                <span>
-				                                    <select id="userDay" name="userDay" class="" title="">
-				                                        <option value="" disabled="disabled" selected="selected">일</option>
-				                                    </select>
-				                                </span>
-	                            				<input type="hidden" id="birth" name="birth"/>
-				                            </div>
-	                                    </li>
+	                                    <li><strong>생년월일</strong>${userDetailInfo.birth }</li>
 	                                    <li>
 		                                    <strong>이메일</strong>
 		                                    <div class="fm-group"><input type="text" id="email" name="email" value="${userDetailInfo.email }"></div>
@@ -220,21 +149,20 @@
 		                                    <div class="fm-group"><input type="text" id="team" name="team" value="${userDetailInfo.team }"></div>
 	                                    </li>
 	                                    <li>
-	                                    	<strong>기력</strong>
-								            <div class="fm-group">
+	                                    	<strong>기력</strong>${userDetailInfo.levelNm }
+								            <%-- <div class="fm-group">
 		                                    	<select id="level" name="level">
 										            <c:forEach items="${codeCU003 }" var="item">
 														<option value="${item.codeId }" <c:if test="${userDetailInfo.level eq item.codeId }">selected</c:if>>${item.codeNm }</option>
 				                                   	</c:forEach>
 									            </select>
-	                                        </div>
+	                                        </div> --%>
 	                                    </li>
 	                                </ul>
 	                                <p>※ 개인정보 수정은 전화(000-0000)나 1:1 문의를 이용해주시기 바랍니다.</p>
 	                            </div>
 	                            <div class="btn-wrap">
                                     <a href="javascript:void(0)" id="btn-update" class="btns point">수정</a>
-                                    <a href="javascript:void(0)" id="btn-cancle" class="btns normal">목록</a>
 	                            </div>
 	                        </div>
 	                    </div>
