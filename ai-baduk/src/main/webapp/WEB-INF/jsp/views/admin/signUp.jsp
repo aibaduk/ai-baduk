@@ -158,8 +158,7 @@ var singUp = {
 	                            <div class="fm-group address">
 	                                <div>
 	                                    <input type="text" id="zipcode" placeholder="">
-	                                    <!-- <button type="button" onclick="execDaumPostcode()">찾아보기</button> 다음 API 호출 -->
-	                                    <button type="button" onclick="baduk.layerOpen($(this), 'popAddress')">찾아보기</button>
+	                                    <button type="button" onclick="addressWindowOpen()">찾아보기</button>
 	                                </div>
 	                                <span><input type="text" id="addr" placeholder=""></span>
 	                                <span><input type="text" id="detailAddr" placeholder=""></span>
@@ -252,6 +251,13 @@ var singUp = {
         </div>
     </div>
 </section>
+<style>
+.info_body p {padding-left:0px; !important;}
+.tit_tip {display: block;width: 24px;height: 20px;color: #000;font-weight: bold;font-size: 18px;margin-bottom: 12px;}
+.desc_tip {margin-top: 14px;line-height: 22px;}
+.txt_example {display: block;margin-top: 3px;font-size: 13px;line-height: 19px;color: #008bd3;}
+.desc_tip2 {margin-top: 8px;line-height: 22px;}
+</style>
 <script type="text/javascript">
 	// @brief 주소검색창 - 키보드 Enter키 입력
 	function enterSearch() {
@@ -330,12 +336,27 @@ var singUp = {
         $('.btn-close').trigger('click');
 	}
 
-	// @brief 주소검색창 - 닫기
-	function addressWindowClose() {
+	// @brief 주소검색창 - 열기
+	function addressWindowOpen() {
 		$("#searchAddr").val("");
-		$("#addr_list").empty();
-		/* $("#pagingList").empty(); */
+		let infoHtml = '';
+		infoHtml += '<li>';
+		infoHtml +=     '<div class="info_body">';
+		infoHtml +=         '<h2 class="tit_tip">tip</h2>';
+		infoHtml += 		'<div class="desc_tip">아래와 같은 조합으로 검색 시 더욱 정확한 결과가 검색됩니다.</div>';
+		infoHtml += 		'<div class="desc_tip">도로명 + 건물번호</div>';
+		infoHtml += 		'<span class="txt_example">예) 판교역로 235,&nbsp;&nbsp;제주 첨단로 242</span>';
+		infoHtml += 		'<div class="desc_tip2">지역명(동/리) + 번지</div>';
+		infoHtml += 		'<span class="txt_example">예) 삼평동 681,&nbsp;&nbsp;제주 영평동 2181</span>';
+		infoHtml += 		'<div class="desc_tip2">지역명(동/리) + 건물명(아파트명)</div>';
+		infoHtml += 		'<span class="txt_example">예) 분당 주공,&nbsp;&nbsp;연수동 주공3차</span>';
+		infoHtml += 		'<div class="desc_tip2">사서함명 + 번호</div>';
+		infoHtml += 		'<span class="txt_example">예) 분당우체국사서함 1~100</span>';
+		infoHtml +=     '</div>';
+		infoHtml += '</li>';
+		$("#addr_list").html(infoHtml);
 		$("#currentPage").val("1");
+		baduk.layerOpen($(this), 'popAddress');
 	}
 
 	// @brief 주소검색창 - 특수문자 제거
@@ -411,49 +432,4 @@ var singUp = {
 		getAddr();
 	}
 </script>
-<!-- <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script>
-    function execDaumPostcode() {
-        new daum.Postcode({
-            oncomplete: function(data) {
-                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                var addr = ''; // 주소 변수
-                var extraAddr = ''; // 참고항목 변수
-
-                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-                    addr = data.roadAddress;
-                } else { // 사용자가 지번 주소를 선택했을 경우(J)
-                    addr = data.jibunAddress;
-                }
-
-                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-                if(data.userSelectedType === 'R'){
-                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-                        extraAddr += data.bname;
-                    }
-                    // 건물명이 있고, 공동주택일 경우 추가한다.
-                    if(data.buildingName !== '' && data.apartment === 'Y'){
-                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                    }
-                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-                    if(extraAddr !== ''){
-                        extraAddr = ' (' + extraAddr + ')';
-                    }
-                }
-
-                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                $('#zipcode').val(data.zonecode);
-                $('#addr').val("{0}{1}".format(addr, extraAddr));
-                // 커서를 상세주소 필드로 이동한다.
-                $('#detailAddr').focus();
-            }
-        }).open();
-    }
-</script> -->
 </html>

@@ -112,4 +112,13 @@ public class AuthController {
     	return "admin/postcodifyDefault";
     }
 
+    /**
+     * daum 주소 API 호출 예제 페이지
+     * @return
+     */
+    @GetMapping("/admin/daum/default")
+    public String daumpostDefault(Model model) {
+    	return "admin/daumpostDefault";
+    }
+
 }
