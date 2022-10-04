@@ -4,6 +4,7 @@ public class Constants {
 	public static final String JSON_VIEW = "jsonView";
 	public static final String YES = "Y";
 	public static final String NO = "N";
+	public static final String EMPTY = "";
 	public static final String BOARD_GUBUN_NOTICE = "01";
 	public static final String BOARD_GUBUN_QUESTIONS = "02";
 	public static final String BOARD_GUBUN_INFO = "03";

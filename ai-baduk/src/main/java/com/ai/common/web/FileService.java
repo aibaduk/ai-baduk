@@ -35,11 +35,11 @@ public class FileService {
 	 * @param fileNm
 	 * @param fileOgNm
 	 * @param multi
-	 * @return
+	 * @return String file.getAbsolutePath() 절대경로 반환하는 함수
 	 * @throws IOException
 	 * @throws IllegalStateException
 	 */
-	public void fileUpload(String uploadPath, String fileNm, String fileOgNm, MultipartFile multi) throws IllegalStateException, IOException {
+	public String fileUpload(String uploadPath, String fileNm, String fileOgNm, MultipartFile multi) throws IllegalStateException, IOException {
 		// 1. 파일 생성
 		File file = new File(uploadPath);
 		// 2. 파일 디렉토리가 없을시 디렉토리 생성
@@ -52,6 +52,8 @@ public class FileService {
         Path savePath = Paths.get(saveName);
         // 5. MultipartFile transferTo 파일 복사
 		multi.transferTo(savePath);
+
+		return file.getAbsolutePath();
 	}
 
 	/**

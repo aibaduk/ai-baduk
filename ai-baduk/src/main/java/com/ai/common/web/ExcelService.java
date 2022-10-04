@@ -1,32 +1,27 @@
 package com.ai.common.web;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
-
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor.HSSFColorPredefined;
-import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.ai.common.vo.RestResult;
-
-import lombok.extern.slf4j.Slf4j;
 
 @Service
-@Slf4j
 public class ExcelService {
 	/**
 	 * @implNote common excel sample download.
@@ -62,66 +57,190 @@ public class ExcelService {
 	}
 
 	/**
-	 * @implNote common excel upload.
-	 * @param excelFile
-	 * @return RestResult
-	 * @throws Exception
+	 * 엑셀파일을 읽어서 Workbook 객체를 리턴한다.
+	 * XLS와 XLSX 확장자를 비교한다.
+	 * @param filePath
+	 * @return
 	 */
-	public RestResult excelUpload(MultipartFile excelFile) throws Exception {
-		RestResult rrVO = new RestResult();
+	public Workbook getWorkbook(String filePath) {
+		/*
+         * FileInputStream은 파일의 경로에 있는 파일을
+         * 읽어서 Byte로 가져온다.
+         *
+         * 파일이 존재하지 않는다면은
+         * RuntimeException이 발생된다.
+         */
+		FileInputStream fis = null;
 		try {
-			OPCPackage opcPackage = OPCPackage.open(excelFile.getInputStream()); // 파일 읽어옴
-			XSSFWorkbook workbook =  new XSSFWorkbook(opcPackage);
-
-			XSSFSheet sheet = workbook.getSheetAt(0);
-			int resultCnt = 0; // DB에 반영된 결과 수 체크용
-
-			// 입력된 행의 수만큼 반복
-			for(int i=1;i<=sheet.getLastRowNum();i++) {
-//				MemberVO memberVO = new MemberVO();
-				XSSFRow row = sheet.getRow(i); // i번째 행 가져옴
-				XSSFCell cell = null;
-
-				if(row == null) continue;
-				log.debug("====================index====================================" + i);
-				// 0번째 열
-				cell = row.getCell(0);
-				// Cell 값이 null 일 수도 있으므로 체크
-				if(cell != null) {
-					cell.setCellType(CellType.STRING); // 숫자만 입력받는 경우를 대비해 STRING 처리
-					log.debug(cell.getStringCellValue().replace(" ", ""));
-//					memverVO.setId(cell.getStringCellValue().replace(" ", "")); // 공백처리
-				}
-
-				// 열의 수만큼 반복
-				// 1번째 열
-				cell = row.getCell(1);
-				log.debug(cell.getStringCellValue().replace(" ", ""));
-//				if(cell != null) memberVO.setName(cell.getStringCellValue().replace(" ", ""));
-//	`
-//				int result = memberMapper.InsertMember(paramsMap); // DB에 반영
-
-				// 반영되었는지 체크
-//				if (result > 0) {
-//					resultCnt++;
-//				}
-//				else {
-//					throw new Exception();
-//				}
-				resultCnt++;
-			}
-
-			// 모든 Row가 반영되었는지 체크
-			if(resultCnt == sheet.getLastRowNum()) {
-				rrVO.setResultCode("SUCCESS");
-				rrVO.setResultMsg("업로드 성공했습니다.");
-//				rrVO.setQueryResult(result);
-			}
-
+			fis = new FileInputStream(filePath);
+		}catch(FileNotFoundException e) {
+			throw new RuntimeException(e.getMessage(), e);
 		}
-		catch (Exception e) {
-			throw e;
+
+		Workbook workbook = null;
+
+		/*
+         * 파일의 확장자를 체크해서 .XLS 라면 HSSFWorkbook에
+         * .XLSX라면 XSSFWorkbook에 각각 초기화 한다.
+         */
+		if(filePath.toUpperCase().endsWith(".XLS")) {
+			try {
+				workbook = new HSSFWorkbook(fis);
+			}catch (IOException  e) {
+				throw new RuntimeException(e.getMessage(), e);
+			}
+		}else if(filePath.toUpperCase().endsWith(".XLSX")) {
+			try {
+				workbook = new XSSFWorkbook(fis);
+			}catch (IOException e) {
+				throw new RuntimeException(e.getMessage(), e);
+			}
 		}
-		return rrVO;
+		return workbook;
 	}
+
+	/**
+     * Cell에 해당하는 Column Name을 가젼온다(A,B,C..)
+     * 만약 Cell이 Null이라면 int cellIndex의 값으로
+     * Column Name을 가져온다.
+     * @param cell
+     * @param cellIndex
+     * @return
+     */
+    public String getName(Cell cell, int cellIndex) {
+        int cellNum = 0;
+        if(cell != null) {
+            cellNum = cell.getColumnIndex();
+        } else {
+            cellNum = cellIndex;
+        }
+        return CellReference.convertNumToColString(cellNum);
+    }
+
+    public String getValue(Cell cell) {
+        String value = "";
+
+		if(cell == null) {
+		    value = "";
+		}else {
+			switch(cell.getCellType()) {
+				case FORMULA :
+					value = cell.getCellFormula();
+					break;
+				case NUMERIC :
+					value = (int)cell.getNumericCellValue() + "";
+					break;
+				case STRING :
+					value = cell.getStringCellValue();
+					break;
+				case BOOLEAN :
+					value = cell.getBooleanCellValue() + "";
+					break;
+				case ERROR :
+					value = cell.getErrorCellValue() + "";
+					break;
+				case BLANK :
+					value = "";
+					break;
+				default :
+					value = cell.getStringCellValue();
+			}
+		}
+		return value;
+    }
+
+    /**
+     * 엑셀파일 내용 읽어오기
+     * Service에서 이 함수 호출
+     * @param excelReadOption
+     * @return
+     */
+    public List<Map<String, String>> excelRead(String filePath, int startRow, List<String> outputColumns) {
+		//FileType.getWorkbook() <-- 파일의 확장자에 따라서 적절하게 가져온다.
+    	Workbook wb = getWorkbook(filePath);
+    	/**
+    	 * 엑셀 파일에서 첫번째 시트를 가지고 온다.
+    	 */
+    	Sheet sheet = wb.getSheetAt(0);
+    	/**
+    	 * sheet에서 유효한(데이터가 있는) 행의 개수를 가져온다.
+    	 */
+    	int numOfRows = sheet.getPhysicalNumberOfRows();
+    	int numOfCells = 0;
+
+    	Row row = null;
+    	Cell cell = null;
+
+    	String cellName = "";
+    	/**
+    	 * 각 row마다의 값을 저장할 맵 객체
+    	 * 저장되는 형식은 다음과 같다.
+    	 * put("A", "이름");
+    	 * put("B", "게임명");
+    	 */
+    	Map<String, String> map = null;
+    	/*
+    	 * 각 Row를 리스트에 담는다.
+    	 * 하나의 Row를 하나의 Map으로 표현되며
+    	 * List에는 모든 Row가 포함될 것이다.
+    	 */
+    	List<Map<String, String>> result = new ArrayList<Map<String, String>>();
+    	/**
+    	 * 각 Row만큼 반복을 한다.
+    	 */
+    	for(int rowIndex = startRow - 1; rowIndex < numOfRows; rowIndex++) {
+    		/*
+    		 * 워크북에서 가져온 시트에서 rowIndex에 해당하는 Row를 가져온다.
+    		 * 하나의 Row는 여러개의 Cell을 가진다.
+    		 */
+			row = sheet.getRow(rowIndex);
+
+			if(row != null) {
+				//가져온 Row의 Cell의 개수를 구한다.
+				//한개의 행마다 몇개의 cell이 있는지 리턴
+				//numOfCells = row.getPhysicalNumberOfCells();
+
+				//마지막 셀의 숫자 리턴
+				numOfCells = row.getLastCellNum();
+
+				/*
+				 * 데이터를 담을 맵 객체 초기화
+				 */
+				map = new HashMap<String, String>();
+				/*
+				 * cell의 수 만큼 반복한다.
+				 */
+				for(int cellIndex = 0; cellIndex < numOfCells; cellIndex++) {
+					/*
+					 * Row에서 CellIndex에 해당하는 Cell을 가져온다.
+					 */
+					cell = row.getCell(cellIndex);
+					/*
+					 * 현재 Cell의 이름을 가져온다
+					 * 이름의 예 : A,B,C,D,......
+					 */
+					cellName = getName(cell, cellIndex);
+					/*
+					 * 추출 대상 컬럼인지 확인한다
+					 * 추출 대상 컬럼이 아니라면,
+					 * for로 다시 올라간다
+					 */
+					if(!outputColumns.contains(cellName) ) {
+						continue;
+					}
+					/*
+					 * map객체의 Cell의 이름을 키(Key)로 데이터를 담는다.
+					 */
+					map.put(cellName, getValue(cell));
+				}
+				//행번호 추가
+				map.put("rowNum", String.valueOf(rowIndex+1));
+				/*
+				 * 만들어진 Map객체를 List로 넣는다.
+				 */
+				result.add(map);
+			}
+    	}
+    	return result;
+    }
 }

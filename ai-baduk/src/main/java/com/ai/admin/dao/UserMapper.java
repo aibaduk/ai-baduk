@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.ai.admin.vo.UserSearchVo;
 import com.ai.admin.vo.UserVo;
+import com.ai.mypage.vo.AnalyzeInfoVo;
 
 /**
  * @author 우동하
@@ -41,5 +42,19 @@ public interface UserMapper {
 	 * @return
 	 */
 	public int updatePassword(UserVo userVo);
+
+	/**
+	 * @implNote select analyze info.
+	 * @param analyzeInfoVo
+	 * @return AnalyzeInfoVo
+	 */
+	public List<AnalyzeInfoVo> selectAnalyzeInfoList(AnalyzeInfoVo analyzeInfoVo);
+
+	/**
+	 * @implNote save analyzeInfo.
+	 * @param analyzeInfoVo
+	 * @return
+	 */
+	public int mergeAnalyzeInfo(AnalyzeInfoVo analyzeInfoVo);
 
 }

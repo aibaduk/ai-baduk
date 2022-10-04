@@ -11,7 +11,7 @@ $(function() {
 
 	$('#btnDownExcel').click(function() {
 		let frm = $("#frmExcelDown");
-		frm.attr("action", "/mypage/analyzeInfo/sample-download");
+		frm.attr("action", "/admin/user/sample-download");
 		frm.submit();
 	});
 });

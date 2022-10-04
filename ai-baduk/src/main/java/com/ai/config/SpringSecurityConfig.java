@@ -10,6 +10,7 @@ import org.springframework.security.access.expression.SecurityExpressionHandler;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyUtils;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -25,15 +26,17 @@ import lombok.RequiredArgsConstructor;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private final AuthService authService;
 
+	/** 사용자 관리 패스워드 인코더 사용시 필요 추가 */
 	@Bean
 	PasswordEncoder getPasswordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
+	/** 권한 관련 하위 권한 추가시 필요 */
 	@Bean
 	RoleHierarchy roleHierarchy() {
 		RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
@@ -46,12 +49,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		return roleHierarchy;
 	}
-
 	@Bean
 	SecurityExpressionHandler<FilterInvocation> expressionHandler() {
 		DefaultWebSecurityExpressionHandler webSecurityExpressionHandler = new DefaultWebSecurityExpressionHandler();
 		webSecurityExpressionHandler.setRoleHierarchy(roleHierarchy());
 		return webSecurityExpressionHandler;
+	}
+
+	/** 로그인 시 hideUserNotFoundExceptions를 설정을 안하면
+	  * 무조건 BCryptPasswordEncoder로 처리됨.
+	  * false 처리 시 CustomFailureHandler에서 다양한 형태의 exception 처리 가능
+	  */
+	@Bean
+	DaoAuthenticationProvider daoAuthenticationProvider() {
+		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+		authenticationProvider.setUserDetailsService(authService);
+		authenticationProvider.setPasswordEncoder(getPasswordEncoder());
+		authenticationProvider.setHideUserNotFoundExceptions(false);
+		return authenticationProvider;
 	}
 
     /**
@@ -64,11 +79,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.authorizeRequests()
         		.antMatchers("/static/**").permitAll()
-                .antMatchers("/", "/auth/login", "/auth/logout", "/auth/fail").permitAll()
+                .antMatchers("/").permitAll()
+                .antMatchers("/auth/login").permitAll()
+                .antMatchers("/auth/logout").permitAll()
+                .antMatchers("/auth/fail").permitAll()
                 .antMatchers("/chrome-download", "/gibo-download").permitAll()
                 .antMatchers("/introduce/**").permitAll()
                 .antMatchers("/board/**").permitAll()
-        		.antMatchers("/admin/**").hasRole("ADMIN")
+        		.antMatchers("/**").hasRole("ADMIN")
         		.antMatchers("/mypage/**").hasRole("USER")
         		.anyRequest().authenticated();
         http.exceptionHandling()
@@ -90,6 +108,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(authService).passwordEncoder(new BCryptPasswordEncoder());
+//        auth.userDetailsService(authService).passwordEncoder(new BCryptPasswordEncoder());
+        auth.authenticationProvider(daoAuthenticationProvider());
     }
 }
