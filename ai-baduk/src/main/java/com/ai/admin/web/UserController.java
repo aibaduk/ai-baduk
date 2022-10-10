@@ -211,27 +211,11 @@ public class UserController {
 		return "admin/excel/excelUpload";
 	}
 
-//	@PostMapping("/excel-upload")
-//	public String analyzeInfoExcelUpload(Model model, MultipartHttpServletRequest request) {
-//		try {
-//			MultipartFile file = null;
-//			Iterator<String> iterator = request.getFileNames();
-//			// Excel 파일 가져오기
-//			if (iterator.hasNext()) {
-//				file = request.getFile(iterator.next());
-//			}
-//			analyzeInfoService.analyzeInfoExcelUpload(file);
-//	    } catch (Exception e) {
-//	    	model.addAttribute("msg", e.getMessage());
-//        }
-//		return Constants.JSON_VIEW;
-//	}
-
 	@PostMapping("/excel-upload")
-//	public String analyzeInfoExcelUpload(Model model, MultipartFile file) {
 	public String analyzeInfoExcelUpload(Model model, @RequestParam("file") MultipartFile file) {
 		try {
-			log.debug(file.getOriginalFilename());
+			userService.analyzeInfoExcelUpload(file);
+			model.addAttribute("result", true);
 		} catch (Exception e) {
 	    	model.addAttribute("msg", e.getMessage());
         }

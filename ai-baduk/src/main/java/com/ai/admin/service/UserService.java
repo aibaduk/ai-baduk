@@ -28,7 +28,6 @@ import com.ai.admin.dao.UserMapper;
 import com.ai.admin.vo.UserSearchVo;
 import com.ai.admin.vo.UserVo;
 import com.ai.common.exception.BizException;
-import com.ai.common.util.Constants;
 import com.ai.common.web.CommonService;
 import com.ai.common.web.ExcelService;
 import com.ai.common.web.FileService;
@@ -180,9 +179,10 @@ public class UserService {
 	 * @implNote analyzeInfo excel upload.
 	 * @return
 	 */
+	@Transactional
 	public void analyzeInfoExcelUpload(final MultipartFile multi) throws IllegalStateException, IOException {
 		// 1. 파일 업로드
-		String absolutePath = fileService.fileUpload(UPLOAD_DEFAULT_PATH + ANALYZE_INFO_PATH, Constants.EMPTY, multi.getOriginalFilename(), multi);
+		String absolutePath = fileService.fileUpload(UPLOAD_DEFAULT_PATH + ANALYZE_INFO_PATH, multi.getOriginalFilename(), multi);
 		// 2. 엑셀 데이터 read
 		List<String> columnList = Arrays.asList("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P",
 				"Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH");

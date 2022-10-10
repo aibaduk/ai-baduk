@@ -88,6 +88,11 @@ var code = {
 		}
 	},
 	validate: function() {
+		if (isNullOrEmpty($('#majorId').val())) {
+			alert('상위코드를 입력하세요.');
+			$('#majorId').focus();
+			return false;
+		}
 		let flag = true;
 		if ($('#code-tbody tr').length < 1) {
 			alert('추가할 공통코드를 입력하세요.');

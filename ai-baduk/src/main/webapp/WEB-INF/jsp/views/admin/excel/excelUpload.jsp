@@ -23,8 +23,8 @@ function fnUploadExcel() {
 		dataType: "json",
 		processData: false,
 		contentType: false,
-		success: function(result) {
-			if (result.resultCode == "SUCCESS") {
+		success: function(data) {
+			if (data.result) {
 				alert('업로드 성공');
 			}
 			else {

@@ -32,6 +32,33 @@ public class FileService {
 	/**
 	 * @implNote common file upload.
 	 * @param uploadPath
+	 * @param fileOgNm
+	 * @param multi
+	 * @return String file.getAbsolutePath() 절대경로 반환하는 함수
+	 * @throws IOException
+	 * @throws IllegalStateException
+	 * 스프링부트의 경우 multipartResolver를 빈으로 등록하지 않아도 되는 이유는..
+	 * 스프링부트에서 Multipart에 대한 configuration을 지원해주고 있어 따로 CommonsMultipartResolver를 설정하지 않아도 된다.
+	 */
+	public String fileUpload(String uploadPath, String fileOgNm, MultipartFile multi) throws IllegalStateException, IOException {
+		// 1. 파일 생성
+		File file = new File(uploadPath);
+		// 2. 파일 디렉토리가 없을시 디렉토리 생성
+		if(!file.exists()) {
+			file.mkdirs();
+		}
+		// 3. 실제 저장 파일명 생성
+		String saveName = uploadPath + File.separator + fileOgNm;
+		// 4. 파일명 기준으로 path 생성
+        Path savePath = Paths.get(saveName);
+        // 5. MultipartFile transferTo 파일 복사
+		multi.transferTo(savePath);
+
+		return saveName;
+	}
+	/**
+	 * @implNote common file upload.
+	 * @param uploadPath
 	 * @param fileNm
 	 * @param fileOgNm
 	 * @param multi
@@ -39,7 +66,7 @@ public class FileService {
 	 * @throws IOException
 	 * @throws IllegalStateException
 	 */
-	public String fileUpload(String uploadPath, String fileNm, String fileOgNm, MultipartFile multi) throws IllegalStateException, IOException {
+	public void fileUpload(String uploadPath, String fileNm, String fileOgNm, MultipartFile multi) throws IllegalStateException, IOException {
 		// 1. 파일 생성
 		File file = new File(uploadPath);
 		// 2. 파일 디렉토리가 없을시 디렉토리 생성
@@ -52,8 +79,6 @@ public class FileService {
         Path savePath = Paths.get(saveName);
         // 5. MultipartFile transferTo 파일 복사
 		multi.transferTo(savePath);
-
-		return file.getAbsolutePath();
 	}
 
 	/**
