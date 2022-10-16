@@ -30,11 +30,15 @@ $(function() {
 		window.location.href='/auth/logout';
 	});
 
-	$('#info_mobile_1, #info_mobile_2').click(function() {
+	$('#btn-mobile-info').click(function() {
 		let id = $(this).attr('id');
 		let text = $(this).text();
 		let msg = (id.indexOf('_1') != -1) ? text : text.replace(' 안내', '') + '을 하고싶으신가요?';
 		alert(msg + '\nAI바둑연구소로 연락바랍니다. 02-6235-0361');
+	});
+
+	$('#btn-mobile-join').click(function() {
+		window.location.href='/auth/signUp';
 	});
 });
 </script>
@@ -71,8 +75,8 @@ $(function() {
 	                            <span class="form-ele"><label for="userPW" class="blind">비밀번호</label><input type="password" id="mUserPw" name="password" placeholder="비밀번호를 입력해주세요."></span>
 	                            <button type="button" id="btn-mobile-login">로그인</button>
 	                            <div>
-	                                <a href="javascript:void(0)" id="info_mobile_1">아이디/비밀번호를 잊으셨나요?</a>
-			                        <a href="javascript:void(0)" id="info_mobile_2">회원가입 안내</a>
+	                                <a href="javascript:void(0)" id="btn-mobile-info">아이디/비밀번호를 잊으셨나요?</a>
+			                        <a href="javascript:void(0)" id="btn-mobile-join">회원가입</a>
 	                            </div>
 	                        </form>
 	                    </c:if>
@@ -119,7 +123,7 @@ $(function() {
                                 <li><a href="/admin/code/main">코드관리</a></li>
                                 <li><a href="javascript:void(0)">메뉴관리</a></li>
                                 <li><a href="/admin/user/main">사용자관리</a></li>
-                                <li><a href="/admin/signUp">회원가입</a></li>
+                                <!-- <li><a href="/admin/signUp">회원가입</a></li> -->
                             </ul>
                         </li>
                     </ul>

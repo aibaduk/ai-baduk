@@ -19,6 +19,7 @@
              , CU.USER_SEX
              , F_GET_CODE_NAME('CU001', CU.USER_SEX) AS USER_SEX_NM
              , CU.USER_AUTH
+             , F_GET_CODE_NAME('CU004', CU.USER_AUTH) AS USER_AUTH_NM
              , CU.USER_PW
              , CU.USER_GRADE
              , F_GET_CODE_NAME('CU002', CU.USER_GRADE) AS USER_GRADE_NM

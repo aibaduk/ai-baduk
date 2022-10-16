@@ -23,8 +23,11 @@ public class UserVo extends BaseVo {
     /** 성별(CU001) */
     private String userSexNm;
 
-    /** 권한 */
+    /** 권한(CU004) */
     private String userAuth;
+
+    /** 권한(CU004) */
+    private String userAuthNm;
 
     /** 비밀번호 */
     private String userPw;

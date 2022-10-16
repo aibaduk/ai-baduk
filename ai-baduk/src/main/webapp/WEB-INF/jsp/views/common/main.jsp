@@ -38,11 +38,15 @@ $(function() {
 		window.location.href='/mypage/user/detail';
 	});
 
-	$('#info_1, #info_2').click(function() {
+	$('#btn-info').click(function() {
 		let id = $(this).attr('id');
 		let text = $(this).text();
 		let msg = (id.indexOf('_1') != -1) ? text : text.replace(' 안내', '') + '을 하고싶으신가요?';
 		alert(msg + '\nAI바둑연구소로 연락바랍니다. 02-6235-0361');
+	});
+
+	$('#btn-join').click(function() {
+		window.location.href='/auth/signUp';
 	});
 
 	if ('${error}') {
@@ -64,8 +68,8 @@ $(function() {
 		                    <span class="form-ele"><label for="userPw" class="ir-blind">비밀번호</label><input type="password" id="userPw" name="password" placeholder="비밀번호를 입력해주세요."></span>
 		                    <button id="btn-login">로그인</button>
 		                    <div>
-		                        <a href="javascript:void(0)" id="info_1">아이디/비밀번호를 잊으셨나요?</a>
-		                        <a href="javascript:void(0)" id="info_2">회원가입 안내</a>
+		                        <a href="javascript:void(0)" id="btn-info">아이디/비밀번호를 잊으셨나요?</a>
+		                        <a href="javascript:void(0)" id="btn-join">회원가입</a>
 		                    </div>
 		                </form>
                     </c:if>

@@ -92,8 +92,55 @@ public class AuthController {
      * @throws BizException
      * @throws Exception
      */
-    @PostMapping("/signUp")
+    @PostMapping("/admin/signUp/join")
     public String signUp(Model model, UserVo userVo) {
+    	try {
+    		authService.adminJoinUser(userVo);
+			model.addAttribute("result", true);
+		} catch (Exception e) {
+			model.addAttribute("msg", e.getMessage());
+		}
+    	return Constants.JSON_VIEW;
+    }
+
+    /**
+     * 회원가입 폼
+     * @return
+     */
+    @GetMapping("/auth/signUp")
+    public String authSignUpForm(Model model) {
+    	model.addAttribute("codeCU001", codeService.selectCode("CU001"));
+    	model.addAttribute("codeCU003", codeService.selectCode("CU003"));
+    	return "common/signUp";
+    }
+
+    /**
+     * 회원가입 진행
+     * @param userVo
+     * @return
+     * @throws BizException
+     * @throws Exception
+     */
+    @PostMapping("/auth/signUp/duplicate")
+    public String authSignUpDuplicate(Model model, @RequestParam("userId") String userId) {
+    	try {
+    		model.addAttribute("flag", authService.selectExistsUser(userId));
+			model.addAttribute("result", true);
+		} catch (Exception e) {
+			model.addAttribute("msg", e.getMessage());
+		}
+    	return Constants.JSON_VIEW;
+    }
+
+    /**
+     * 회원가입 진행
+     * @param userVo
+     * @return
+     * @throws BizException
+     * @throws Exception
+     */
+    @PostMapping("/auth/signUp/join")
+    public String authSignUp(Model model, UserVo userVo) {
     	try {
     		authService.joinUser(userVo);
 			model.addAttribute("result", true);

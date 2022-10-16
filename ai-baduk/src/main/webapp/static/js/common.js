@@ -42,6 +42,19 @@ var ai = {
 			}
 		});
 		return isPass;
+	},
+	showSuccessMsg: function(oMsg, msg) {
+		oMsg.show();
+		oMsg.text(msg);
+		oMsg.css("color", "#08a600");
+	},
+	showErrorMsg: function(oMsg, msg) {
+		oMsg.show();
+		oMsg.text(msg);
+		oMsg.css("color", "red");
+	},
+	setFocusToInputObject(oInput) {
+		oInput.focus();
 	}
 }
 /**

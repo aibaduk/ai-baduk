@@ -24,14 +24,26 @@ public class AuthService implements UserDetailsService{
 	@Autowired
     private final AuthMapper authMapper;
 
-    @Transactional
-    public void joinUser(UserVo userVo) {
-    	if("Y".equals(authMapper.selectExistsUser(userVo.getUserId()))) {
+	@Transactional
+    public void adminJoinUser(UserVo userVo) {
+    	if (selectExistsUser(userVo.getUserId())) {
     		throw new BizException("동일한 ID로 가입된 회원이 존재합니다.");
     	}
     	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         userVo.setUserPw(passwordEncoder.encode(userVo.getPassword()));
         userVo.setSsLoginId("ADMIN");
+        authMapper.saveUser(userVo);
+    }
+
+    @Transactional
+    public void joinUser(UserVo userVo) {
+    	if (selectExistsUser(userVo.getUserId())) {
+    		throw new BizException("동일한 ID로 가입된 회원이 존재합니다.");
+    	}
+    	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        userVo.setUserPw(passwordEncoder.encode(userVo.getPassword()));
+        userVo.setUserAuth("ROLE_USER");
+        userVo.setSsLoginId("anonymous");
         authMapper.saveUser(userVo);
     }
 
@@ -44,5 +56,9 @@ public class AuthService implements UserDetailsService{
         }
         userVo.setAuthorities(Arrays.asList(new SimpleGrantedAuthority(userVo.getUserAuth())));
         return userVo;
+    }
+
+    public boolean selectExistsUser(String userId) {
+    	return ("Y".equals(authMapper.selectExistsUser(userId)));
     }
 }

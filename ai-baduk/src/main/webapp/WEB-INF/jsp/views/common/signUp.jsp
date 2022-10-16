@@ -85,12 +85,12 @@ var singUp = {
 		singUp.setData();
 		$.ajax({
 			type: 'post',
-			url: '/admin/signUp/join',
+			url: '/auth/signUp/join',
 			data: $('#form').serialize(),
 			success: function (data) {
 				if (data.result) {
-					alert('회원가입이 되었습니다.');
-					window.location.href='/admin/user/main';
+					alert('회원가입이 되었습니다.\n로그인 페이지로 이동합니다.');
+					window.location.href='/';
 				} else {
 					alert(data.msg);
 				}
@@ -134,7 +134,7 @@ var singUp = {
 </script>
 <body>
 	<div class="wrapper">
-		<form id="form" method="post" action="/admin/signUp/join">
+		<form id="form" method="post" action="/auth/signUp">
 	        <div class="container join">
 	            <section>
 	                <div class="inner">
@@ -163,30 +163,8 @@ var singUp = {
 	                            </div>
 	                        </li>
 	                        <li>
-	                            <label for="" class="fm-label">권한 <span class="essential">*</span></label>
-	                            <div class="fm-group">
-	                            	<c:forEach items="${codeCU004 }" var="item" varStatus="status">
-										<div class="fm-check fm-inline" <c:if test="${status.index % 2 == 0}">style="margin-left:0; min-width:91px;"</c:if>>
-		                                    <input class="fm-check-input" type="radio" name="userAuth" id="userAuth${item.codeId }" required value="${item.codeId }" <c:if test="${status.index== 0}">checked="checked"</c:if>>
-		                                    <label class="fm-check-label" for="userAuth${item.codeId }">${item.codeNm }</label>
-		                                </div>
-                                   	</c:forEach>
-	                            </div>
-	                        </li>
-	                        <li>
 	                            <label for="" class="fm-label">비밀번호 <span class="essential">*</span></label>
 	                            <div class="fm-group"><input type="password" id="userPw" name="userPw" title="비밀번호" required></div>
-	                        </li>
-	                        <li>
-	                            <label for="" class="fm-label">고객등급</label>
-	                            <div class="fm-group">
-                                   	<c:forEach items="${codeCU002 }" var="item" varStatus="status">
-										<div class="fm-check fm-inline" <c:if test="${status.index % 2 == 0}">style="margin-left:0"</c:if>>
-		                                    <input class="fm-check-input" type="radio" name="userGrade" id="userGrade${item.codeId }" value="${item.codeId }">
-		                                    <label class="fm-check-label" for="userGrade${item.codeId }">${item.codeNm }</label>
-		                                </div>
-                                   	</c:forEach>
-	                            </div>
 	                        </li>
 	                        <li>
 	                            <label for="" class="fm-label">연락가능번호 <span class="essential">*</span></label>
