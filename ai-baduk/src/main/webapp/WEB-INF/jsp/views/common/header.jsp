@@ -34,7 +34,7 @@ $(function() {
 		let id = $(this).attr('id');
 		let text = $(this).text();
 		let msg = (id.indexOf('_1') != -1) ? text : text.replace(' 안내', '') + '을 하고싶으신가요?';
-		alert(msg + '\nAI바둑연구소로 연락바랍니다. 02-3290-3190');
+		alert(msg + '\nAI바둑연구소로 연락바랍니다. 02-6235-0361');
 	});
 });
 </script>
