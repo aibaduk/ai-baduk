@@ -117,9 +117,10 @@ public class UserService {
 		if(userVo.getOldPW().equals(userVo.getNewPW())) {
 			throw new BizException("기존 비밀번호와 신규 비밀번호가 일치합니다.\n다른 비밀번호를 입력하세요.");
 		}
-		if(!passwordEncoder.matches(userVo.getOldPW(), persistUser.getUserPw())) {
-			throw new BizException("기존 비밀번호가 일치하지 않습니다.");
-		}
+		// [20221016] 관리자는 기존 비밀번호 관계없이 패스워드 변경 가능하도록 수정
+//		if(!passwordEncoder.matches(userVo.getOldPW(), persistUser.getUserPw())) {
+//			throw new BizException("기존 비밀번호가 일치하지 않습니다.");
+//		}
 		CommonService.setSessionData(userVo);
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         userVo.setUserPw(passwordEncoder.encode(userVo.getNewPW()));

@@ -254,10 +254,9 @@
 	        </div>
 	        <div class="contents">
 				<form id="password-form" name="password-form">
-	                <input type="hidden" id="userId2" name="userId" value="${userDetailInfo.userId }"/>
+	                <%-- <input type="hidden" id="userId2" name="userId" value="${userDetailInfo.userId }"/>
 	                <span class="form-ele"><label for="oldPW">기존 비밀번호</label><input type="password" id="oldPW" name="oldPW" title="기존 비밀번호" required></span>
-	                <!-- <p>* 새 비밀번호는 영문,숫자를 이용해서 8자~16자 이내로 생성해주세요.</p> -->
-	                <p>* 비밀번호 규칙에 제한이 없습니다.</p>
+	                <p>* 비밀번호 규칙에 제한이 없습니다.</p> --%>
 	                <span class="form-ele"><label for="newPW">새 비밀번호</label><input type="password" id="newPW" name="newPW" title="새 비밀번호" required></span>
 	                <span class="form-ele"><label for="newPWcheck">새 비밀번호 확인</label><input type="password" id="newPWcheck" title="새 비밀번호 확인" name="newPWcheck" required></span>
 	                <div>
