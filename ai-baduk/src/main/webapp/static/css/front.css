@@ -36,17 +36,7 @@ table td:last-child{border-right:0;}
 .form-ele input[type="text"],
 .form-ele input[type="password"]{padding:0;height:10vw; font-size:2.6667vw;line-height:10vw;text-indent:1.3334vw; border:solid 1px #ddd;}
 
-/* paginate - number */
-/* .pagination{display:none;} */
-.pagination{margin:0 auto;width:469px; display:block;}
-.pagination:after{content:'';display:block;clear:both;}
-.pagination span {margin-left:-1px;width:40px;height:40px; float:left;}
-.pagination span a {width:100%;height:100%; font-size:16px;line-height:40px;color:#222;text-align:center; border:1px solid #ddd; display:block;}
-.pagination span a:hover,
-.pagination span.active a{line-height:38px;font-weight:700; border:solid 2px #222; position:relative;}
-.pagination span.navi a {overflow:hidden; text-indent:-9999px;}
-.pagination span.prev a{background:url('../images/page_prev.png') no-repeat center;}
-.pagination span.next a{background:url('../images/page_next.png') no-repeat center;}
+.pagination{display:none;}
 
 /* layout */
 .wrapper{position:relative}

@@ -49,7 +49,7 @@
 				   AND BB.BOARD_CTT LIKE CONCAT('%', #{searchValue}, '%')
 			   </if>
 		   </if>
-		 ORDER BY IF(BB.IMPO_YN = 'Y', 1, 2), FST_CRE_DTM DESC
+		 ORDER BY IF(BB.IMPO_YN = 'Y', 1, 2), BOARD_ID DESC
 	</select>
 
 	<resultMap id="boardMap" type="com.ai.board.vo.BoardVo">
@@ -251,7 +251,7 @@
 		 WHERE 1 = 1
 		   AND BB.DEL_YN = 'N'
 		   AND BB.BOARD_GUBUN = #{boardGubun}
-		 ORDER BY IF(BB.IMPO_YN = 'Y', 1, 2), FST_CRE_DTM DESC
+		 ORDER BY IF(BB.IMPO_YN = 'Y', 1, 2), BOARD_ID DESC
 		 LIMIT 0, #{size}
 	</select>
 

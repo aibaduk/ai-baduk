@@ -23,6 +23,7 @@
 			<input type="hidden" name="pageNo" value="1">
 			<input type="hidden" name="pageSize" value="10">
 			<input type="hidden" name="searchBoardGubun" value="01">
+			<input type="hidden" name="chnlGubun" value="PC">
 			<section class="container">
 		        <div class="keyvi"></div>
 		        <section class="content brd">
@@ -70,7 +71,7 @@
 		                                <tbody id="notice-tbody"></tbody>
 		                            </table>
 		                            <div class="btn-wrap">
-                                    	<!-- <button type="button" class="btn-more">더보기</button> -->
+                                    	<button type="button" class="btn-more" id="btn-add">더보기</button>
 		                            	<div class="pagination"></div>
 			                            <div class="btn-right">
 		                                    <a href="javascript:void(0)" id="btn-insert" class="btns point btn-role-s">등록</a>

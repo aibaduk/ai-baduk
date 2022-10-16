@@ -35,7 +35,7 @@ $(function() {
 	});
 
 	$('#btn-mypage').click(function() {
-		window.location.href='/admin/user/detail?userId='+$(this).data('id');
+		window.location.href='/mypage/user/detail';
 	});
 
 	$('#info_1, #info_2').click(function() {

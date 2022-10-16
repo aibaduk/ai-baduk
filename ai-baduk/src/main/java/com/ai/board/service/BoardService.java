@@ -64,7 +64,7 @@ public class BoardService {
 		PageHelper.startPage(boardSearchVo.getPageNo(), boardSearchVo.getPageSize());
 
 		PageInfo<BoardVo> boardList = new PageInfo<BoardVo>(boardMapper.selectBoardList(boardSearchVo), boardSearchVo.getNavigatePages());
-		int index = boardSearchVo.getPageNo() * boardSearchVo.getPageSize() - 10 + 1;
+		int index = "PC".equals(boardSearchVo.getChnlGubun()) ? boardSearchVo.getPageNo() * boardSearchVo.getPageSize() - 10 + 1 : 1;
 		IntStream.range(0, boardList.getList().size())
 		         .forEach(i -> {
 		        	 boardList.getList().get(i).setRowId(String.valueOf(index + i));
