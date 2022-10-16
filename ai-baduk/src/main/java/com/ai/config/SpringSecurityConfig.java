@@ -42,7 +42,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
 
 		Map<String, List<String>> roleHierarchyMap = new HashMap<>();
-		roleHierarchyMap.put("ROLE_ADMIN", Arrays.asList("ROLE_USER"));
+		roleHierarchyMap.put("ROLE_ADMIN", Arrays.asList("ROLE_MEMBER", "ROLE_USER"));
+		roleHierarchyMap.put("ROLE_MEMBER", Arrays.asList("ROLE_USER"));
 
 		String roles = RoleHierarchyUtils.roleHierarchyFromMap(roleHierarchyMap);
 		roleHierarchy.setHierarchy(roles);
@@ -87,7 +88,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/introduce/**").permitAll()
                 .antMatchers("/board/**").permitAll()
         		.antMatchers("/admin/**").hasRole("ADMIN")
-        		.antMatchers("/mypage/**").hasRole("USER")
+        		.antMatchers("/mypage/analyzeInfo/**").hasRole("MEMBER")
+        		.antMatchers("/mypage/user/**").hasRole("USER")
         		.anyRequest().authenticated();
         http.exceptionHandling()
         		.accessDeniedHandler(new CustomAccessDeniedHandler());
