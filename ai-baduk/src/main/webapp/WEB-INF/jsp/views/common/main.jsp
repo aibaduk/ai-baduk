@@ -90,7 +90,7 @@ $(function() {
                 <div class="inner">
                     <div>
 	                    <h3>자주묻는질문</h3>
-	                    <ul>
+	                    <ul class="main-board">
 	                        <c:if test="${empty questionList}">
 	                        	<li>
 	                        		<p>
@@ -100,8 +100,8 @@ $(function() {
 	                        </c:if>
 	                        <c:if test="${not empty questionList}">
 		                        <c:forEach items="${questionList }" var="question">
-	                            	<li>
-	                            		<p>
+	                            	<li <c:if test="${question.impoYn eq 'Y' }">class="hot"</c:if>>
+	                            		<p class="subject">
 	                            			<span><a href="/board/question/detail?boardGubun=02&boardId=${question.boardId }">${question.boardTit }</a></span>
 		                            		<c:if test="${question.newYn eq 'Y' }"><span><em>new</em></span></c:if>
 		                            	</p>
@@ -113,7 +113,7 @@ $(function() {
 	                </div>
                     <div>
 	                    <h3>공지사항</h3>
-	                    <ul>
+	                    <ul class="main-board">
 	                    	<c:if test="${empty noticeList}">
 	                        	<li>
 	                        		<p>
@@ -123,8 +123,8 @@ $(function() {
 	                        </c:if>
 	                        <c:if test="${not empty noticeList}">
 		                        <c:forEach items="${noticeList }" var="notice">
-	                            	<li>
-	                            		<p>
+	                            	<li <c:if test="${notice.impoYn eq 'Y' }">class="hot"</c:if>>
+	                            		<p class="subject">
 	                            			<span><a href="/board/notice/detail?boardGubun=01&boardId=${notice.boardId }">${notice.boardTit }</a></span>
 		                            		<c:if test="${notice.newYn eq 'Y' }"><span><em>new</em></span></c:if>
 		                            	</p>
@@ -136,7 +136,7 @@ $(function() {
 	                </div>
                     <div>
 	                    <h3>바둑AI소식</h3>
-	                    <ul>
+	                    <ul class="main-board">
 	                    	<c:if test="${empty infoList}">
 	                        	<li>
 	                        		<p>
@@ -146,8 +146,8 @@ $(function() {
 	                        </c:if>
 	                        <c:if test="${not empty infoList}">
 		                        <c:forEach items="${infoList }" var="info">
-	                            	<li>
-	                            		<p>
+	                            	<li <c:if test="${info.impoYn eq 'Y' }">class="hot"</c:if>>
+	                            		<p class="subject">
 	                            			<span><a href="/board/info/detail?boardGubun=03&boardId=${info.boardId }">${info.boardTit }</a></span>
 		                            		<c:if test="${info.newYn eq 'Y' }"><span><em>new</em></span></c:if>
 		                            	</p>
