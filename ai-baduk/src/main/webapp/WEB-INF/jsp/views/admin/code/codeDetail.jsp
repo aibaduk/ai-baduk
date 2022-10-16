@@ -93,26 +93,11 @@ var code = {
 			$('#majorId').focus();
 			return false;
 		}
-		let flag = true;
 		if ($('#code-tbody tr').length < 1) {
 			alert('추가할 공통코드를 입력하세요.');
-			flag = false;
+			return false;
 		}
-		$('#code-tbody tr').each(function(i, item) {
-			if (isNullOrEmpty($(item).find(':input[name=codeId]').val())) {
-				alert('하위코드ID를 입력하세요.');
-				$(item).find(':input[name=codeId]').focus();
-				flag = false;
-				return false;
-			}
-			if (isNullOrEmpty($(item).find(':input[name=sortSeq]').val())) {
-				alert('정렬순번을 입력하세요.');
-				$(item).find(':input[name=sortSeq]').focus();
-				flag = false;
-				return false;
-			}
-		});
-		return flag;
+		return true;
 	},
 	setData: function() {
 		let data = {};
@@ -120,14 +105,16 @@ var code = {
 		data.majorNm = $('#majorNm').val();
 		let codeList = new Array();
 		$('#code-tbody tr').each(function(i, item) {
-			let code = new Object();
-			code.codeId = $(item).find(':input[name=codeId]').val();
-			code.codeNm = $(item).find(':input[name=codeNm]').val();
-			code.ref1 = $(item).find(':input[name=ref1]').val();
-			code.ref2 = $(item).find(':input[name=ref2]').val();
-			code.ref3 = $(item).find(':input[name=ref3]').val();
-			code.sortSeq = $(item).find(':input[name=sortSeq]').val();
-			codeList.push(code);
+			if (!isNullOrEmpty($(item).find(':input[name=codeId]').val())) {
+				let code = new Object();
+				code.codeId = $(item).find(':input[name=codeId]').val();
+				code.codeNm = $(item).find(':input[name=codeNm]').val();
+				code.ref1 = $(item).find(':input[name=ref1]').val();
+				code.ref2 = $(item).find(':input[name=ref2]').val();
+				code.ref3 = $(item).find(':input[name=ref3]').val();
+				code.sortSeq = $(item).find(':input[name=sortSeq]').val();
+				codeList.push(code);
+			}
 		});
 		data.codeList = codeList;
 		return data;
