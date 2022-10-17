@@ -76,50 +76,26 @@
 	                            <div class="tab-inner">
 	                                <h2>회원정보수정</h2>
 	                                <ul>
-	                                    <li><strong>아이디</strong>${userDetailInfo.userId }<input type="hidden" id="userId" name="userId" value="${userDetailInfo.userId }"/></li>
-	                                    <%-- <li>
-	                                    	<strong>권한</strong>
-	                                    	<div class="fm-group">
-			                                   	<c:forEach items="${codeCU004 }" var="item" varStatus="status">
-													<div class="fm-check fm-inline">
-					                                    <input class="fm-check-input" type="radio" name="userAuth" id="userAuth${item.codeId }" value="${item.codeId }"
-					                                    	<c:if test="${item.codeId eq userDetailInfo.userAuth}">checked</c:if>
-					                                    >
-					                                    <label class="fm-check-label" for="userAuth${item.codeId }">${item.codeNm }</label>
-					                                </div>
-			                                   	</c:forEach>
-				                            </div>
-				                        </li> --%>
-	                                    <li><strong>비밀번호 수정</strong><button type="button" onclick="baduk.layerOpen($(this), 'popPW')">비밀번호 변경</button></li>
+	                                    <li>
+	                                    	<strong>아이디</strong>${userDetailInfo.userId }
+	                                    	<input type="hidden" id="userId" name="userId" value="${userDetailInfo.userId }"/>
+	                                    </li>
+	                                    <li>
+	                                    	<strong>비밀번호 수정</strong><button type="button" onclick="baduk.layerOpen($(this), 'popPW')">비밀번호 변경</button>
+	                                    </li>
 	                                    <li>
 	                                    	<strong>이름</strong>
 	                                    	<div class="fm-group"><input type="text" id="userNm" name="userNm" title="이름" value="${userDetailInfo.userNm }" required></div>
 	                                    </li>
 	                                    <li>
+	                                    	<strong>닉네임</strong>
+	                                    	<div class="fm-group"><input type="text" id="userNickNm" name="userNickNm" title="닉네임" value="${userDetailInfo.userNickNm }" required></div>
+	                                    </li>
+	                                    <li>
 	                                    	<strong>성별</strong>${userDetailInfo.userSexNm }
-	                                    	<%-- <div class="fm-group">
-			                                   	<c:forEach items="${codeCU001 }" var="item" varStatus="status">
-													<div class="fm-check fm-inline">
-					                                    <input class="fm-check-input" type="radio" id="userSex${item.codeId }" value="${item.codeId }"
-					                                    	<c:if test="${item.codeId eq userDetailInfo.userSex}">checked</c:if> disabled="disabled"
-					                                    >
-					                                    <label class="fm-check-label" for="userSex${item.codeId }">${item.codeNm }</label>
-					                                </div>
-			                                   	</c:forEach>
-				                            </div> --%>
 		                                </li>
 	                                    <li>
 	                                    	<strong>고객등급</strong>${userDetailInfo.userGradeNm }
-	                                    	<%-- <div class="fm-group" style="width: 500px;">
-			                                   	<c:forEach items="${codeCU002 }" var="item" varStatus="status">
-													<div class="fm-check fm-inline <c:if test="${status.index ne 0 and status.index % 2 == 0}">custem-fm-radio</c:if>">
-					                                    <input class="fm-check-input" type="radio" name="userGrade" id="userGrade${item.codeId }" value="${item.codeId }"
-					                                    	<c:if test="${item.codeId eq userDetailInfo.userGrade}">checked</c:if>
-					                                    >
-					                                    <label class="fm-check-label" for="userGrade${item.codeId }">${item.codeNm }</label>
-					                                </div>
-			                                   	</c:forEach>
-				                            </div> --%>
 	                                    </li>
 	                                    <li>
 	                                    	<strong>연락가능번호</strong>
@@ -150,16 +126,8 @@
 	                                    </li>
 	                                    <li>
 	                                    	<strong>기력</strong>${userDetailInfo.levelNm }
-								            <%-- <div class="fm-group">
-		                                    	<select id="level" name="level">
-										            <c:forEach items="${codeCU003 }" var="item">
-														<option value="${item.codeId }" <c:if test="${userDetailInfo.level eq item.codeId }">selected</c:if>>${item.codeNm }</option>
-				                                   	</c:forEach>
-									            </select>
-	                                        </div> --%>
 	                                    </li>
 	                                </ul>
-	                                <p>※ 개인정보 수정은 전화(000-0000)나 1:1 문의를 이용해주시기 바랍니다.</p>
 	                            </div>
 	                            <div class="btn-wrap">
                                     <a href="javascript:void(0)" id="btn-update" class="btns point">수정</a>

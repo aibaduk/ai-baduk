@@ -152,6 +152,10 @@ var singUp = {
 	                            <div class="fm-group"><input type="text" id="userNm" name="userNm" title="이름" required></div>
 	                        </li>
 	                        <li>
+	                            <label for="" class="fm-label">닉네임 <span class="essential">*</span></label>
+	                            <div class="fm-group"><input type="text" id="userNickNm" name="userNickNm" title="닉네임" required></div>
+	                        </li>
+	                        <li>
 	                            <label for="" class="fm-label">성별 <span class="essential">*</span></label>
 	                            <div class="fm-group">
 	                                <c:forEach items="${codeCU001 }" var="item" varStatus="status">

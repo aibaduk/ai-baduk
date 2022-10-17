@@ -12,6 +12,7 @@
              , AUDIT_ID
              , AUDIT_DTM
              , USER_NM
+             , USER_NICK_NM
              , USER_SEX
              , USER_AUTH
              , USER_PW
@@ -28,6 +29,7 @@
              , USER_ID AS SS_LOGIN_ID
           FROM CU_USER
          WHERE USER_ID = #{userId}
+           AND DEL_YN = 'N'
     </select>
 
     <!-- 회원가입 존재여부 체크 -->
@@ -46,9 +48,11 @@
             , AUDIT_ID
             , AUDIT_DTM
             , USER_NM
+            , USER_NICK_NM
             , USER_SEX
             , USER_AUTH
             , USER_PW
+            , DEL_YN
             , USER_GRADE
             , PHONE_NUM1
             , PHONE_NUM2
@@ -67,9 +71,11 @@
         	, #{ssLoginId}
         	, NOW()
         	, #{userNm}
+        	, #{userNickNm}
         	, #{userSex}
         	, #{userAuth}
         	, #{userPw}
+        	, 'N'
         	, #{userGrade}
         	, #{phoneNum1}
         	, #{phoneNum2}

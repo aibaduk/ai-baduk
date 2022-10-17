@@ -54,7 +54,7 @@ function goPage(pageNo) {
 		                        <li class="on"><a href="/admin/code/main">공통코드</a></li>
 		                        <li><a href="javascript:void(0)">메뉴관리</a></li>
 		                        <li><a href="/admin/user/main">사용자관리</a></li>
-		                        <li><a href="/admin/signUp">회원가입</a></li>
+		                        <li><a href="/admin/withdrawal/main">탈퇴회원관리</a></li>
 		                    </ul>
 		                    <div class="inner-depth">
 		                        <div class="tab-inner">

@@ -16,6 +16,10 @@
 			window.location.href="/admin/user/main";
 		});
 
+		$('#btn-delete').click(function() {
+			user.withdrawal();
+		});
+
 		$('#btn-update-password').click(function() {
 			user.changePasswoad();
 		});
@@ -106,6 +110,23 @@
 					}
 				});
 			}
+		},
+		withdrawal: function() {
+			if (confirm('회원을 탈퇴시키겠습니까?')) {
+				$.ajax({
+					type: 'post',
+					url: '/admin/user/withdrawal',
+					data: {userId: $('#userId').val()},
+					success: function (data) {
+						if (data.result) {
+							alert('회원탈퇴가 처리되었습니다.');
+							window.location.href='/admin/withdrawal/main';
+						} else {
+							alert(data.msg);
+						}
+					}
+				});
+			}
 		}
 	}
 </script>
@@ -122,7 +143,7 @@
 		                        <li><a href="/admin/code/main">공통코드</a></li>
 		                        <li><a href="javascript:void(0)">메뉴관리</a></li>
 		                        <li class="on"><a href="/admin/user/main">사용자관리</a></li>
-		                        <li><a href="/admin/signUp">회원가입</a></li>
+		                        <li><a href="/admin/withdrawal/main">탈퇴회원관리</a></li>
 		                    </ul>
 	                        <div class="inner-depth">
 	                            <div class="tab-inner">
@@ -148,17 +169,11 @@
 	                                    	<div class="fm-group"><input type="text" id="userNm" name="userNm" title="이름" value="${userDetailInfo.userNm }" required></div>
 	                                    </li>
 	                                    <li>
-	                                    	<strong>성별</strong>
-	                                    	<div class="fm-group">
-			                                   	<c:forEach items="${codeCU001 }" var="item" varStatus="status">
-													<div class="fm-check fm-inline">
-					                                    <input class="fm-check-input" type="radio" id="userSex${item.codeId }" value="${item.codeId }"
-					                                    	<c:if test="${item.codeId eq userDetailInfo.userSex}">checked</c:if> disabled="disabled"
-					                                    >
-					                                    <label class="fm-check-label" for="userSex${item.codeId }">${item.codeNm }</label>
-					                                </div>
-			                                   	</c:forEach>
-				                            </div>
+	                                    	<strong>닉네임</strong>
+	                                    	<div class="fm-group"><input type="text" id="userNickNm" name="userNickNm" title="닉네임" value="${userDetailInfo.userNickNm }" required></div>
+	                                    </li>
+	                                    <li>
+	                                    	<strong>성별</strong>${userDetailInfo.userSexNm }
 		                                </li>
 	                                    <li>
 	                                    	<strong>고객등급</strong>
@@ -230,9 +245,9 @@
 	                                        </div>
 	                                    </li>
 	                                </ul>
-	                                <p>※ 개인정보 수정은 전화(000-0000)나 1:1 문의를 이용해주시기 바랍니다.</p>
 	                            </div>
 	                            <div class="btn-wrap">
+	                                <a href="javascript:void(0)" id="btn-delete" class="btns gray">탈퇴</a>
                                     <a href="javascript:void(0)" id="btn-update" class="btns point">수정</a>
                                     <a href="javascript:void(0)" id="btn-cancle" class="btns normal">목록</a>
 	                            </div>
@@ -255,8 +270,6 @@
 	        <div class="contents">
 				<form id="password-form" name="password-form">
 	                <input type="hidden" id="userId2" name="userId" value="${userDetailInfo.userId }"/>
-	                <%-- <span class="form-ele"><label for="oldPW">기존 비밀번호</label><input type="password" id="oldPW" name="oldPW" title="기존 비밀번호" required></span>
-	                <p>* 비밀번호 규칙에 제한이 없습니다.</p> --%>
 	                <span class="form-ele"><label for="newPW">새 비밀번호</label><input type="password" id="newPW" name="newPW" title="새 비밀번호" required></span>
 	                <span class="form-ele"><label for="newPWcheck">새 비밀번호 확인</label><input type="password" id="newPWcheck" title="새 비밀번호 확인" name="newPWcheck" required></span>
 	                <div>

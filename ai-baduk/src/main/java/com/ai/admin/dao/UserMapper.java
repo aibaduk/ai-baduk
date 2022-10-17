@@ -44,6 +44,13 @@ public interface UserMapper {
 	public int updatePassword(UserVo userVo);
 
 	/**
+	 * @implNote delete user.
+	 * @param userId
+	 * @return
+	 */
+	public int withdrawal(String userId);
+
+	/**
 	 * @implNote select analyze info.
 	 * @param analyzeInfoVo
 	 * @return AnalyzeInfoVo

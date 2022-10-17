@@ -14,6 +14,7 @@ import lombok.Data;
 public class UserVo implements UserDetails {
     private String userId;
     private String userNm;
+    private String userNickNm;
     private String userSex;
     private String userAuth;
     private String userPw;

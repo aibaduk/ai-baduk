@@ -14,6 +14,7 @@
 			 , IFNULL((SELECT USER_NM FROM CU_USER WHERE USER_ID = CU.AUDIT_ID), CU.AUDIT_ID) AS AUDIT_NM
 		     , DATE_FORMAT(CU.AUDIT_DTM, '%Y-%m-%d %h:%i') AS AUDIT_DTM
 			 , CU.USER_NM
+			 , CU.USER_NICK_NM
              , CU.USER_SEX
              , F_GET_CODE_NAME('CU001', CU.USER_SEX) AS USER_SEX_NM
              , CU.USER_PW
@@ -32,12 +33,14 @@
 		  FROM CU_USER CU
 		 WHERE 1 = 1
 		   AND CU.USER_ID = #{userId}
+		   AND CU.DEL_YN = 'N'
 	</select>
 
 	<!-- 사용자관리 수정 -->
 	<update id="updateUser" parameterType="com.ai.mypage.vo.MyUserVo">
 		UPDATE CU_USER
 		   SET USER_NM = #{userNm}
+		     , USER_NICK_NM = #{userNickNm}
 			 , PHONE_NUM1 = #{phoneNum1}
 			 , PHONE_NUM2 = #{phoneNum2}
 			 , PHONE_NUM3 = #{phoneNum3}
@@ -49,6 +52,7 @@
 			 , AUDIT_DTM = NOW()
 		 WHERE 1 = 1
 		   AND USER_ID = #{userId}
+		   AND DEL_YN = 'N'
 	</update>
 
 	<!-- 사용자관리 비밀번호 수정 -->
@@ -59,6 +63,7 @@
 			 , AUDIT_DTM = NOW()
 		 WHERE 1 = 1
 		   AND USER_ID = #{userId}
+		   AND DEL_YN = 'N'
 	</update>
 
 </mapper>

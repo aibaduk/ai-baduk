@@ -128,6 +128,16 @@ public class UserService {
 	}
 
 	/**
+	 * @implNote delete user.
+	 * @param userId
+	 * @return
+	 */
+	@Transactional
+	public void withdrawal(String userId) {
+		userMapper.withdrawal(userId);
+	}
+
+	/**
 	 * @implNote analyzeInfo excel download.
 	 * @param sheetName
 	 * @param titleList

@@ -17,6 +17,9 @@ public class MyUserVo extends BaseVo {
 	/** 회원명 */
     private String userNm;
 
+    /** 닉네임 */
+    private String userNickNm;
+
     /** 성별(CU001) */
     private String userSex;
 

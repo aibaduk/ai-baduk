@@ -127,6 +127,22 @@ public class UserController {
 	}
 
 	/**
+	 * @implNote delete user.
+	 * @param userVo
+	 * @return
+	 */
+	@PostMapping("/withdrawal")
+	public String withdrawal(Model model, String userId) {
+		try {
+			userService.withdrawal(userId);
+			model.addAttribute("result", true);
+		} catch (BizException e) {
+			model.addAttribute("msg", e.getMessage());
+		}
+		return Constants.JSON_VIEW;
+	}
+
+	/**
 	 * @implNote
 	 * @param
 	 * @return

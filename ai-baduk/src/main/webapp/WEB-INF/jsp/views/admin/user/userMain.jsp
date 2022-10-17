@@ -54,7 +54,7 @@ function goPage(pageNo) {
 		                        <li><a href="/admin/code/main">공통코드</a></li>
 		                        <li><a href="javascript:void(0)">메뉴관리</a></li>
 		                        <li class="on"><a href="/admin/user/main">사용자관리</a></li>
-		                        <li><a href="/admin/signUp">회원가입</a></li>
+		                        <li><a href="/admin/withdrawal/main">탈퇴회원관리</a></li>
 		                    </ul>
 		                    <div class="inner-depth">
 		                        <div class="tab-inner">
@@ -116,7 +116,7 @@ function goPage(pageNo) {
 	<td class="subject"><a href="/admin/user/detail?userId={{:userId}}">{{:userId}}</a></td>
 	<td class="l-data">{{:userNm}}</td>
 	<td class="show-pc">{{:userSexNm}}</td>
-	<td class="show-pc">{{:userAuth}}</td>
+	<td class="l-data show-pc">{{:userAuthNm}}</td>
 	<td class="show-pc">{{:userGradeNm}}</td>
 	<td class="show-pc">{{:fstCrerNm}}</td>
 	<td>{{:fstCreDtm}}</td>

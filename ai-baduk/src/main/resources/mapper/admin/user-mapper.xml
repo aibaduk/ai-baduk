@@ -16,6 +16,7 @@
 		     <!-- , DATE_FORMAT(CU.AUDIT_DTM, '%Y-%m-%d %h:%i') AS AUDIT_DTM -->
 		     , DATE_FORMAT(CU.AUDIT_DTM, '%Y.%m.%d') AS AUDIT_DTM
 			 , CU.USER_NM
+			 , CU.USER_NICK_NM
              , CU.USER_SEX
              , F_GET_CODE_NAME('CU001', CU.USER_SEX) AS USER_SEX_NM
              , CU.USER_AUTH
@@ -35,6 +36,7 @@
              , F_GET_CODE_NAME('CU003', CU.LEVEL) AS LEVEL_NM
 		  FROM CU_USER CU
 		 WHERE 1 = 1
+		   AND DEL_YN = 'N'
 		   <if test='@org.apache.commons.lang3.StringUtils@isNotEmpty(searchValue)'>
 			   <if test='@org.apache.commons.lang3.StringUtils@equals(searchKey, "userId")'>
 				   AND CU.USER_ID LIKE CONCAT('%', #{searchValue}, '%')
@@ -43,7 +45,8 @@
 				   AND CU.USER_NM LIKE CONCAT('%', #{searchValue}, '%')
 			   </if>
 		   </if>
-		 ORDER BY CU.FST_CRER_ID DESC
+		 ORDER BY IF(CU.USER_AUTH = 'ROLE_ADMIN', 1, IF(CU.USER_AUTH = 'ROLE_MEMBER', 2, 3))
+		        , CU.FST_CRER_ID DESC
 	</select>
 
 	<!-- 사용자관리 상세 조회 -->
@@ -56,6 +59,7 @@
 			 , IFNULL((SELECT USER_NM FROM CU_USER WHERE USER_ID = CU.AUDIT_ID), CU.AUDIT_ID) AS AUDIT_NM
 		     , DATE_FORMAT(CU.AUDIT_DTM, '%Y-%m-%d %h:%i') AS AUDIT_DTM
 			 , CU.USER_NM
+			 , CU.USER_NICK_NM
              , CU.USER_SEX
              , F_GET_CODE_NAME('CU001', CU.USER_SEX) AS USER_SEX_NM
              , CU.USER_AUTH
@@ -75,12 +79,14 @@
 		  FROM CU_USER CU
 		 WHERE 1 = 1
 		   AND CU.USER_ID = #{userId}
+		   AND CU.DEL_YN = 'N'
 	</select>
 
 	<!-- 사용자관리 수정 -->
 	<update id="updateUser" parameterType="com.ai.admin.vo.UserVo">
 		UPDATE CU_USER
 		   SET USER_NM = #{userNm}
+			 , USER_NICK_NM = #{userNickNm}
 			 , USER_AUTH = #{userAuth}
 			 , USER_GRADE = #{userGrade}
 			 , PHONE_NUM1 = #{phoneNum1}
@@ -96,12 +102,24 @@
 			 , AUDIT_DTM = NOW()
 		 WHERE 1 = 1
 		   AND USER_ID = #{userId}
+		   AND DEL_YN = 'N'
 	</update>
 
 	<!-- 사용자관리 비밀번호 수정 -->
 	<update id="updatePassword" parameterType="com.ai.admin.vo.UserVo">
 		UPDATE CU_USER
 		   SET USER_PW = #{userPw}
+			 , AUDIT_ID = #{ssLoginId}
+			 , AUDIT_DTM = NOW()
+		 WHERE 1 = 1
+		   AND USER_ID = #{userId}
+		   AND DEL_YN = 'N'
+	</update>
+
+	<!-- 사용자관리 회원 탈퇴 -->
+	<update id="withdrawal" parameterType="java.lang.String">
+		UPDATE CU_USER
+		   SET DEL_YN = 'Y'
 			 , AUDIT_ID = #{ssLoginId}
 			 , AUDIT_DTM = NOW()
 		 WHERE 1 = 1
