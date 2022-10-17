@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- SQL Mapping -->
+<mapper namespace="com.ai.admin.dao.WithdrawalMapper">
+	<!-- 탈퇴회원관리 리스트 조회 -->
+	<select id="selectWithdrawalList" parameterType="com.ai.admin.vo.UserSearchVo" resultType="com.ai.admin.vo.UserVo">
+		SELECT CU.USER_ID
+             , CU.FST_CRER_ID
+			 , IFNULL((SELECT USER_NM FROM CU_USER WHERE USER_ID = CU.FST_CRER_ID), CU.FST_CRER_ID) AS FST_CRER_NM
+			 , DATE_FORMAT(CU.FST_CRE_DTM, '%Y.%m.%d') AS FST_CRE_DTM
+			 , CU.AUDIT_ID
+			 , IFNULL((SELECT USER_NM FROM CU_USER WHERE USER_ID = CU.AUDIT_ID), CU.AUDIT_ID) AS AUDIT_NM
+		     , DATE_FORMAT(CU.AUDIT_DTM, '%Y.%m.%d') AS AUDIT_DTM
+			 , CU.USER_NM
+			 , CU.USER_NICK_NM
+             , CU.USER_SEX
+             , F_GET_CODE_NAME('CU001', CU.USER_SEX) AS USER_SEX_NM
+             , CU.USER_AUTH
+             , F_GET_CODE_NAME('CU004', CU.USER_AUTH) AS USER_AUTH_NM
+             , CU.USER_PW
+             , CU.USER_GRADE
+             , F_GET_CODE_NAME('CU002', CU.USER_GRADE) AS USER_GRADE_NM
+             , CU.PHONE_NUM1
+             , CU.PHONE_NUM2
+             , CU.PHONE_NUM3
+             , CU.ADDRESS
+             , CU.BIRTH
+             , CU.EMAIL
+             , CU.JOB
+             , CU.TEAM
+             , CU.LEVEL
+             , F_GET_CODE_NAME('CU003', CU.LEVEL) AS LEVEL_NM
+		  FROM CU_USER CU
+		 WHERE 1 = 1
+		   AND DEL_YN = 'Y'
+		   <if test='@org.apache.commons.lang3.StringUtils@isNotEmpty(searchValue)'>
+			   <if test='@org.apache.commons.lang3.StringUtils@equals(searchKey, "userId")'>
+				   AND CU.USER_ID LIKE CONCAT('%', #{searchValue}, '%')
+			   </if>
+			   <if test='@org.apache.commons.lang3.StringUtils@equals(searchKey, "userNm")'>
+				   AND CU.USER_NM LIKE CONCAT('%', #{searchValue}, '%')
+			   </if>
+		   </if>
+		 ORDER BY IF(CU.USER_AUTH = 'ROLE_ADMIN', 1, IF(CU.USER_AUTH = 'ROLE_MEMBER', 2, 3))
+		        , CU.FST_CRER_ID DESC
+	</select>
+
+	<!-- 탈퇴회원관리 상세 조회 -->
+	<select id="selectWithdrawalOne" parameterType="com.ai.admin.vo.UserVo" resultType="com.ai.admin.vo.UserVo">
+		SELECT CU.USER_ID
+             , CU.FST_CRER_ID
+			 , IFNULL((SELECT USER_NM FROM CU_USER WHERE USER_ID = CU.FST_CRER_ID), CU.FST_CRER_ID) AS FST_CRER_NM
+			 , DATE_FORMAT(CU.FST_CRE_DTM, '%Y-%m-%d %h:%i') AS FST_CRE_DTM
+			 , CU.AUDIT_ID
+			 , IFNULL((SELECT USER_NM FROM CU_USER WHERE USER_ID = CU.AUDIT_ID), CU.AUDIT_ID) AS AUDIT_NM
+		     , DATE_FORMAT(CU.AUDIT_DTM, '%Y-%m-%d %h:%i') AS AUDIT_DTM
+			 , CU.USER_NM
+			 , CU.USER_NICK_NM
+             , CU.USER_SEX
+             , F_GET_CODE_NAME('CU001', CU.USER_SEX) AS USER_SEX_NM
+             , CU.USER_AUTH
+             , F_GET_CODE_NAME('CU004', CU.USER_AUTH) AS USER_AUTH_NM
+             , CU.USER_PW
+             , CU.USER_GRADE
+             , F_GET_CODE_NAME('CU002', CU.USER_GRADE) AS USER_GRADE_NM
+             , CU.PHONE_NUM1
+             , CU.PHONE_NUM2
+             , CU.PHONE_NUM3
+             , CU.ADDRESS
+     		 , DATE_FORMAT(CU.BIRTH, '%Y.%m.%d') AS BIRTH
+             , CU.EMAIL
+             , CU.JOB
+             , CU.TEAM
+             , CU.LEVEL
+             , F_GET_CODE_NAME('CU003', CU.LEVEL) AS LEVEL_NM
+		  FROM CU_USER CU
+		 WHERE 1 = 1
+		   AND CU.USER_ID = #{userId}
+		   AND CU.DEL_YN = 'Y'
+	</select>
+
+	<!-- 탈퇴회원관리 원복 -->
+	<update id="updateWithdrawal" parameterType="com.ai.admin.vo.UserVo">
+		UPDATE CU_USER
+		   SET DEL_YN = 'N'
+			 , AUDIT_ID = #{ssLoginId}
+			 , AUDIT_DTM = NOW()
+		 WHERE 1 = 1
+		   AND USER_ID = #{userId}
+	</update>
+
+</mapper>
