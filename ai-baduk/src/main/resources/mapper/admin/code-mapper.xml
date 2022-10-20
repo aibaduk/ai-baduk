@@ -123,4 +123,11 @@
 		, ETC = #{etc}
 	</insert>
 
+	<!-- 공통코드 삭제 -->
+	<delete id="deleteCode" parameterType="com.ai.admin.vo.CodeVo">
+		DELETE FROM CM_CODE
+		 WHERE L_CD = #{lCd}
+		   AND M_CD <![CDATA[<>]]> '*'
+	</delete>
+
 </mapper>
