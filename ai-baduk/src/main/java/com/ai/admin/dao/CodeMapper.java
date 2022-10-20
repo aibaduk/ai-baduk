@@ -42,4 +42,11 @@ public interface CodeMapper {
 	 */
 	public int mergeCode(CodeVo codeVo);
 
+	/**
+	 * @implNote delete code.
+	 * @param codeVo
+	 * @return int
+	 */
+	public int deleteCode(CodeVo codeVo);
+
 }

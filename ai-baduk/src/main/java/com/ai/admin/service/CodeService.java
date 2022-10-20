@@ -77,6 +77,7 @@ public class CodeService {
 		majorVo.setSortSeq("0");
 		codeMapper.mergeCode(majorVo);
 		// minor
+		codeMapper.deleteCode(codeVo);
 		for (CodeVo minorVo : codeVo.getCodeList()) {
 			CommonService.setSessionData(minorVo);
 			minorVo.setLCd(codeVo.getMajorId());
