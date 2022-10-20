@@ -2,7 +2,7 @@ package com.ai.mypage.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.ai.mypage.vo.AnalyzeInfoVo;
+import com.ai.mypage.vo.MyAnalyzeInfoVo;
 
 /**
  * @author 우동하
@@ -10,12 +10,12 @@ import com.ai.mypage.vo.AnalyzeInfoVo;
  * @implSpec 분석정보 database connection.
  */
 @Mapper
-public interface AnalyzeInfoMapper {
+public interface MyAnalyzeInfoMapper {
 	/**
 	 * @implNote select analyze info.
 	 * @param analyzeInfoVo
 	 * @return AnalyzeInfoVo
 	 */
-	public AnalyzeInfoVo selectAnalyzeInfoOne(AnalyzeInfoVo analyzeInfoVo);
+	public MyAnalyzeInfoVo selectAnalyzeInfoOne(MyAnalyzeInfoVo analyzeInfoVo);
 
 }

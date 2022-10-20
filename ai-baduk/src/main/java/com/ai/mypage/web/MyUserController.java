@@ -18,7 +18,7 @@ import com.ai.mypage.vo.MyUserVo;
 /**
  * @author 우동하
  * @since 2022. 10. 02
- * @implSpec 사용자관리 controller view.
+ * @implSpec 회원정보 controller view.
  */
 @Controller
 @RequestMapping("/mypage/user")

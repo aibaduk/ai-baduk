@@ -3,8 +3,8 @@ package com.ai.mypage.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ai.mypage.dao.AnalyzeInfoMapper;
-import com.ai.mypage.vo.AnalyzeInfoVo;
+import com.ai.mypage.dao.MyAnalyzeInfoMapper;
+import com.ai.mypage.vo.MyAnalyzeInfoVo;
 
 /**
  * @author 우동하
@@ -12,18 +12,18 @@ import com.ai.mypage.vo.AnalyzeInfoVo;
  * @implSpec 분석정보 service business logic.
  */
 @Service
-public class AnalyzeInfoService {
+public class MyAnalyzeInfoService {
 
 	@Autowired
-	AnalyzeInfoMapper analyzeInfoMapper;
+	MyAnalyzeInfoMapper myAnalyzeInfoMapper;
 
 	/**
 	 * @implNote select analyze info.
 	 * @param analyzeInfoVo
 	 * @return AnalyzeInfoVo
 	 */
-	public AnalyzeInfoVo selectAnalyzeInfoOne(AnalyzeInfoVo analyzeInfoVo) {
-		return analyzeInfoMapper.selectAnalyzeInfoOne(analyzeInfoVo);
+	public MyAnalyzeInfoVo selectAnalyzeInfoOne(MyAnalyzeInfoVo analyzeInfoVo) {
+		return myAnalyzeInfoMapper.selectAnalyzeInfoOne(analyzeInfoVo);
 	}
 
 }

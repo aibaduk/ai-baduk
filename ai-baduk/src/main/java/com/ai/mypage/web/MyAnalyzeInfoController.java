@@ -6,8 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.ai.mypage.service.AnalyzeInfoService;
-import com.ai.mypage.vo.AnalyzeInfoVo;
+import com.ai.mypage.service.MyAnalyzeInfoService;
+import com.ai.mypage.vo.MyAnalyzeInfoVo;
 
 /**
  * @author 우동하
@@ -16,10 +16,10 @@ import com.ai.mypage.vo.AnalyzeInfoVo;
  */
 @Controller
 @RequestMapping("/mypage/analyzeInfo")
-public class AnalyzeInfoController {
+public class MyAnalyzeInfoController {
 
 	@Autowired
-	AnalyzeInfoService analyzeInfoService;
+	MyAnalyzeInfoService myAnalyzeInfoService;
 
 	/**
 	 * @implNote page analyzeInfo detail Linked and select analyzeInfo.
@@ -27,9 +27,9 @@ public class AnalyzeInfoController {
 	 * @return
 	 */
 	@GetMapping("/detail")
-	public String analyzeInfoDetail(Model model, AnalyzeInfoVo analyzeInfoVo) {
-		model.addAttribute("analyzeInfoDetail", analyzeInfoService.selectAnalyzeInfoOne(analyzeInfoVo));
-		return "mypage/analyzeInfo/analyzeInfoDetail";
+	public String analyzeInfoDetail(Model model, MyAnalyzeInfoVo analyzeInfoVo) {
+		model.addAttribute("analyzeInfoDetail", myAnalyzeInfoService.selectAnalyzeInfoOne(analyzeInfoVo));
+		return "mypage/myanalyzeInfo/myAnalyzeInfoDetail";
 	}
 
 }

@@ -58,14 +58,14 @@ public class MyUserService {
 		if (Objects.isNull(persistUser)) {
 			throw new BizException("회원정보를 찾을 수 없습니다.");
 		}
-		if(!myUserVo.getNewPW().equals(myUserVo.getNewPWcheck())) {
-			throw new BizException("신규 비밀번호가 일치하지 않습니다.");
+		if(!passwordEncoder.matches(myUserVo.getOldPW(), persistUser.getUserPw())) {
+			throw new BizException("기존 비밀번호가 일치하지 않습니다.");
 		}
 		if(myUserVo.getOldPW().equals(myUserVo.getNewPW())) {
 			throw new BizException("기존 비밀번호와 신규 비밀번호가 일치합니다.\n다른 비밀번호를 입력하세요.");
 		}
-		if(!passwordEncoder.matches(myUserVo.getOldPW(), persistUser.getUserPw())) {
-			throw new BizException("기존 비밀번호가 일치하지 않습니다.");
+		if(!myUserVo.getNewPW().equals(myUserVo.getNewPWcheck())) {
+			throw new BizException("신규 비밀번호가 일치하지 않습니다.");
 		}
 		CommonService.setSessionData(myUserVo);
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

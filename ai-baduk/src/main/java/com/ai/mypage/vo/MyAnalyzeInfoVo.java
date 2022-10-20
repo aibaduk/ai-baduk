@@ -9,7 +9,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class AnalyzeInfoVo extends BaseVo {
+public class MyAnalyzeInfoVo extends BaseVo {
 
 	/** 회원ID */
 	private String userId;

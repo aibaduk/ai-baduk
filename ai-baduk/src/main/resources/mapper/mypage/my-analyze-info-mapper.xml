@@ -3,9 +3,9 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- SQL Mapping -->
-<mapper namespace="com.ai.mypage.dao.AnalyzeInfoMapper">
+<mapper namespace="com.ai.mypage.dao.MyAnalyzeInfoMapper">
 	<!-- 분석정보 조회 -->
-	<select id="selectAnalyzeInfoOne" parameterType="com.ai.mypage.vo.AnalyzeInfoVo" resultType="com.ai.mypage.vo.AnalyzeInfoVo">
+	<select id="selectAnalyzeInfoOne" parameterType="com.ai.mypage.vo.MyAnalyzeInfoVo" resultType="com.ai.mypage.vo.MyAnalyzeInfoVo">
 		SELECT USER_ID
 			 , ANALYZE_INFO_ID
 			 , CA.FST_CRER_ID
