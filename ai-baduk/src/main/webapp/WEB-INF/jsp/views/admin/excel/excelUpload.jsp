@@ -17,7 +17,7 @@ $(function() {
 // 엑셀업로드
 function fnUploadExcel() {
 	$.ajax({
-		url: "/admin/user/excel-upload",
+		url: "/admin/analyzeInfo/excel-upload",
 		type: "POST",
 		data: new FormData($("#form")[0]),
 		dataType: "json",
@@ -37,7 +37,7 @@ function fnUploadExcel() {
 <body>
 	<div id="wrap">
         <!-- 엑셀 업로드 form -->
-		<form id="form" name="form" method="post" enctype="multipart/form-data" action="/admin/user/excel-upload">
+		<form id="form" name="form" method="post" enctype="multipart/form-data" action="/admin/analyzeInfo/excel-upload">
 			<div class="btn btn-primary btn-file">
 				엑셀업로드<input type="file" id="file" name="file" accept=".xlsx, .xls" onchange="fnUploadExcel()">
 				<!-- <input type="submit" id="submit"> -->
