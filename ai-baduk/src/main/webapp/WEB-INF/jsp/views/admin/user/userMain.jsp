@@ -15,9 +15,47 @@ $(function() {
 	$('#btn-insert').click(function() {
 		window.location.href="/admin/signUp";
 	});
+	$('#btn-add').click(function() {
+		let currPage = $('[name=pageSize]').val();
+		$('[name=pageSize]').val(Number(currPage) + 10);
+		$('[name=pageNo]').val(1);
+		$('[name=chnlGubun]').val("MB");
+		$.ajax({
+			type: 'get',
+			url: '/admin/user/select-list',
+			data: $('#searchForm').serialize(),
+			success: function (data) {
+				let result = data.result;
+				$(tbody).html($.templates(template).render(result.data));
+				$('#allCheck').prop('checked', false);
+				controlBtnAdd(result);
+			}
+		});
+		return false;
+	});
 
 	goPage(1);
 });
+
+/**
+ * 더보기 버튼 제어
+ * @param {object} result 조회 데이터
+ */
+function controlBtnAdd(result) {
+	"use strict"
+	let width = $(window).width();
+	if (width >= 751) {
+		$('.btn-more').css('display', 'none');
+	} else {
+		$('.pagination').hide();
+		let pageSize = $('[name=pageSize]').val();
+		if (pageSize >= result.pageInfo.totalCount) {
+			$('.btn-more').css('display', 'none');
+		} else {
+			$('.btn-more').css('display', 'block');
+		}
+	}
+}
 
 /**
  * 사용자관리 조회
@@ -25,6 +63,8 @@ $(function() {
  */
 function goPage(pageNo) {
 	"use strict"
+	$('[name=pageSize]').val(10);
+	$('[name=chnlGubun]').val("PC");
 	$('[name=pageNo]').val(pageNo);
 	$.ajax({
 		type: 'get',
@@ -35,6 +75,7 @@ function goPage(pageNo) {
 			$('#user-tbody').html($.templates('#user-template').render(result.data));
 			$('#allCheck').prop('checked', false);
 			paginateArea(result, 8);
+			controlBtnAdd(result);
 		}
 	});
 }
@@ -45,16 +86,18 @@ function goPage(pageNo) {
 		<form id="searchForm">
 			<input type="hidden" name="pageNo" value="1">
 			<input type="hidden" name="pageSize" value="10">
+			<input type="hidden" name="chnlGubun" value="PC">
 			<section class="container">
 		        <div class="keyvi"></div>
 		        <section class="content brd">
 		            <div class="inner">
-		                <div class="tab-wrap ea4">
+		                <div class="tab-wrap ea5">
 		                    <ul class="tab-menu">
 		                        <li><a href="/admin/code/main">공통코드</a></li>
 		                        <li><a href="javascript:void(0)">메뉴관리</a></li>
 		                        <li class="on"><a href="/admin/user/main">사용자관리</a></li>
 		                        <li><a href="/admin/withdrawal/main">탈퇴회원관리</a></li>
+		                        <li><a href="/admin/analyzeInfo/main">분석정보</a></li>
 		                    </ul>
 		                    <div class="inner-depth">
 		                        <div class="tab-inner">
@@ -95,6 +138,7 @@ function goPage(pageNo) {
 		                                <tbody id="user-tbody"></tbody>
 		                            </table>
 		                            <div class="btn-wrap">
+		                            	<button type="button" class="btn-more" id="btn-add">더보기</button>
 		                            	<div class="pagination"></div>
 			                            <div class="btn-right">
 		                                    <a href="javascript:void(0)" id="btn-insert" class="btns point btn-role-s">등록</a>

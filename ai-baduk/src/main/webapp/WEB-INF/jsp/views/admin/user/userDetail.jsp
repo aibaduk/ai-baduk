@@ -23,6 +23,10 @@
 		$('#btn-update-password').click(function() {
 			user.changePasswoad();
 		});
+
+		$('#btn-analyze-info').click(function() {
+			window.location.href="/admin/analyzeInfo/insert";
+		});
 		for(let i=1920; i<=2020; i++) {
 			user.createOptionForElements('userYear', i);
 		}
@@ -138,12 +142,13 @@
 	            <div class="keyvi"></div>
 	            <section class="content personal">
 	                <div class="inner">
-	                    <div class="tab-wrap ea4">
+	                    <div class="tab-wrap ea5">
 		                    <ul class="tab-menu">
 		                        <li><a href="/admin/code/main">공통코드</a></li>
 		                        <li><a href="javascript:void(0)">메뉴관리</a></li>
 		                        <li class="on"><a href="/admin/user/main">사용자관리</a></li>
 		                        <li><a href="/admin/withdrawal/main">탈퇴회원관리</a></li>
+		                        <li><a href="/admin/analyzeInfo/main">분석정보</a></li>
 		                    </ul>
 	                        <div class="inner-depth">
 	                            <div class="tab-inner">
@@ -249,6 +254,7 @@
 	                            <div class="btn-wrap">
 	                                <a href="javascript:void(0)" id="btn-delete" class="btns gray">탈퇴</a>
                                     <a href="javascript:void(0)" id="btn-update" class="btns point">수정</a>
+                                    <a href="javascript:void(0)" id="btn-analyze-info" class="btns point">분석</a>
                                     <a href="javascript:void(0)" id="btn-cancle" class="btns normal">목록</a>
 	                            </div>
 	                        </div>

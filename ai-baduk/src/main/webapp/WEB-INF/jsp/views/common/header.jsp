@@ -17,7 +17,6 @@ $(function() {
 			$('#mUserPw').focus();
 			return false;
 		}
-
 		$('#mFrm').submit();
 		return false;
 	});
@@ -48,7 +47,7 @@ $(function() {
         <button class="btn-menu"><span></span><span></span><span></span></button>
         <nav class="gnb">
             <a href="/introduce/introduce/main">연구소 소개</a>
-            <a href="/mypage/analyzeInfo/detail">마이페이지</a>
+            <a href="/mypage/user/detail">마이페이지</a>
             <a href="/board/notice/main">게시판</a>
             <a href="/admin/code/main">관리자 페이지</a>
         </nav>
@@ -82,14 +81,10 @@ $(function() {
 	                    </c:if>
                         <c:if test="${user ne 'anonymousUser'}">
 			                <div class="info">
-			                    <span class="${user.userGrade }">${user.userGrade }</span><!-- silver, gold, vip, vvip -->
+			                    <span class="${user.userGrade }">${user.userGrade }</span>
 			                    <p><strong>${user.userNm }</strong>님 환영합니다.</p>
 			                </div>
 	                    </c:if>
-	                    <!-- <div class="learning loginForm">
-		                    <a href="#" download class="btn-submit">학습자료제출</a>
-		                    <a href="#" download class="btn-receive">학습자료받기</a>
-		                </div> -->
                     </div>
                 </div>
                 <nav>
@@ -100,14 +95,10 @@ $(function() {
                                 <li><a href="/introduce/curriculum/main">커리큘럼</a></li>
                             </ul>
                         </li>
-                        <!-- <li><a href="#">개인학습 페이지</a></li> -->
                         <li><a href="javascript:void(0)" data-location="myinfo">마이페이지</a>
                             <ul>
-                                <li><a href="javascript:void(0)">개인분석정보</a></li>
-                                <li><a href="javascript:void(0)">회원정보수정</a></li>
-                                <!-- <li><a href="qna-list.html">1:1문의</a></li>
-                                <li><a href="learn-list.html">학습과제받기</a></li>
-                                <li><a href="learn-submit-list.html">학습과제제출</a></li> -->
+                                <li><a href="/mypage/analyzeInfo/detail">개인분석정보</a></li>
+                                <li><a href="/mypage/user/detail">회원정보수정</a></li>
                             </ul>
                         </li>
                         <li><a href="javascript:void(0)" data-location="board-list">게시판</a>
@@ -123,7 +114,8 @@ $(function() {
                                 <li><a href="/admin/code/main">코드관리</a></li>
                                 <li><a href="javascript:void(0)">메뉴관리</a></li>
                                 <li><a href="/admin/user/main">사용자관리</a></li>
-                                <!-- <li><a href="/admin/signUp">회원가입</a></li> -->
+                                <li><a href="/admin/withdrawal/main">탈퇴회원관리</a></li>
+                                <li><a href="/admin/analyzeInfo/main">분석정보</a></li>
                             </ul>
                         </li>
                     </ul>

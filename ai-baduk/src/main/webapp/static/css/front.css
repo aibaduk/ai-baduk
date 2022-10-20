@@ -6,7 +6,8 @@ body {width:100%;min-height:100%; font-family:"MalgunGothic","맑은 고딕","he
 .btn-wrap{margin-top:6vw;min-height:6.6666vw; text-align:center;position:relative;}
 .btn-wrap .btn-right{text-align:right}
 
-.btns{margin-left:1.6vw;padding:2.5vw 4vw; border:.267vw solid #fff; font-size:3.2vw;color:#fff;text-align:center; display:inline-block}
+/* .btns{margin-left:1.6vw;padding:2.5vw 4vw; border:.267vw solid #fff; font-size:3.2vw;color:#fff;text-align:center; display:inline-block} */
+.btns{margin-left:1.6vw;padding:2.0vw 3vw; border:.267vw solid #fff; font-size:3.2vw;color:#fff;text-align:center; display:inline-block}
 .btns:first-child{margin-left:0;}
 .btns.normal{color:#222; background-color:#fff;border:solid 1px #555;}
 /* .btns.point{color:#fff; background-color:#2461d0;} */
@@ -163,6 +164,9 @@ footer p{margin-top:2vw; font-size:3.2vw;color:#afafaf;}
 .join li .fm-group.address >div button{width:24vw; height:7.6664vw; border:1px solid #555;vertical-align:middle;}
 .join li .fm-group.address >span{display:block; margin-top:2vw;}
 
+.excelform >div >input{display:inline-block; width:calc(100% - 25.3333vw);}
+.excelform >div button{width:24vw; height:7.6664vw; border:1px solid #555;vertical-align:middle;}
+
 .fm-group.birthday{display:flex;justify-content:space-between;}
 .fm-group.birthday span{flex: 1 1 0; padding-left:2vw;}
 .fm-group.birthday span:first-child{padding-left:0;}
@@ -230,8 +234,8 @@ footer p{margin-top:2vw; font-size:3.2vw;color:#afafaf;}
 .myinfo >div span{margin-bottom:.6vw;font-size:3.2vw;font-weight:700; display:block}
 .myinfo >div:first-child{padding:1.6vw 0 3vw;width:100%;border:0}
 .myinfo >div:nth-child(2){border-left:0;}
-.myinfo >div:nth-child(4){width:40%; font-size:3.2vw; border-right:0}
-.myinfo >div:nth-child(4) span{margin-bottom:1.4vw;}
+.myinfo >div:nth-child(5){width:40%; font-size:3.2vw; border-right:0}
+.myinfo >div:nth-child(5) span{margin-bottom:1.4vw;}
 .analysis .inner{padding:8vw 0 0;}
 .analysis h3{font-size:4.8vw;color:#222;font-weight:700}
 .analysis table{margin-top:2vw; text-align:center;}
@@ -291,6 +295,8 @@ footer p{margin-top:2vw; font-size:3.2vw;color:#afafaf;}
 .search-wrap .srch-word{margin-left:-1px;padding-right:8vw;width:66vw; border:solid 1px #ddd; float:left;position:relative;}
 .search-wrap .srch-word input{width:100%;height:7.5vw; text-indent:2vw; border:0;}
 .search-wrap .srch-word button{width:8vw;height:7.5vw; text-indent:-9999px;background:url('../images/btn_search.png') no-repeat center;position:absolute;top:0;right:0;}
+.div-search{position:relative;}
+.btn-search{width:4vw;height:4.5vw; text-indent:-9999px;background:url('../images/btn_search2.png') no-repeat center;position:absolute;top:0;}
 /* qna */
 /* .brd .qna th:nth-child(2){width:65%;}
 .brd .qna th:nth-child(3){width:12%;}
@@ -308,6 +314,11 @@ footer p{margin-top:2vw; font-size:3.2vw;color:#afafaf;}
 .brd .user th:nth-child(2){width:35%;}
 .brd .user th:nth-child(3){width:28%;}
 .brd .user th:nth-child(8){width:25%;}
+/* 관리자페이지>분석정보 20221020 */
+.brd .analyzeInfo th:nth-child(1){width:12%;}
+.brd .analyzeInfo th:nth-child(2){width:35%;}
+.brd .analyzeInfo th:nth-child(3){width:28%;}
+.brd .analyzeInfo th:nth-child(6){width:25%;}
 
 .brd .news th:nth-child(2){width:75%;}
 .brd .news th:nth-child(3){width:25%; border-right:0;}
@@ -387,7 +398,8 @@ ul.main-board li.hot p.subject a{color:#2461d0;font-weight:700}
     .btn-wrap .btn-left{position:absolute;top:0;left:0;}
     .btn-wrap .btn-right{position:absolute;top:0;right:0;}
 
-    .btns{margin-left:8px;padding:10px 30px 12px; border:1px solid #fff; font-size:16px;color:#fff;text-align:center; display:inline-block}
+    /* .btns{margin-left:8px;padding:10px 30px 12px; border:1px solid #fff; font-size:16px;color:#fff;text-align:center; display:inline-block} */
+    .btns{margin-left:0px;padding:5px 17px 7px; border:1px solid #fff; font-size:16px;color:#fff;text-align:center; display:inline-block}
     /* search-wrap */
     .search-wrap{margin:40px auto 0;width:540px;}
     .search-wrap:after{content:'';display:block;clear:both}
@@ -396,6 +408,7 @@ ul.main-board li.hot p.subject a{color:#2461d0;font-weight:700}
     .search-wrap .srch-word{margin-left:-1px;padding-right:30px;width:400px; border:solid 1px #ddd; float:left;position:relative;}
     .search-wrap .srch-word input{width:100%;height:38px; text-indent:20px; border:0;}
     .search-wrap .srch-word button{width:30px;height:38px; text-indent:-9999px;background:url('../images/btn_search.png') no-repeat 0 center;position:absolute;top:0;right:0;}
+    .btn-search{width:4vw;height:4.5vw; text-indent:-9999px;background:url('../images/btn_search2.png') no-repeat center;position:absolute;top:0;}
     /* tab menu */
     .tab-menu{margin-top:-1px;width:100%;}
     .tab-menu:after{content:'';display:block;clear:both;}
@@ -515,6 +528,9 @@ ul.main-board li.hot p.subject a{color:#2461d0;font-weight:700}
     .join .btn-wrap{margin-top:20px;}
     .join .btn-wrap .btns{width:100%;height:50px; background-color:#1f59c2;}
 
+    .analyzeInfo-input{display:block; width:100%;padding:1.5px 0; font-size:16px;line-height:1.5;color:#222; background-color:#fff;border:1px solid #ddd}
+    .analyzeInfo-input2{display:inline; width:46px;padding:1.5px 0; font-size:16px;line-height:1.5;color:#222; background-color:#fff;border:1px solid #ddd; margin-right: 5px; margin-bottom: 5px;}
+
     .fm-inline{display:inline-block}
     .fm-inline +.fm-inline{margin-left:20px}
     /*##### From - radio, checkbox #####*/
@@ -611,10 +627,10 @@ ul.main-board li.hot p.subject a{color:#2461d0;font-weight:700}
     .myinfo >div strong{margin-top:-6px;font-size:44px;line-height:1;font-weight:700; display:inline-block}
     .myinfo >div strong span{margin-left:12px;font-size:24px;font-weight:400;line-height:normal; vertical-align:middle; display:inline-block}
     .myinfo >div span{margin-bottom:5px;font-size:16px;font-weight:700; display:block}
-    .myinfo >div:first-child{padding:17px 0;width:610px;border-left:0;border-right:solid 1px rgba(255,255,255,.2); text-align:left}
+    .myinfo >div:first-child{padding:17px 0;width:510px;border-left:0;border-right:solid 1px rgba(255,255,255,.2); text-align:left}
     .myinfo >div:nth-child(2){border-left:solid 1px #00162b;}
-    .myinfo >div:nth-child(4){width:175px;font-size:16px; border-right:0}
-    .myinfo >div:nth-child(4) span{margin-bottom:10px;}
+    .myinfo >div:nth-child(5){width:140px;font-size:16px; border-right:0}
+    .myinfo >div:nth-child(5) span{margin-bottom:10px;}
     .myinfo >div:nth-child(n+2){text-align:center;}
     .analysis{padding-bottom:45px;border:solid 1px #ddd;border-top:0;}
     .analysis .inner{padding:40px 30px 0;}
@@ -705,6 +721,13 @@ ul.main-board li.hot p.subject a{color:#2461d0;font-weight:700}
     .brd .user th:nth-child(6){width:10%;}
     .brd .user th:nth-child(7){width:10%;}
     .brd .user th:nth-child(8){width:13%;}
+    /* 관리자페이지>분석정보 20221020 */
+	.brd .analyzeInfo th:nth-child(1){width:6%;}
+	.brd .analyzeInfo th:nth-child(2){width:15%;}
+	.brd .analyzeInfo th:nth-child(3){width:10%;}
+	.brd .analyzeInfo th:nth-child(4){width:"*";}
+	.brd .analyzeInfo th:nth-child(5){width:12%;}
+	.brd .analyzeInfo th:nth-child(6){width:13%;}
 
     .brd .news th:nth-child(1){width:12%;}
     .brd .news th:nth-child(2){width:65%;}
