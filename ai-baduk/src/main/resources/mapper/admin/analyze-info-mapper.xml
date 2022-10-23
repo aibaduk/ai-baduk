@@ -4,7 +4,7 @@
 
 <!-- SQL Mapping -->
 <mapper namespace="com.ai.admin.dao.AnalyzeInfoMapper">
-	<!-- 분석정보관리 리스트 조회 -->
+	<!-- 분석정보 리스트 조회 -->
 	<select id="selectAnalyzeInfoList" parameterType="com.ai.admin.vo.AnalyzeInfoSearchVo" resultType="com.ai.admin.vo.AnalyzeInfoVo">
 		SELECT CA.USER_ID
 			 , CA.ANALYZE_INFO_ID
@@ -56,7 +56,7 @@
 				   AND CA.ANALYZE_INFO_ID LIKE CONCAT('%', #{searchValue}, '%')
 			   </if>
 		   </if>
-		 ORDER BY CA.FST_CRER_ID DESC
+		 ORDER BY CA.FST_CRE_DTM DESC
 	</select>
 
 	<!-- 분석정보 상세 조회 -->
@@ -100,9 +100,19 @@
 			 , CA.EXAM_HAENGMA_VALUE_JUDGMENT
 			 , CA.EXAM_READING_LIFE_AND_DEATH
 			 , CA.EXAM_END_GAME_COUNTING
+			 , CA.EXAM_OPENING_POSITIONAL_JUDGMENT + CA.EXAM_HAENGMA_VALUE_JUDGMENT + CA.EXAM_READING_LIFE_AND_DEATH + CA.EXAM_END_GAME_COUNTING AS EXAM_TOTAL
+			 , ROUND((CA.OPENING + CA.MIDDLE_GAME + CA.END_GAME + CA.TECHNIQUE) / 5) AS ALL_TOTAL
 			 , CA.ETC
+			 , CU.USER_GRADE
+			 , CU.USER_NM
+			 , F_GET_CODE_NAME('CU003', CU.LEVEL) AS LEVEL_NM
+		     , ROUND((TO_DAYS(NOW()) - (TO_DAYS(CU.BIRTH))) / 365) AS AGE
+			 , CU.TEAM
 		  FROM CU_ANALYZE_INFO CA
-	     WHERE CA.USER_ID = #{userId}
+		     , CU_USER CU
+	     WHERE 1 = 1
+	       AND CA.USER_ID = CU.USER_ID
+	       AND CA.USER_ID = #{userId}
 	       AND CA.ANALYZE_INFO_ID = #{analyzeInfoId}
 	</select>
 
@@ -233,5 +243,23 @@
 		 WHERE USER_ID = #{userId}
 		   AND ANALYZE_INFO_ID = #{analyzeInfoId}
 	</delete>
+
+	<!-- 분석정보 > 사용자 리스트 조회 -->
+	<select id="selectUserList" parameterType="java.lang.String" resultType="com.ai.admin.vo.UserVo">
+		 SELECT CU.USER_ID
+			  , CU.USER_NM
+			  , CU.USER_NICK_NM
+			  , CU.USER_GRADE
+              , CU.LEVEL
+              , F_GET_CODE_NAME('CU003', CU.LEVEL) AS LEVEL_NM
+		      , CU.BIRTH
+		      , ROUND((TO_DAYS(NOW()) - (TO_DAYS(CU.BIRTH))) / 365) AS AGE
+		      , CU.TEAM
+		   FROM CU_USER CU
+		  WHERE 1 = 1
+		    AND CU.DEL_YN = 'N'
+		    AND ((CU.USER_ID LIKE CONCAT('%', #{keyword}, '%')) OR (CU.USER_NICK_NM LIKE CONCAT('%', #{keyword}, '%')))
+		  ORDER BY USER_ID DESC
+	</select>
 
 </mapper>

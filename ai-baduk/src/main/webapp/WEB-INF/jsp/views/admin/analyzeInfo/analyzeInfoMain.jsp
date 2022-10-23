@@ -201,7 +201,7 @@ function setData() {
 		                            <div class="search-wrap">
 		                                <select id="searchKey" name="searchKey" title="검색 구분 선택">
 		                                    <option value="userId" selected>사용자ID</option>
-		                                    <option value="analyzeInfoId">분석정보ID</option>
+		                                    <option value="analyzeInfoId">대상년월</option>
 		                                </select>
 		                                <div class="srch-word">
 		                                    <input type="text" id="searchValue" name="searchValue" title="검색어 입력">
@@ -219,8 +219,7 @@ function setData() {
 														</div>
 													</div>
 		                                    	</th>
-		                                        <th>회원ID</th>
-		                                        <th>분석정보ID</th>
+		                                        <th>회원ID (대상년월)</th>
 		                                        <th class="show-pc">비고</th>
 		                                        <th class="show-pc">등록자</th>
 		                                        <th>등록일</th>
@@ -259,7 +258,7 @@ function setData() {
  	            <!-- 엑셀 업로드 form -->
 				<form id="frmExcelUpload" name="frmExcelUpload" method="post" enctype="multipart/form-data" action="/admin/analyzeInfo/excel-upload">
 					<div class="form-ele">
-						<input type="text" id="fileNm" name="fileNm" readonly="readonly" style="width: 193px;"><button class="btns point" id="btn-file">찾기</button>
+						<input type="text" id="fileNm" name="fileNm" readonly="readonly" style="width: 193px;"><button class="btns point" id="btn-file" style="margin-left: 5px;">찾기</button>
 						<input type="file" id="file" name="file" accept=".xlsx, .xls" style="display: none;">
 						<button type="button" class="btns point" id="btn-upload" style="margin-left: 0">업로드</button>
 					</div>
@@ -278,8 +277,7 @@ function setData() {
 			</div>
 		</div>
 	</td>
-	<td class="subject"><a href="/admin/analyzeInfo/detail?userId={{:userId}}&analyzeInfoId={{:analyzeInfoId}}">{{:userId}}</a></td>
-	<td>{{:analyzeInfoId}}</td>
+	<td class="subject"><a href="/admin/analyzeInfo/detail?userId={{:userId}}&analyzeInfoId={{:analyzeInfoId}}">{{:userId}} ({{:analyzeInfoId}})</a></td>
 	<td class="l-data show-pc">{{:etc}}</td>
 	<td class="show-pc">{{:fstCrerNm}}</td>
 	<td>{{:fstCreDtm}}</td>

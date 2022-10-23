@@ -296,7 +296,7 @@ footer p{margin-top:2vw; font-size:3.2vw;color:#afafaf;}
 .search-wrap .srch-word input{width:100%;height:7.5vw; text-indent:2vw; border:0;}
 .search-wrap .srch-word button{width:8vw;height:7.5vw; text-indent:-9999px;background:url('../images/btn_search.png') no-repeat center;position:absolute;top:0;right:0;}
 .div-search{position:relative;}
-.btn-search{width:4vw;height:4.5vw; text-indent:-9999px;background:url('../images/btn_search2.png') no-repeat center;position:absolute;top:0;}
+.btn-search{width:4vw;height:4.5vw; text-indent:-9999px;background:url('../images/btn_search2.png') no-repeat center;position:absolute;top:0;cursor: pointer;}
 /* qna */
 /* .brd .qna th:nth-child(2){width:65%;}
 .brd .qna th:nth-child(3){width:12%;}
@@ -408,7 +408,7 @@ ul.main-board li.hot p.subject a{color:#2461d0;font-weight:700}
     .search-wrap .srch-word{margin-left:-1px;padding-right:30px;width:400px; border:solid 1px #ddd; float:left;position:relative;}
     .search-wrap .srch-word input{width:100%;height:38px; text-indent:20px; border:0;}
     .search-wrap .srch-word button{width:30px;height:38px; text-indent:-9999px;background:url('../images/btn_search.png') no-repeat 0 center;position:absolute;top:0;right:0;}
-    .btn-search{width:4vw;height:4.5vw; text-indent:-9999px;background:url('../images/btn_search2.png') no-repeat center;position:absolute;top:0;}
+    .btn-search{width:4vw;height:4.5vw; text-indent:-9999px;background:url('../images/btn_search2.png') no-repeat center;position:absolute;top:0;cursor: pointer;}
     /* tab menu */
     .tab-menu{margin-top:-1px;width:100%;}
     .tab-menu:after{content:'';display:block;clear:both;}
@@ -530,6 +530,8 @@ ul.main-board li.hot p.subject a{color:#2461d0;font-weight:700}
 
     .analyzeInfo-input{display:block; width:100%;padding:1.5px 0; font-size:16px;line-height:1.5;color:#222; background-color:#fff;border:1px solid #ddd}
     .analyzeInfo-input2{display:inline; width:46px;padding:1.5px 0; font-size:16px;line-height:1.5;color:#222; background-color:#fff;border:1px solid #ddd; margin-right: 5px; margin-bottom: 5px;}
+    .analyzeInfo-input3{display:inline; width:110px;padding:1.5px 0; font-size:16px;color:#222; background-color:#fff;border:1px solid #ddd;}
+    .analyzeInfo-input4{display:inline; width:80%;padding:1.5px 0; font-size:16px;line-height:2.0;color:#222; background-color:#fff;border:1px solid #ddd; margin-right: 5px; margin-bottom: 5px;}
 
     .fm-inline{display:inline-block}
     .fm-inline +.fm-inline{margin-left:20px}
@@ -724,10 +726,9 @@ ul.main-board li.hot p.subject a{color:#2461d0;font-weight:700}
     /* 관리자페이지>분석정보 20221020 */
 	.brd .analyzeInfo th:nth-child(1){width:6%;}
 	.brd .analyzeInfo th:nth-child(2){width:15%;}
-	.brd .analyzeInfo th:nth-child(3){width:10%;}
-	.brd .analyzeInfo th:nth-child(4){width:"*";}
-	.brd .analyzeInfo th:nth-child(5){width:12%;}
-	.brd .analyzeInfo th:nth-child(6){width:13%;}
+	.brd .analyzeInfo th:nth-child(3){width:"*";}
+	.brd .analyzeInfo th:nth-child(4){width:12%;}
+	.brd .analyzeInfo th:nth-child(5){width:13%;}
 
     .brd .news th:nth-child(1){width:12%;}
     .brd .news th:nth-child(2){width:65%;}

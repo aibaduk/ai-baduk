@@ -250,6 +250,7 @@ var baduk = baduk || {
         var box = $($this),
             dataSet = data,
             cont = '';
+        box.html('');
         $.each(dataSet, function (index, item){
             cont += '<div class="item"><strong>'+item.tit+'</strong><div class="bar"><span style="width:'+item.percent+'%;background-color:'+item.color+';"></span></div><p>'+item.percent+'%</p></div>';
         });

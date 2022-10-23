@@ -9,6 +9,17 @@ $(document).on('click', '[id^=chk_]', function() {
 	let checked = $("[id^=chk_]:checked").length;
 	$('#allCheck').prop("checked", (total == checked));
 });
+/**
+ * 정규식 이벤트
+ */
+$(document).on('input keyup paste change blur', '.dev-number', function() {
+	let regExp = /[^0-9]/g;
+	let objValue = $(this).val();
+	if (regExp.test(objValue)) {
+		objValue = objValue.replace(regExp, '');
+	}
+	$(this).val(objValue);
+});
 
 var ai = {
 	isValidate: function(o) {

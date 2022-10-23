@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ai.admin.dao.AnalyzeInfoMapper;
 import com.ai.admin.vo.AnalyzeInfoSearchVo;
 import com.ai.admin.vo.AnalyzeInfoVo;
+import com.ai.admin.vo.UserVo;
 import com.ai.common.web.CommonService;
 import com.ai.common.web.ExcelService;
 import com.ai.common.web.FileService;
@@ -103,6 +104,15 @@ public class AnalyzeInfoService {
 			CommonService.setSessionData(analyzeInfo);
 			analyzeInfoMapper.deleteAnalyzeInfo(analyzeInfo);
 		});
+	}
+
+	/**
+	 * @implNote select user list.
+	 * @param keyword
+	 * @return List<UserVo>
+	 */
+	public List<UserVo> selectUserList(String keyword) {
+		return analyzeInfoMapper.selectUserList(keyword);
 	}
 
 	/**

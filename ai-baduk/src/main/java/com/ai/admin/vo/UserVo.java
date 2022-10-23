@@ -56,6 +56,9 @@ public class UserVo extends BaseVo {
     /** 생년월일 */
     private String birth;
 
+    /** 나이 */
+    private String age;
+
     /** 이메일 */
     private String email;
 

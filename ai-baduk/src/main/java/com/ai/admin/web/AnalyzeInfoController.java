@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ai.admin.service.AnalyzeInfoService;
 import com.ai.admin.vo.AnalyzeInfoSearchVo;
 import com.ai.admin.vo.AnalyzeInfoVo;
+import com.ai.common.exception.BizException;
 import com.ai.common.util.Constants;
 import com.ai.common.vo.PageResult;
 import com.ai.common.vo.pageInfoVo;
@@ -96,6 +97,7 @@ public class AnalyzeInfoController {
 	public String mergeAnalyzeInfo(Model model, AnalyzeInfoVo analyzeInfoVo) {
 		try {
 			analyzeInfoService.mergeAnalyzeInfo(analyzeInfoVo);
+			model.addAttribute("analyzeInfo", analyzeInfoVo);
 			model.addAttribute("result", true);
 		} catch (Exception e) {
 			model.addAttribute("msg", e.getMessage());
@@ -114,6 +116,22 @@ public class AnalyzeInfoController {
 			analyzeInfoService.deleteAnalyzeInfo(analyzeInfoList);
 			model.addAttribute("result", true);
 		} catch (Exception e) {
+			model.addAttribute("msg", e.getMessage());
+		}
+		return Constants.JSON_VIEW;
+	}
+
+	/**
+	 * @implNote select user list.
+	 * @param userVo
+	 * @return
+	 */
+	@PostMapping("/user-search")
+	public String selectUserList(Model model, String keyword) {
+		try {
+			model.addAttribute("userList", analyzeInfoService.selectUserList(keyword));
+			model.addAttribute("result", true);
+		} catch (BizException e) {
 			model.addAttribute("msg", e.getMessage());
 		}
 		return Constants.JSON_VIEW;
