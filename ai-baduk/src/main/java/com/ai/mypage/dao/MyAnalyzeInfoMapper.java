@@ -1,5 +1,7 @@
 package com.ai.mypage.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.ai.mypage.vo.MyAnalyzeInfoVo;
@@ -11,6 +13,13 @@ import com.ai.mypage.vo.MyAnalyzeInfoVo;
  */
 @Mapper
 public interface MyAnalyzeInfoMapper {
+	/**
+	 * @implNote select analyzeInfoId list.
+	 * @param analyzeInfoVo
+	 * @return AnalyzeInfoVo
+	 */
+	public List<String> analyzeInfoIdList(MyAnalyzeInfoVo analyzeInfoVo);
+
 	/**
 	 * @implNote select analyze info.
 	 * @param analyzeInfoVo

@@ -8,47 +8,175 @@
 <script type="text/javascript">
 $(function() {
 	"use strict"
+	$('#analyzeInfoId').change(function() {
+		analyzeInfo.search($(this).find('option:selected').val());
+	});
+	analyzeInfo.initChart();
 });
+var analyzeInfo = {
+	search: function(analyzeInfoId) {
+		"use strict"
+		$.ajax({
+			type: 'get',
+			url: '/mypage/analyzeInfo/search',
+			data: {
+				'userId': $('#userId').val(),
+				'analyzeInfoId': analyzeInfoId
+			},
+			success: function (data) {
+				let analyzeInfoDetail = data.analyzeInfoDetail;
+				if (!isNullOrEmpty(analyzeInfoDetail)) {
+					$('#userGrade').removeClass();
+					$('#userGrade').addClass(analyzeInfoDetail.userGrade);
+					$('#userNm').text(analyzeInfoDetail.userNm);
+
+					$('.after_team').empty();
+
+					// after event
+					$('#levelNm').after('<p class="after_team">'+analyzeInfoDetail.levelNm+'</p>');
+					$('#age').after('<p class="after_team">'+analyzeInfoDetail.age+'</p>');
+					$('#team').after('<p class="after_team">'+analyzeInfoDetail.team+'</p>');
+					$('#badukTendency').after('<p class="after_team">'+analyzeInfoDetail.badukTendency+'</p>');
+					$('#victoryPattern').after('<p class="after_team">'+analyzeInfoDetail.victoryPattern+'</p>');
+					$('#bp').after('<p class="after_team">'+analyzeInfoDetail.bp+'</p>');
+					$('#ibm').after('<p class="after_team">'+analyzeInfoDetail.ibm+'</p>');
+					$('#target').after('<p class="after_team">'+analyzeInfoDetail.target+'</p>');
+
+					// chart_data
+					$('#opening').val(analyzeInfoDetail.opening);
+					$('#endGame').val(analyzeInfoDetail.endGame);
+					$('#middleGame').val(analyzeInfoDetail.middleGame);
+					$('#gameTiming').val(analyzeInfoDetail.gameTiming);
+					$('#technique').val(analyzeInfoDetail.technique);
+					$('#endGameDefenseFailure').val(analyzeInfoDetail.endGameDefenseFailure);
+					$('#endGameTurnTheTables').val(analyzeInfoDetail.endGameTurnTheTables);
+
+					// text
+					$('#event_opening').text(analyzeInfoDetail.opening);
+					$('#event_endGame').text(analyzeInfoDetail.endGame);
+					$('#event_gameTiming').text(analyzeInfoDetail.gameTiming);
+					$('#event_middleGame').text(analyzeInfoDetail.middleGame);
+					$('#event_technique').text(analyzeInfoDetail.technique);
+					$('#event_endGameDefenseFailure').text(analyzeInfoDetail.endGameDefenseFailure);
+					$('#event_endGameTurnTheTables').text(analyzeInfoDetail.endGameTurnTheTables);
+
+					$('#openingStarting').text(analyzeInfoDetail.openingStarting);
+					$('#openingAiMatchRate').text(analyzeInfoDetail.openingAiMatchRate);
+					$('#openingAiGraph').text(analyzeInfoDetail.openingAiGraph);
+					$('#openingMissRate').text(analyzeInfoDetail.openingMissRate);
+					$('#middleGameCombativePower').text(analyzeInfoDetail.middleGameCombativePower);
+					$('#middleGameSaveRate').text(analyzeInfoDetail.middleGameSaveRate);
+					$('#middleGameMissCnt').text(analyzeInfoDetail.middleGameMissCnt);
+					$('#middleGameMissRate').text(analyzeInfoDetail.middleGameMissRate);
+					$('#endGameDefense').text(analyzeInfoDetail.endGameDefense);
+					$('#endGameMissCnt').text(analyzeInfoDetail.endGameMissCnt);
+					$('#gameTimingWave').text(analyzeInfoDetail.gameTimingWave);
+					$('#gameTimingDefence').text(analyzeInfoDetail.gameTimingDefence);
+					$('#techniqueValueJudgment').text(analyzeInfoDetail.techniqueValueJudgment);
+					$('#techniqueHaengma').text(analyzeInfoDetail.techniqueHaengma);
+					$('#techniqueReading').text(analyzeInfoDetail.techniqueReading);
+					$('#examOpeningPositionalJudgment').text(analyzeInfoDetail.examOpeningPositionalJudgment);
+					$('#examHaengmaValueJudgment').text(analyzeInfoDetail.examHaengmaValueJudgment);
+					$('#examReadingLifeAndDeath').text(analyzeInfoDetail.examReadingLifeAndDeath);
+					$('#examEndGameCounting').text(analyzeInfoDetail.examEndGameCounting);
+					$('#examTotal').text(analyzeInfoDetail.examTotal);
+					$('#etc').text(analyzeInfoDetail.etc);
+					$('.span-mm').text(Number(analyzeInfoId.substr(4,2)));
+					analyzeInfo.initChart();
+				} else {
+					alert('조회된 데이터가 없습니다.');
+				}
+			}
+		});
+	},
+	changeChart: function(obj) {
+		let objId = obj.attr('id');
+		let objValue = obj.val();
+		if (!analyzeInfo.isMychartEmpty()) {
+			$.each(mychart[0].axes, function(i, item) {
+				if (objId == item.id) {
+					item.value = Number(objValue);
+					return false;
+				}
+			});
+			baduk.myChart('.mychart-wrap .chart', mychart);
+		}
+		$.each(record, function(i, item) {
+			if (objId == item.id) {
+				item.percent = Number(objValue);
+				return false;
+			}
+		});
+		baduk.recordChart('.record .chart', record);
+	},
+	initChart: function() {
+		$('.event-chart').each(function() {
+			analyzeInfo.changeChart($(this));
+		});
+	},
+	isMychartEmpty: function() {
+		let value = 0;
+		$('.event-mychart').each(function() {
+			value += Number(isNullOrEmpty($(this).val()) ? 0 : $(this).val());
+		});
+		return value == 0;
+	}
+}
 </script>
 <body>
 	<div class="wrapper">
 		<%@ include file="/WEB-INF/jsp/views/common/header.jsp" %>
-		<c:set var="isInsert" value="${empty analyzeInfoDetail }"></c:set>
-		<c:set var="isDetail" value="${not empty analyzeInfoDetail }"></c:set>
 		<section class="container">
 	        <div class="keyvi"></div>
 	        <section class="content qna">
 	            <div class="inner">
 	                <div class="tab-wrap ea2">
 	                    <ul class="tab-menu">
-	                        <li class="on"><a href="/mypage/analyzeInfo/detail">개인 분석정보</a></li>
 	                        <li><a href="/mypage/user/detail">회원정보수정</a></li>
+	                        <li class="on"><a href="/mypage/analyzeInfo/detail">개인 분석정보</a></li>
 	                    </ul>
 	                    <div class="inner-depth">
 	                        <div class="tab-inner">
 	                            <h2>개인 분석정보</h2>
 	                            <div class="myinfo">
 	                                <div>
-	                                    <em class="vip"></em><!-- silver, gold, vip, vvip  -->
-	                                    <strong>홍길동<span>Hong Gil Dong</span></strong>
+	                                    <em class="${analyzeInfoDetail.userGrade }" id="userGrade"></em>
+	                                    <strong id="userNm">${analyzeInfoDetail.userNm }</strong>
 	                                </div>
-	                                <div><span>기력</span>9단</div>
-	                                <div><span>나이</span>17세</div>
-	                                <div><span>소속</span>한국기원 국가대표</div>
-	                                <p>* 2020.05기준으로 작성된 데이터입니다.</p>
+	                                <div>
+	                                	<span>대상년월</span>
+	                                	<div class="fm-group">
+		                                	<select id="analyzeInfoId" name="analyzeInfoId" title="대상년월 선택" style="padding: 7px 27px 7px 7px;">
+			                                    <c:forEach items="${analyzeInfoIdList }" var="item">
+													<option value="${item }" <c:if test="${analyzeInfoDetail.analyzeInfoId eq item }">selected</c:if>>${item }</option>
+			                                   	</c:forEach>
+			                                </select>
+			                                <input type="hidden" id="userId" value="${userId }">
+	                                	</div>
+	                                </div>
+	                                <div><span id="levelNm">기력</span><p class="after_team">${analyzeInfoDetail.levelNm }<p></div>
+	                                <div><span id="age">나이</span><p class="after_team">${analyzeInfoDetail.age }</p></div>
+	                                <div><span id="team">소속</span><p class="after_team">${analyzeInfoDetail.team }</p></div>
 	                            </div>
 	                            <div class="analysis">
+	                                <input type="hidden" class="event-chart event-mychart" id="opening" value="${analyzeInfoDetail.opening }">
+	                                <input type="hidden" class="event-chart event-mychart" id="middleGame" value="${analyzeInfoDetail.middleGame }">
+	                                <input type="hidden" class="event-chart event-mychart" id="endGame" value="${analyzeInfoDetail.endGame }">
+	                                <input type="hidden" class="event-chart event-mychart" id="gameTiming" value="${analyzeInfoDetail.gameTiming }">
+	                                <input type="hidden" class="event-chart event-mychart" id="technique" value="${analyzeInfoDetail.technique }">
+	                                <input type="hidden" class="event-chart" id="endGameDefenseFailure" value="${analyzeInfoDetail.endGameDefenseFailure }">
+	                                <input type="hidden" class="event-chart" id="endGameTurnTheTables" value="${analyzeInfoDetail.endGameTurnTheTables }">
 	                                <div class="mychart-wrap">
-	                                    <h3>개인 분석표 (0.00)</h3>
+	                                    <h3 id="allTotal">개인 분석표 (${analyzeInfoDetail.allTotal })</h3>
 	                                    <div>
 	                                        <div class="chart"></div>
 	                                        <div class="chart-text">
 	                                            <ul>
-	                                                <li><em>바둑 성향</em>공격형2</li>
-	                                                <li><em>승리 패턴</em>BP13번 사용 후 전투. 끝내기 전 승리확률 70% 이상 벌릴 확률 40%</li>
-	                                                <li><em>BP</em>메인-13번형 / 흑 3, 7, 20번형, 백2, 10번형</li>
-	                                                <li><em>IBM</em>1번 23수까지 진행. 파생형 30개 생성.</li>
-	                                                <li><em>목표</em>3년 후 입단</li>
+	                                                <li><em id="badukTendency">바둑 성향</em><p class="after_team">${analyzeInfoDetail.badukTendency }</p></li>
+	                                                <li><em id="victoryPattern">승리 패턴</em><p class="after_team">${analyzeInfoDetail.victoryPattern }</p></li>
+	                                                <li><em id="bp">BP</em><p class="after_team">${analyzeInfoDetail.bp }</p></li>
+	                                                <li><em id="ibm">IBM</em><p class="after_team">${analyzeInfoDetail.ibm }</p></li>
+	                                                <li><em id="target">목표</em><p class="after_team">${analyzeInfoDetail.target }</p></li>
 	                                            </ul>
 	                                        </div>
 	                                    </div>
@@ -57,53 +185,55 @@ $(function() {
 	                                    <h3>기보 분석표</h3>
 	                                    <div class="clear">
 	                                        <div class="record-item">
-	                                            <h4>포석<p><strong>70</strong>/100</p></h4>
+	                                            <h4>포석<p><strong id="event_opening">${analyzeInfoDetail.opening }</strong>/100</p></h4>
 	                                            <ul>
-	                                                <li>AI 일치율 : <span>45%</span></li>
-	                                                <li>포지션 성공률 : <span>45%</span></li>
-	                                                <li>파생 성공률 : <span>45%</span></li>
-	                                                <li>실착률 : <span>7/40 (22.5%)</span></li>
+	                                                <li>포석 starting : <span id="openingStarting">${analyzeInfoDetail.openingStarting }</span></li>
+	                                                <li>포석 AI일치율 : <span id="openingAiMatchRate">${analyzeInfoDetail.openingAiMatchRate }</span></li>
+	                                                <li>포석 AI그래프 : <span id="openingAiGraph">${analyzeInfoDetail.openingAiGraph }</span></li>
+	                                                <li>포석 실착률 : <span id="openingMissRate">${analyzeInfoDetail.openingMissRate }</span></li>
 	                                            </ul>
 	                                        </div>
 	                                        <div class="record-item">
-	                                            <h4>중반<p><strong>80</strong>/100</p></h4>
+	                                            <h4>중반<p><strong id="event_middleGame">${analyzeInfoDetail.middleGame }</strong>/100</p></h4>
 	                                            <ul>
-	                                                <li>유효수읽기 : <span>45%</span></li>
-	                                                <li>전투력 : <span>45%</span></li>
-	                                                <li>가치판단 : <span>45%</span></li>
-	                                                <li>실착률 : <span>7/40 (22.5%)</span></li>
+	                                                <li>중반 전투력 : <span id="middleGameCombativePower">${analyzeInfoDetail.middleGameCombativePower }</span></li>
+	                                                <li>중반 선방율 : <span id="middleGameSaveRate">${analyzeInfoDetail.middleGameSaveRate }</span></li>
+	                                                <li>중반 실착횟수 : <span id="middleGameMissCnt">${analyzeInfoDetail.middleGameMissCnt }</span></li>
+	                                                <li>중반 실착율 : <span id="middleGameMissRate">${analyzeInfoDetail.middleGameMissRate }</span></li>
 	                                            </ul>
 	                                        </div>
 	                                        <div class="record-item">
-	                                            <h4>끝내기<p><strong>90</strong>/100</p></h4>
+	                                            <h4>끝내기<p><strong id="event_endGame">${analyzeInfoDetail.endGame }</strong>/100</p></h4>
 	                                            <ul>
-	                                                <li>파트1 : <span>50% &#129042; 65%</span></li>
-	                                                <li>파트2 : <span>65% &#129042; 55%</span></li>
-	                                                <li>파트3 : <span>55% &#129042; 95%</span></li>
-	                                                <li>실착률 : <span>20/200(10%)</span></li>
+	                                                <li>끝내기 DEFENSE : <span id="endGameDefense">${analyzeInfoDetail.endGameDefense }</span></li>
+	                                                <li>끝내기 DEFENSE_FAILURE : <span id="event_endGameDefenseFailure">${analyzeInfoDetail.endGameDefenseFailure }</span></li>
+	                                                <li>끝내기 TURN_THE_TABLES : <span id="event_endGameTurnTheTables">${analyzeInfoDetail.endGameTurnTheTables }</span></li>
+	                                                <li>끝내기 실착횟수 : <span id="endGameMissCnt">${analyzeInfoDetail.endGameMissCnt }</span></li>
 	                                            </ul>
 	                                        </div>
 	                                    </div>
 	                                    <div class="clear">
 	                                        <div class="record-item">
-	                                            <h4>승부호흡</h4>
+	                                            <h4>승부호흡<p><strong id="event_gameTiming">${analyzeInfoDetail.gameTiming }</strong>/100</p></h4>
 	                                            <ul>
-	                                                <li><strong>흔들기</strong>(100/15)<span>성공률 50%</span></li>
-	                                                <li><strong>수비</strong>(20/10)<span>성공률 70%</span></li>
+	                                                <li>승부호흡 흔들기 : <span id="gameTimingWave">${analyzeInfoDetail.gameTimingWave }</span></li>
+		                                            <li>승부호흡 수비 : <span id="gameTimingDefence">${analyzeInfoDetail.gameTimingDefence }</span></li>
 	                                            </ul>
 	                                        </div>
 	                                        <div class="record-item">
-	                                            <h4>생각시간 활용</h4>
+	                                            <h4>기술<p><strong id="event_technique">${analyzeInfoDetail.technique }</strong>/100</p></h4>
 	                                            <ul>
-	                                                <li><strong>장고대국</strong>10판 (7승3패)<span>승률 25%</span></li>
-	                                                <li><strong>속기대국</strong>10판 (5승5패)<span>승률 70%</span></li>
+	                                                <li>기술 가치판단 : <span id="techniqueValueJudgment">${analyzeInfoDetail.techniqueValueJudgment }</span></li>
+	                                                <li>기술 행마 : <span id="techniqueHaengma">${analyzeInfoDetail.techniqueHaengma }</span></li>
+	                                                <li>기술 수읽기 : <span id="techniqueReading">${analyzeInfoDetail.techniqueReading }</span></li>
 	                                            </ul>
 	                                        </div>
 	                                    </div>
 	                                    <div class="chart"></div>
 	                                </div>
 	                                <div class="inner">
-	                                    <h3>7월 시험성적</h3>
+	                                    <c:set var="iszero" value="${(fn:substring(analyzeInfoDetail.analyzeInfoId, 4, 5) ne '0') ? 4 : 5 }"></c:set>
+	                                    <h3><span class="span-mm">${fn:substring(analyzeInfoDetail.analyzeInfoId, iszero, 6) }</span>월 시험성적</h3>
 	                                    <table>
 	                                        <colgroup>
 	                                            <col width="20%"><col width="20%"><col width="20%"><col width="20%"><col width="20%">
@@ -119,18 +249,18 @@ $(function() {
 	                                        </thead>
 	                                        <tbody>
 	                                            <tr>
-	                                                <td>20</td>
-	                                                <td>25</td>
-	                                                <td>20</td>
-	                                                <td>25</td>
-	                                                <td>90</td>
+	                                                <td id="examOpeningPositionalJudgment">${analyzeInfoDetail.examOpeningPositionalJudgment }</td>
+	                                                <td id="examHaengmaValueJudgment">${analyzeInfoDetail.examHaengmaValueJudgment }</td>
+	                                                <td id="examReadingLifeAndDeath">${analyzeInfoDetail.examReadingLifeAndDeath }</td>
+	                                                <td id="examEndGameCounting">${analyzeInfoDetail.examEndGameCounting }</td>
+	                                                <td id="examTotal">${analyzeInfoDetail.examTotal }</td>
 	                                            </tr>
 	                                        </tbody>
 	                                    </table>
 	                                </div>
 	                                <div class="inner">
-	                                    <h3>7월 메모사항</h3>
-	                                    <div class="memo">2016 중국리그/ 박정환(백)-천야오예 때에 비해 끝내기 실력이 향상되었다. </div>
+	                                    <h3><span class="span-mm">${fn:substring(analyzeInfoDetail.analyzeInfoId, 4, 6) }</span>월 메모사항</h3>
+	                                    <div class="memo" id="etc">${analyzeInfoDetail.etc }</div>
 	                                </div>
 	                            </div>
 	                        </div>

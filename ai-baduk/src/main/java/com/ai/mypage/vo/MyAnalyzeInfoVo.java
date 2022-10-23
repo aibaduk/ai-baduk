@@ -110,7 +110,20 @@ public class MyAnalyzeInfoVo extends BaseVo {
 	/** 시험 끝내기/계가 */
 	private String examEndGameCounting;
 
+	/** 시험 총점 */
+	private String examTotal;
+
+	/** 총점 */
+	private String allTotal;
+
 	/** 비고 */
 	private String etc;
+
+	/** 사용자 정보 */
+	private String userGrade;
+	private String userNm;
+	private String levelNm;
+	private String age;
+	private String team;
 
 }
