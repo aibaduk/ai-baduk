@@ -215,28 +215,28 @@
 		                                        <div class="record-item">
 		                                            <h4>포석<p><strong><input type="text" class="analyzeInfo-input2 dev-number event-chart event-mychart" id="opening" name="opening" value="${analyzeInfoDetailInfo.opening }" maxlength="3"></strong>/100</p></h4>
 		                                            <ul>
-		                                                <li>포석 starting : <span><input type="text" class="analyzeInfo-input3" id="openingStarting" name="openingStarting" maxlength="50" value="${analyzeInfoDetailInfo.openingStarting }"></span></li>
-		                                                <li>포석 AI일치율 : <span><input type="text" class="analyzeInfo-input3" id="openingAiMatchRate" name="openingAiMatchRate" maxlength="50" value="${analyzeInfoDetailInfo.openingAiMatchRate }"></span></li>
-		                                                <li>포석 AI그래프 : <span><input type="text" class="analyzeInfo-input3" id="openingAiGraph" name="openingAiGraph" maxlength="50" value="${analyzeInfoDetailInfo.openingAiGraph }"></span></li>
-		                                                <li>포석 실착률 : <span><input type="text" class="analyzeInfo-input3" id="openingMissRate" name="openingMissRate" maxlength="50" value="${analyzeInfoDetailInfo.openingMissRate }"></span></li>
+		                                                <li>starting : <span><input type="text" class="analyzeInfo-input3" id="openingStarting" name="openingStarting" maxlength="50" value="${analyzeInfoDetailInfo.openingStarting }"></span></li>
+		                                                <li>AI일치율 : <span><input type="text" class="analyzeInfo-input3" id="openingAiMatchRate" name="openingAiMatchRate" maxlength="50" value="${analyzeInfoDetailInfo.openingAiMatchRate }"></span></li>
+		                                                <li>AI그래프 : <span><input type="text" class="analyzeInfo-input3" id="openingAiGraph" name="openingAiGraph" maxlength="50" value="${analyzeInfoDetailInfo.openingAiGraph }"></span></li>
+		                                                <li>실착률 : <span><input type="text" class="analyzeInfo-input3" id="openingMissRate" name="openingMissRate" maxlength="50" value="${analyzeInfoDetailInfo.openingMissRate }"></span></li>
 		                                            </ul>
 		                                        </div>
 		                                        <div class="record-item">
 		                                            <h4>중반<p><strong><input type="text" class="analyzeInfo-input2 dev-number event-chart event-mychart" id="middleGame" name="middleGame" value="${analyzeInfoDetailInfo.middleGame }" maxlength="3"></strong>/100</p></h4>
 		                                            <ul>
-		                                                <li>중반 전투력 : <span><input type="text" class="analyzeInfo-input3" id="middleGameCombativePower" name="middleGameCombativePower" maxlength="50" value="${analyzeInfoDetailInfo.middleGameCombativePower }"></span></li>
-		                                                <li>중반 선방율 : <span><input type="text" class="analyzeInfo-input3" id="middleGameSaveRate" name="middleGameSaveRate" maxlength="50" value="${analyzeInfoDetailInfo.middleGameSaveRate }"></span></li>
-		                                                <li>중반 실착횟수 : <span><input type="text" class="analyzeInfo-input3" id="middleGameMissCnt" name="middleGameMissCnt" maxlength="50" value="${analyzeInfoDetailInfo.middleGameMissCnt }"></span></li>
-		                                                <li>중반 실착율 : <span><input type="text" class="analyzeInfo-input3" id="middleGameMissRate" name="middleGameMissRate" maxlength="50" value="${analyzeInfoDetailInfo.middleGameMissRate }"></span></li>
+		                                                <li>전투력 : <span><input type="text" class="analyzeInfo-input3" id="middleGameCombativePower" name="middleGameCombativePower" maxlength="50" value="${analyzeInfoDetailInfo.middleGameCombativePower }"></span></li>
+		                                                <li>선방율 : <span><input type="text" class="analyzeInfo-input3" id="middleGameSaveRate" name="middleGameSaveRate" maxlength="50" value="${analyzeInfoDetailInfo.middleGameSaveRate }"></span></li>
+		                                                <li>실착횟수 : <span><input type="text" class="analyzeInfo-input3" id="middleGameMissCnt" name="middleGameMissCnt" maxlength="50" value="${analyzeInfoDetailInfo.middleGameMissCnt }"></span></li>
+		                                                <li>실착율 : <span><input type="text" class="analyzeInfo-input3" id="middleGameMissRate" name="middleGameMissRate" maxlength="50" value="${analyzeInfoDetailInfo.middleGameMissRate }"></span></li>
 		                                            </ul>
 		                                        </div>
 		                                        <div class="record-item">
 		                                            <h4>끝내기<p><strong><input type="text" class="analyzeInfo-input2 dev-number event-chart event-mychart" id="endGame" name="endGame" value="${analyzeInfoDetailInfo.endGame }" maxlength="3"></strong>/100</p></h4>
 		                                            <ul>
-		                                                <li>끝내기 DEFENSE : <span><input type="text" class="analyzeInfo-input3" id="endGameDefense" name="endGameDefense" maxlength="50" value="${analyzeInfoDetailInfo.endGameDefense }"></span></li>
-		                                                <li>끝내기 DEFENSE_FAILURE : <span><input type="text" class="analyzeInfo-input3 event-chart" id="endGameDefenseFailure" name="endGameDefenseFailure" maxlength="50" value="${analyzeInfoDetailInfo.endGameDefenseFailure }"></span></li>
-		                                                <li>끝내기 TURN_THE_TABLES : <span><input type="text" class="analyzeInfo-input3 event-chart" id="endGameTurnTheTables" name="endGameTurnTheTables" maxlength="50" value="${analyzeInfoDetailInfo.endGameTurnTheTables }"></span></li>
-		                                                <li>끝내기 실착횟수 : <span><input type="text" class="analyzeInfo-input3" id="endGameMissCnt" name="endGameMissCnt" maxlength="50" value="${analyzeInfoDetailInfo.endGameMissCnt }"></span></li>
+		                                                <li>DEFENSE : <span><input type="text" class="analyzeInfo-input3" id="endGameDefense" name="endGameDefense" maxlength="50" value="${analyzeInfoDetailInfo.endGameDefense }"></span></li>
+		                                                <li>DEFENSE_FAILURE : <span><input type="text" class="analyzeInfo-input3" id="endGameDefenseFailure" name="endGameDefenseFailure" maxlength="50" value="${analyzeInfoDetailInfo.endGameDefenseFailure }"></span></li>
+		                                                <li>TURN_THE_TABLES : <span><input type="text" class="analyzeInfo-input3" id="endGameTurnTheTables" name="endGameTurnTheTables" maxlength="50" value="${analyzeInfoDetailInfo.endGameTurnTheTables }"></span></li>
+		                                                <li>실착횟수 : <span><input type="text" class="analyzeInfo-input3" id="endGameMissCnt" name="endGameMissCnt" maxlength="50" value="${analyzeInfoDetailInfo.endGameMissCnt }"></span></li>
 		                                            </ul>
 		                                        </div>
 		                                    </div>
@@ -244,16 +244,16 @@
 		                                        <div class="record-item">
 		                                            <h4>승부호흡<p><strong><input type="text" class="analyzeInfo-input2 dev-number event-chart event-mychart" id="gameTiming" name="gameTiming" value="${analyzeInfoDetailInfo.gameTiming }" maxlength="3"></strong>/100</p></h4>
 		                                            <ul>
-		                                                <li>승부호흡 흔들기 : <span><input type="text" class="analyzeInfo-input3" id="gameTimingWave" name="gameTimingWave" maxlength="50" value="${analyzeInfoDetailInfo.gameTimingWave }"></span></li>
-		                                                <li>승부호흡 수비 : <span><input type="text" class="analyzeInfo-input3" id="gameTimingDefence" name="gameTimingDefence" maxlength="50" value="${analyzeInfoDetailInfo.gameTimingDefence }"></span></li>
+		                                                <li>흔들기 : <span><input type="text" class="analyzeInfo-input3" id="gameTimingWave" name="gameTimingWave" maxlength="50" value="${analyzeInfoDetailInfo.gameTimingWave }"></span></li>
+		                                                <li>수비 : <span><input type="text" class="analyzeInfo-input3" id="gameTimingDefence" name="gameTimingDefence" maxlength="50" value="${analyzeInfoDetailInfo.gameTimingDefence }"></span></li>
 		                                            </ul>
 		                                        </div>
 		                                        <div class="record-item">
 		                                            <h4>기술<p><strong><input type="text" class="analyzeInfo-input2 dev-number event-chart event-mychart" id="technique" name="technique" value="${analyzeInfoDetailInfo.technique }" maxlength="3"></strong>/100</p></h4>
 		                                            <ul>
-		                                                <li>기술 가치판단 : <span><input type="text" class="analyzeInfo-input3" id="techniqueValueJudgment" name="techniqueValueJudgment" maxlength="50" value="${analyzeInfoDetailInfo.techniqueValueJudgment }"></span></li>
-		                                                <li>기술 행마 : <span><input type="text" class="analyzeInfo-input3" id="techniqueHaengma" name="techniqueHaengma" maxlength="50" value="${analyzeInfoDetailInfo.techniqueHaengma }"></span></li>
-		                                                <li>기술 수읽기 : <span><input type="text" class="analyzeInfo-input3" id="techniqueReading" name="techniqueReading" maxlength="50" value="${analyzeInfoDetailInfo.techniqueReading }"></span></li>
+		                                                <li>가치판단 : <span><input type="text" class="analyzeInfo-input3 dev-number event-chart" id="techniqueValueJudgment" name="techniqueValueJudgment" maxlength="3" value="${analyzeInfoDetailInfo.techniqueValueJudgment }"></span></li>
+		                                                <li>행마 : <span><input type="text" class="analyzeInfo-input3 dev-number event-chart" id="techniqueHaengma" name="techniqueHaengma" maxlength="3" value="${analyzeInfoDetailInfo.techniqueHaengma }"></span></li>
+		                                                <li>수읽기 : <span><input type="text" class="analyzeInfo-input3 dev-number event-chart" id="techniqueReading" name="techniqueReading" maxlength="3" value="${analyzeInfoDetailInfo.techniqueReading }"></span></li>
 		                                            </ul>
 		                                        </div>
 		                                    </div>
@@ -369,8 +369,7 @@
 		});
 	}
 
-	// @brief 사용자검색창 - 주소지 선택
-	//
+	// @brief 사용자검색창 - 사용자 선택
 	function makeListJson(userList) {
 		let htmlStr = '';
 		if(userList.length > 0) {

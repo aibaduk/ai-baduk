@@ -122,6 +122,7 @@ public class AnalyzeInfoVo extends BaseVo {
 	/** 사용자 정보 */
 	private String userGrade;
 	private String userNm;
+	private String userNickNm;
 	private String levelNm;
 	private String age;
 	private String team;

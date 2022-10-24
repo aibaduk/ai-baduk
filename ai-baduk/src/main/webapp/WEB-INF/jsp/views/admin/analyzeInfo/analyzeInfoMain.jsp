@@ -33,6 +33,9 @@ $(function() {
 	$('#btn-insert').click(function() {
 		window.location.href="/admin/analyzeInfo/insert";
 	});
+	$('#btn-statistics').click(function() {
+		window.location.href="/admin/analyzeInfo/statistics";
+	});
 	$('#btn-delete').click(function() {
 		fnDelete();
 		return false;
@@ -77,9 +80,6 @@ $(function() {
 				}
 			});
 		}
-		return false;
-	});
-	$('#btn-statistics').click(function() {
 		return false;
 	});
 

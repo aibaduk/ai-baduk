@@ -138,6 +138,36 @@ public class AnalyzeInfoController {
 	}
 
 	/**
+	 * @implNote page analyzeInfo detail Linked and select analyzeInfo info.
+	 * @param analyzeInfoVo
+	 * @return
+	 */
+	@GetMapping("/statistics")
+	public String analyzeInfoStatistics(Model model) {
+		return "admin/analyzeInfo/analyzeInfoStatistics";
+	}
+
+	/**
+	 * @implNote select user list.
+	 * @param userVo
+	 * @return
+	 */
+	@PostMapping("/statisics-search")
+	public String selectStatisicsOne(Model model,
+			@RequestParam("keyword") String keyword,
+			@RequestParam("from") String from,
+			@RequestParam("to") String to,
+			@RequestParam("value") String value) {
+		try {
+			model.addAttribute("statisicsList", analyzeInfoService.selectStatisicsList(keyword, from, to, value));
+			model.addAttribute("result", true);
+		} catch (BizException e) {
+			model.addAttribute("msg", e.getMessage());
+		}
+		return Constants.JSON_VIEW;
+	}
+
+	/**
 	 * @implNote 업로드 샘플 양식 다운로드
 	 * @param model
 	 * @param response

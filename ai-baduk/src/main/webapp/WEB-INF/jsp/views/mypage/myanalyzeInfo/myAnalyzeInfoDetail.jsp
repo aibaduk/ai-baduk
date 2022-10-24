@@ -30,7 +30,7 @@ var analyzeInfo = {
 					$('#userGrade').addClass(analyzeInfoDetail.userGrade);
 					$('#userNm').text(analyzeInfoDetail.userNm);
 
-					$('.after_team').empty();
+					$('.after_team').remove();
 
 					// after event
 					$('#levelNm').after('<p class="after_team">'+analyzeInfoDetail.levelNm+'</p>');
@@ -48,8 +48,9 @@ var analyzeInfo = {
 					$('#middleGame').val(analyzeInfoDetail.middleGame);
 					$('#gameTiming').val(analyzeInfoDetail.gameTiming);
 					$('#technique').val(analyzeInfoDetail.technique);
-					$('#endGameDefenseFailure').val(analyzeInfoDetail.endGameDefenseFailure);
-					$('#endGameTurnTheTables').val(analyzeInfoDetail.endGameTurnTheTables);
+					$('#techniqueValueJudgment').val(analyzeInfoDetail.techniqueValueJudgment);
+					$('#techniqueHaengma').val(analyzeInfoDetail.techniqueHaengma);
+					$('#techniqueReading').val(analyzeInfoDetail.techniqueReading);
 
 					// text
 					$('#event_opening').text(analyzeInfoDetail.opening);
@@ -57,8 +58,9 @@ var analyzeInfo = {
 					$('#event_gameTiming').text(analyzeInfoDetail.gameTiming);
 					$('#event_middleGame').text(analyzeInfoDetail.middleGame);
 					$('#event_technique').text(analyzeInfoDetail.technique);
-					$('#event_endGameDefenseFailure').text(analyzeInfoDetail.endGameDefenseFailure);
-					$('#event_endGameTurnTheTables').text(analyzeInfoDetail.endGameTurnTheTables);
+					$('#event_techniqueValueJudgment').text(analyzeInfoDetail.techniqueValueJudgment);
+					$('#event_techniqueHaengma').text(analyzeInfoDetail.techniqueHaengma);
+					$('#event_techniqueReading').text(analyzeInfoDetail.techniqueReading);
 
 					$('#openingStarting').text(analyzeInfoDetail.openingStarting);
 					$('#openingAiMatchRate').text(analyzeInfoDetail.openingAiMatchRate);
@@ -69,12 +71,11 @@ var analyzeInfo = {
 					$('#middleGameMissCnt').text(analyzeInfoDetail.middleGameMissCnt);
 					$('#middleGameMissRate').text(analyzeInfoDetail.middleGameMissRate);
 					$('#endGameDefense').text(analyzeInfoDetail.endGameDefense);
+					$('#endGameDefenseFailure').text(analyzeInfoDetail.endGameDefenseFailure);
+					$('#endGameTurnTheTables').text(analyzeInfoDetail.endGameTurnTheTables);
 					$('#endGameMissCnt').text(analyzeInfoDetail.endGameMissCnt);
 					$('#gameTimingWave').text(analyzeInfoDetail.gameTimingWave);
 					$('#gameTimingDefence').text(analyzeInfoDetail.gameTimingDefence);
-					$('#techniqueValueJudgment').text(analyzeInfoDetail.techniqueValueJudgment);
-					$('#techniqueHaengma').text(analyzeInfoDetail.techniqueHaengma);
-					$('#techniqueReading').text(analyzeInfoDetail.techniqueReading);
 					$('#examOpeningPositionalJudgment').text(analyzeInfoDetail.examOpeningPositionalJudgment);
 					$('#examHaengmaValueJudgment').text(analyzeInfoDetail.examHaengmaValueJudgment);
 					$('#examReadingLifeAndDeath').text(analyzeInfoDetail.examReadingLifeAndDeath);
@@ -164,8 +165,9 @@ var analyzeInfo = {
 	                                <input type="hidden" class="event-chart event-mychart" id="endGame" value="${analyzeInfoDetail.endGame }">
 	                                <input type="hidden" class="event-chart event-mychart" id="gameTiming" value="${analyzeInfoDetail.gameTiming }">
 	                                <input type="hidden" class="event-chart event-mychart" id="technique" value="${analyzeInfoDetail.technique }">
-	                                <input type="hidden" class="event-chart" id="endGameDefenseFailure" value="${analyzeInfoDetail.endGameDefenseFailure }">
-	                                <input type="hidden" class="event-chart" id="endGameTurnTheTables" value="${analyzeInfoDetail.endGameTurnTheTables }">
+	                                <input type="hidden" class="event-chart" id="techniqueValueJudgment" value="${analyzeInfoDetail.techniqueValueJudgment }">
+	                                <input type="hidden" class="event-chart" id="techniqueHaengma" value="${analyzeInfoDetail.techniqueHaengma }">
+	                                <input type="hidden" class="event-chart" id="techniqueReading" value="${analyzeInfoDetail.techniqueReading }">
 	                                <div class="mychart-wrap">
 	                                    <h3 id="allTotal">개인 분석표 (${analyzeInfoDetail.allTotal })</h3>
 	                                    <div>
@@ -187,28 +189,28 @@ var analyzeInfo = {
 	                                        <div class="record-item">
 	                                            <h4>포석<p><strong id="event_opening">${analyzeInfoDetail.opening }</strong>/100</p></h4>
 	                                            <ul>
-	                                                <li>포석 starting : <span id="openingStarting">${analyzeInfoDetail.openingStarting }</span></li>
-	                                                <li>포석 AI일치율 : <span id="openingAiMatchRate">${analyzeInfoDetail.openingAiMatchRate }</span></li>
-	                                                <li>포석 AI그래프 : <span id="openingAiGraph">${analyzeInfoDetail.openingAiGraph }</span></li>
-	                                                <li>포석 실착률 : <span id="openingMissRate">${analyzeInfoDetail.openingMissRate }</span></li>
+	                                                <li>starting : <span id="openingStarting">${analyzeInfoDetail.openingStarting }</span></li>
+	                                                <li>AI일치율 : <span id="openingAiMatchRate">${analyzeInfoDetail.openingAiMatchRate }</span></li>
+	                                                <li>AI그래프 : <span id="openingAiGraph">${analyzeInfoDetail.openingAiGraph }</span></li>
+	                                                <li>실착률 : <span id="openingMissRate">${analyzeInfoDetail.openingMissRate }</span></li>
 	                                            </ul>
 	                                        </div>
 	                                        <div class="record-item">
 	                                            <h4>중반<p><strong id="event_middleGame">${analyzeInfoDetail.middleGame }</strong>/100</p></h4>
 	                                            <ul>
-	                                                <li>중반 전투력 : <span id="middleGameCombativePower">${analyzeInfoDetail.middleGameCombativePower }</span></li>
-	                                                <li>중반 선방율 : <span id="middleGameSaveRate">${analyzeInfoDetail.middleGameSaveRate }</span></li>
-	                                                <li>중반 실착횟수 : <span id="middleGameMissCnt">${analyzeInfoDetail.middleGameMissCnt }</span></li>
-	                                                <li>중반 실착율 : <span id="middleGameMissRate">${analyzeInfoDetail.middleGameMissRate }</span></li>
+	                                                <li>전투력 : <span id="middleGameCombativePower">${analyzeInfoDetail.middleGameCombativePower }</span></li>
+	                                                <li>선방율 : <span id="middleGameSaveRate">${analyzeInfoDetail.middleGameSaveRate }</span></li>
+	                                                <li>실착횟수 : <span id="middleGameMissCnt">${analyzeInfoDetail.middleGameMissCnt }</span></li>
+	                                                <li>실착율 : <span id="middleGameMissRate">${analyzeInfoDetail.middleGameMissRate }</span></li>
 	                                            </ul>
 	                                        </div>
 	                                        <div class="record-item">
 	                                            <h4>끝내기<p><strong id="event_endGame">${analyzeInfoDetail.endGame }</strong>/100</p></h4>
 	                                            <ul>
-	                                                <li>끝내기 DEFENSE : <span id="endGameDefense">${analyzeInfoDetail.endGameDefense }</span></li>
-	                                                <li>끝내기 DEFENSE_FAILURE : <span id="event_endGameDefenseFailure">${analyzeInfoDetail.endGameDefenseFailure }</span></li>
-	                                                <li>끝내기 TURN_THE_TABLES : <span id="event_endGameTurnTheTables">${analyzeInfoDetail.endGameTurnTheTables }</span></li>
-	                                                <li>끝내기 실착횟수 : <span id="endGameMissCnt">${analyzeInfoDetail.endGameMissCnt }</span></li>
+	                                                <li>DEFENSE : <span id="endGameDefense">${analyzeInfoDetail.endGameDefense }</span></li>
+	                                                <li>DEFENSE_FAILURE : <span id="endGameDefenseFailure">${analyzeInfoDetail.endGameDefenseFailure }</span></li>
+	                                                <li>TURN_THE_TABLES : <span id="endGameTurnTheTables">${analyzeInfoDetail.endGameTurnTheTables }</span></li>
+	                                                <li>실착횟수 : <span id="endGameMissCnt">${analyzeInfoDetail.endGameMissCnt }</span></li>
 	                                            </ul>
 	                                        </div>
 	                                    </div>
@@ -216,16 +218,16 @@ var analyzeInfo = {
 	                                        <div class="record-item">
 	                                            <h4>승부호흡<p><strong id="event_gameTiming">${analyzeInfoDetail.gameTiming }</strong>/100</p></h4>
 	                                            <ul>
-	                                                <li>승부호흡 흔들기 : <span id="gameTimingWave">${analyzeInfoDetail.gameTimingWave }</span></li>
-		                                            <li>승부호흡 수비 : <span id="gameTimingDefence">${analyzeInfoDetail.gameTimingDefence }</span></li>
+	                                                <li>흔들기 : <span id="gameTimingWave">${analyzeInfoDetail.gameTimingWave }</span></li>
+		                                            <li>수비 : <span id="gameTimingDefence">${analyzeInfoDetail.gameTimingDefence }</span></li>
 	                                            </ul>
 	                                        </div>
 	                                        <div class="record-item">
 	                                            <h4>기술<p><strong id="event_technique">${analyzeInfoDetail.technique }</strong>/100</p></h4>
 	                                            <ul>
-	                                                <li>기술 가치판단 : <span id="techniqueValueJudgment">${analyzeInfoDetail.techniqueValueJudgment }</span></li>
-	                                                <li>기술 행마 : <span id="techniqueHaengma">${analyzeInfoDetail.techniqueHaengma }</span></li>
-	                                                <li>기술 수읽기 : <span id="techniqueReading">${analyzeInfoDetail.techniqueReading }</span></li>
+	                                                <li>가치판단 : <span id="event_techniqueValueJudgment">${analyzeInfoDetail.techniqueValueJudgment }</span></li>
+	                                                <li>행마 : <span id="event_techniqueHaengma">${analyzeInfoDetail.techniqueHaengma }</span></li>
+	                                                <li>수읽기 : <span id="event_techniqueReading">${analyzeInfoDetail.techniqueReading }</span></li>
 	                                            </ul>
 	                                        </div>
 	                                    </div>

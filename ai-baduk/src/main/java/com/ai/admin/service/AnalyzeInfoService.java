@@ -116,6 +116,18 @@ public class AnalyzeInfoService {
 	}
 
 	/**
+	 * @implNote select user list.
+	 * @param keyword
+	 * @return List<UserVo>
+	 */
+	public List<AnalyzeInfoVo> selectStatisicsList(String keyword
+			, String from
+			, String to
+			, String value) {
+		return analyzeInfoMapper.selectStatisicsList(keyword, from, to, value);
+	}
+
+	/**
 	 * @implNote analyzeInfo excel download.
 	 * @param sheetName
 	 * @param titleList
