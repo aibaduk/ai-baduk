@@ -97,7 +97,18 @@ var code = {
 			alert('추가할 공통코드를 입력하세요.');
 			return false;
 		}
-		return true;
+		let flag = true;
+		$('#code-tbody tr').each(function(i, item) {
+			let codeId = $(item).find(':input[name=codeId]').val();
+			let sortSeq = $(item).find(':input[name=sortSeq]').val();
+			if (!isNullOrEmpty(codeId) && isNullOrEmpty(sortSeq)) {
+				alert('정렬순번을 입력하세요.');
+				$(item).find(':input[name=sortSeq]').focus();
+				flag = false;
+				return false;
+			}
+		});
+		return flag;
 	},
 	setData: function() {
 		let data = {};
