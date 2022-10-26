@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ai.board.service.BoardService;
-import com.ai.board.vo.BoardFileVo;
 import com.ai.board.vo.BoardSearchVo;
 import com.ai.board.vo.BoardVo;
 import com.ai.common.util.Constants;
+import com.ai.common.vo.FileVo;
 import com.ai.common.vo.PageResult;
 import com.ai.common.vo.pageInfoVo;
 import com.github.pagehelper.PageInfo;
@@ -242,10 +242,10 @@ public class BoardController {
 	 * @return
 	 */
 	@PostMapping("/{path}/fileDelete")
-	public String deleteBoardFile(Model model, @PathVariable("path") String path, @RequestBody BoardFileVo boardFileVo) {
+	public String deleteBoardFile(Model model, @PathVariable("path") String path, @RequestBody FileVo fileVo) {
 		try {
-			boardService.deleteBoardFile(boardFileVo);
-			model.addAttribute("boardId", boardFileVo.getBoardId());
+			boardService.deleteBoardFile(fileVo);
+			model.addAttribute("boardId", fileVo.getTargetId());
 			model.addAttribute("result", true);
 		} catch (Exception e) {
 			model.addAttribute("msg", e.getMessage());
@@ -260,8 +260,8 @@ public class BoardController {
 	 * @throws IOException
 	 */
 	@GetMapping("/{path}/fileDownload")
-	public ResponseEntity<Resource> boardFileDownload(Model model, @PathVariable("path") String path, BoardFileVo boardFileVo) throws IOException {
-		return boardService.boardFileDownload(boardFileVo);
+	public ResponseEntity<Resource> boardFileDownload(Model model, @PathVariable("path") String path, FileVo fileVo) throws IOException {
+		return boardService.boardFileDownload(fileVo);
 	}
 
 	/**

@@ -18,9 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ai.board.dao.BoardMapper;
-import com.ai.board.vo.BoardFileVo;
 import com.ai.board.vo.BoardSearchVo;
 import com.ai.board.vo.BoardVo;
+import com.ai.common.util.Constants;
+import com.ai.common.vo.FileVo;
 import com.ai.common.web.CommonService;
 import com.ai.common.web.FileService;
 import com.github.pagehelper.PageHelper;
@@ -105,13 +106,14 @@ public class BoardService {
 					String fileNm = UUID.randomUUID().toString();
 					String fileOgNm = multi.getOriginalFilename();
 					fileService.fileUpload(uploadPath, fileNm, fileOgNm, multi);
-					BoardFileVo boardFileVo = new BoardFileVo();
-					CommonService.setSessionData(boardFileVo);
-					boardFileVo.setBoardId(boardId);
-					boardFileVo.setBoardGubun(boardVo.getBoardGubun());
-					boardFileVo.setFileNm(fileNm);
-					boardFileVo.setFileOgNm(fileOgNm);
-					boardMapper.insertBordFile(boardFileVo);
+					FileVo fileVo = new FileVo();
+					CommonService.setSessionData(fileVo);
+					fileVo.setChnlId(Constants.FILE_CHNL_BOARD);
+					fileVo.setTargetId(boardId);
+					fileVo.setTargetGubun(boardVo.getBoardGubun());
+					fileVo.setFileNm(fileNm);
+					fileVo.setFileOgNm(fileOgNm);
+					fileService.insertFile(fileVo);
 				}
 			}
 		}
@@ -129,27 +131,28 @@ public class BoardService {
 	 */
 	@Transactional
 	public void updateBoard(BoardVo boardVo, List<MultipartFile> fileList) throws IllegalStateException, IOException {
-		// 2. file 경로 설정 (기본경로 + 메뉴경로 + 채번)
+		// 1. file 경로 설정 (기본경로 + 메뉴경로 + 채번)
 		String boardId = boardVo.getBoardId();
 		String uploadPath = getUploadPath(boardVo.getBoardGubun(), boardId);
-		// 3. file upload / board_file insert
+		// 2. file upload / board_file insert
 		if (!Objects.isNull(fileList)) {
 			for (MultipartFile multi : fileList) {
 				if (!multi.isEmpty()) {
 					String fileNm = UUID.randomUUID().toString();
 					String fileOgNm = multi.getOriginalFilename();
 					fileService.fileUpload(uploadPath, fileNm, fileOgNm, multi);
-					BoardFileVo boardFileVo = new BoardFileVo();
-					CommonService.setSessionData(boardFileVo);
-					boardFileVo.setBoardId(boardId);
-					boardFileVo.setBoardGubun(boardVo.getBoardGubun());
-					boardFileVo.setFileNm(fileNm);
-					boardFileVo.setFileOgNm(fileOgNm);
-					boardMapper.insertBordFile(boardFileVo);
+					FileVo fileVo = new FileVo();
+					CommonService.setSessionData(fileVo);
+					fileVo.setChnlId(Constants.FILE_CHNL_BOARD);
+					fileVo.setTargetId(boardId);
+					fileVo.setTargetGubun(boardVo.getBoardGubun());
+					fileVo.setFileNm(fileNm);
+					fileVo.setFileOgNm(fileOgNm);
+					fileService.insertFile(fileVo);
 				}
 			}
 		}
-		// 4. board insert
+		// 3. board update
 		CommonService.setSessionData(boardVo);
 		boardMapper.updateBoard(boardVo);
 	}
@@ -169,40 +172,44 @@ public class BoardService {
 
 	/**
 	 * @implNote delete board file.
-	 * @param boardVo
+	 * @param fileVo
 	 * @return
 	 */
 	@Transactional
-	public void deleteBoardFile(BoardFileVo boardFileVo) {
+	public void deleteBoardFile(FileVo fileVo) {
 		// 1. 파일경로상에 있는 물리적인 파일 삭제
-		String uploadPath = getUploadPath(boardFileVo.getBoardGubun(), boardFileVo.getBoardId());
-		fileService.fileDelete(uploadPath, boardFileVo.getFileNm());
+		String uploadPath = getUploadPath(fileVo.getTargetGubun(), fileVo.getTargetId());
+		fileService.fileDelete(uploadPath, fileVo.getFileNm());
 		// 2. 데이터베이스 파일 테이블 삭제
-		boardMapper.deleteBoardFile(boardFileVo);
+		fileService.deleteFile(fileVo);
 	}
 
 	/**
-	 * @implNote delete board file.
-	 * @param boardVo
+	 * @implNote download board file.
+	 * @param fileVo
 	 * @return
 	 * @throws IOException
 	 */
-	public ResponseEntity<Resource> boardFileDownload(BoardFileVo boardFileVo) throws IOException {
-		String boardId = boardFileVo.getBoardId();
-		String fileNm = boardFileVo.getFileNm();
-		String fileOgNm = boardFileVo.getFileOgNm();
-		String uploadPath = getUploadPath(boardFileVo.getBoardGubun(), boardId);
+	public ResponseEntity<Resource> boardFileDownload(FileVo fileVo) throws IOException {
+		String boardId = fileVo.getTargetId();
+		String fileNm = fileVo.getFileNm();
+		String fileOgNm = fileVo.getFileOgNm();
+		String uploadPath = getUploadPath(fileVo.getTargetGubun(), boardId);
 		return fileService.fileDownload(uploadPath, fileNm, fileOgNm);
 	}
 
 	/**
-	 * @implNote delete board zipFile.
+	 * @implNote download board zipFile.
 	 * @param response
 	 * @param boardVo
 	 * @return
 	 */
 	public void zipFileDownload(String zipFileName, HttpServletResponse response, BoardVo boardVo) {
-		List<BoardFileVo> boardFileList = boardMapper.selectBoardFile(boardVo);
+		FileVo fileVo = new FileVo();
+		fileVo.setChnlId(Constants.FILE_CHNL_BOARD);
+		fileVo.setTargetId(boardVo.getBoardId());
+		fileVo.setTargetGubun(boardVo.getBoardGubun());
+		List<FileVo> boardFileList = fileService.selectFile(fileVo);
 		List<String> fileList = new ArrayList<>();
 		String uploadPath = getUploadPath(boardVo.getBoardGubun(), boardVo.getBoardId());
 		boardFileList.forEach(file -> {

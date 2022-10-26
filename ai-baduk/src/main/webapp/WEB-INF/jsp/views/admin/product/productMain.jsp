@@ -13,7 +13,7 @@ $(function() {
 		return false;
 	});
 	$('#btn-insert').click(function() {
-		window.location.href="/admin/code/insert";
+		window.location.href="/admin/product/insert";
 	});
 	$('#btn-add').click(function() {
 		let currPage = $('[name=pageSize]').val();
@@ -22,11 +22,13 @@ $(function() {
 		$('[name=chnlGubun]').val("MB");
 		$.ajax({
 			type: 'get',
-			url: '/admin/code/select-list',
+			url: '/admin/product/select-list',
 			data: $('#searchForm').serialize(),
 			success: function (data) {
 				let result = data.result;
-				$(tbody).html($.templates(template).render(result.data));
+				$(tbody).html($.templates(template).render(result.data, {
+					setSaleProdPrice: setSaleProdPrice
+				}));
 				$('#allCheck').prop('checked', false);
 				controlBtnAdd(result);
 			}
@@ -68,16 +70,23 @@ function goPage(pageNo) {
 	$('[name=pageNo]').val(pageNo);
 	$.ajax({
 		type: 'get',
-		url: '/admin/code/select-list',
+		url: '/admin/product/select-list',
 		data: $('#searchForm').serialize(),
 		success: function (data) {
 			let result = data.result;
-			$('#code-tbody').html($.templates('#code-template').render(result.data));
+			$('#product-tbody').html($.templates('#product-template').render(result.data, {
+				setSaleProdPrice: setSaleProdPrice
+			}));
 			$('#allCheck').prop('checked', false);
 			paginateArea(result, 8);
 			controlBtnAdd(result);
 		}
 	});
+}
+
+function setSaleProdPrice(data) {
+	let saleProdPrice = Number(data.prodPrice.replaceAll(',', '')) * ((100 - Number(data.prodDiscountRate)) / 100)
+	return saleProdPrice.toLocaleString();
 }
 </script>
 <body>
@@ -93,40 +102,39 @@ function goPage(pageNo) {
 		            <div class="inner">
 		                <div class="tab-wrap ea6">
 		                    <ul class="tab-menu">
-		                        <li class="on"><a href="/admin/code/main">공통코드</a></li>
+		                        <li><a href="/admin/code/main">공통코드</a></li>
 		                        <li><a href="javascript:void(0)">메뉴관리</a></li>
 		                        <li><a href="/admin/user/main">사용자관리</a></li>
 		                        <li><a href="/admin/withdrawal/main">탈퇴회원관리</a></li>
 		                        <li><a href="/admin/analyzeInfo/main">분석정보</a></li>
-		                        <li><a href="/admin/product/main">컨텐츠</a></li>
+		                        <li class="on"><a href="/admin/product/main">컨텐츠</a></li>
 		                    </ul>
 		                    <div class="inner-depth">
 		                        <div class="tab-inner">
-		                            <h2>공통코드</h2>
+		                            <h2>컨텐츠</h2>
 		                            <div class="search-wrap">
 		                                <select id="searchKey" name="searchKey" title="검색 구분 선택">
-		                                    <option value="lCd" selected>공통코드ID</option>
-		                                    <option value="codeNm">공통코드명</option>
+		                                    <option value="prodNm" selected>상품명</option>
+		                                    <option value="prodClNm">상품구분</option>
 		                                </select>
 		                                <div class="srch-word">
 		                                    <input type="text" id="searchValue" name="searchValue" title="검색어 입력">
 		                                    <button id="btn-select">검색</button>
 		                                </div>
 		                            </div>
-		                            <table class="table-col code">
+		                            <table class="table-col product">
 		                                <thead>
 		                                    <tr>
 		                                    	<th>번호</th>
-		                                        <th>상위코드ID</th>
-		                                        <th>상위코드명</th>
-		                                        <th class="show-pc">비고1</th>
-		                                        <th class="show-pc">비고2</th>
-		                                        <th class="show-pc">비고3</th>
+		                                        <th>상품구분</th>
+		                                        <th>상품명</th>
+		                                        <th class="show-pc">판매처</th>
+		                                        <th class="show-pc">상품가격</th>
 		                                        <th class="show-pc">등록자</th>
 		                                        <th>등록일</th>
 		                                    </tr>
 		                                </thead>
-		                                <tbody id="code-tbody"></tbody>
+		                                <tbody id="product-tbody"></tbody>
 		                            </table>
 		                            <div class="btn-wrap">
 		                            	<button type="button" class="btn-more" id="btn-add">더보기</button>
@@ -145,14 +153,19 @@ function goPage(pageNo) {
 		<%@ include file="/WEB-INF/jsp/views/common/footer.jsp" %>
 	</div>
 </body>
-<script type="text/template" id="code-template">
+<script type="text/template" id="product-template">
 <tr>
 	<td>{{:rowId}}</td>
-	<td>{{:lcd}}</td>
-	<td class="subject"><a href="/admin/code/detail?lCd={{:lcd}}">{{:codeNm}}</a></td>
-	<td class="show-pc">{{:ref1}}</td>
-	<td class="show-pc">{{:ref2}}</td>
-	<td class="show-pc">{{:ref3}}</td>
+	<td>{{:prodClNm}}</td>
+	<td class="subject l-data"><a href="/admin/product/detail?prodId={{:prodId}}&prodClCd={{:prodClCd}}">{{:prodNm}}</a></td>
+	<td class="show-pc l-data">{{:prodMarket}}</td>
+	<td class="show-pc r-data subject">
+		{{if prodDiscountRate != '0'}}
+			<s>{{:prodPrice}}</s>
+			<span><em>{{:prodDiscountRate}}%</em> <b>{{:~setSaleProdPrice(#data)}}</b></span>
+			{{else}}{{:prodPrice}}
+		{{/if}}
+	</td>
 	<td class="show-pc">{{:fstCrerNm}}</td>
 	<td>{{:fstCreDtm}}</td>
 </tr>

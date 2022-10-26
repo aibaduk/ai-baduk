@@ -1,6 +1,4 @@
-package com.ai.board.vo;
-
-import com.ai.common.vo.BaseVo;
+package com.ai.common.vo;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,13 +7,16 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class BoardFileVo extends BaseVo {
+public class FileVo extends BaseVo {
 
-	/** 게시판ID */
-	private String boardId;
+	/** 채널ID */
+	private String chnlId;
 
-	/** 게시판구분 */
-	private String boardGubun;
+	/** 타켓ID */
+	private String targetId;
+
+	/** 타켓구분 */
+	private String targetGubun;
 
 	/** 파일ID */
 	private String fileId;

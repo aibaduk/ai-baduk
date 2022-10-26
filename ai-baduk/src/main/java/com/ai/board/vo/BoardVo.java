@@ -3,6 +3,7 @@ package com.ai.board.vo;
 import java.util.List;
 
 import com.ai.common.vo.BaseVo;
+import com.ai.common.vo.FileVo;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -49,7 +50,8 @@ public class BoardVo extends BaseVo {
 	/** 파일원본명 */
 	private String fileOgNm;
 
-	private List<BoardFileVo> fileList;
+	/** 파일리스트 */
+	private List<FileVo> fileList;
 
 	/** new여부 */
 	private String newYn;

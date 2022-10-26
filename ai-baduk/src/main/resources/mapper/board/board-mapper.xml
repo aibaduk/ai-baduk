@@ -20,21 +20,22 @@
 			 , BB.BOARD_TIT
 			 , BB.BOARD_CTT
 			 , IF((SELECT BB.FST_CRE_DTM BETWEEN DATE(DATE_ADD(NOW(), INTERVAL -#{ssDateControlDay} DAY)) AND NOW() FROM DUAL) = '1', 'Y', 'N') AS NEW_YN
-			 , IF(IFNULL(BBF.FILE_ID, '') = '', 'N', 'Y') AS FILE_YN
-			 , BBF.FILE_CNT
-			 , BBF.FILE_NM
-	 		 , BBF.FILE_OG_NM
+			 , IF(IFNULL(CF.FILE_ID, '') = '', 'N', 'Y') AS FILE_YN
+			 , CF.FILE_CNT
+			 , CF.FILE_NM
+	 		 , CF.FILE_OG_NM
 		  FROM BO_BOARD BB
 	      LEFT JOIN (
-	     	SELECT BOARD_ID
-			      , BOARD_GUBUN
-			      , FILE_ID
-			      , COUNT(*) AS FILE_CNT
-			      , GROUP_CONCAT(FILE_NM ORDER BY FILE_ID ASC SEPARATOR ',')  AS FILE_NM
-			      , GROUP_CONCAT(FILE_OG_NM ORDER BY FILE_ID ASC SEPARATOR ',')  AS FILE_OG_NM
-			    FROM BO_BOARD_FILE
-			    GROUP BY BOARD_ID, BOARD_GUBUN
-	      ) BBF ON BB.BOARD_ID = BBF.BOARD_ID AND BB.BOARD_GUBUN = BBF.BOARD_GUBUN
+	     	SELECT CHNL_ID
+			     , TARGET_ID
+				 , TARGET_GUBUN
+				 , FILE_ID
+				 , COUNT(*) AS FILE_CNT
+				 , GROUP_CONCAT(FILE_NM ORDER BY FILE_ID ASC SEPARATOR ',')  AS FILE_NM
+				 , GROUP_CONCAT(FILE_OG_NM ORDER BY FILE_ID ASC SEPARATOR ',')  AS FILE_OG_NM
+			  FROM CM_FILE
+			 GROUP BY CHNL_ID, TARGET_ID, TARGET_GUBUN
+	      ) CF ON 'BOARD' = CF.CHNL_ID AND BB.BOARD_ID = CF.TARGET_ID AND BB.BOARD_GUBUN = CF.TARGET_GUBUN
 		 WHERE 1 = 1
 		   AND BB.DEL_YN = 'N'
 		   AND BB.BOARD_GUBUN = #{searchBoardGubun}
@@ -65,7 +66,7 @@
         <result property="boardTit" column="BOARD_TIT" javaType="java.lang.String"/>
         <result property="boardCtt" column="BOARD_CTT" javaType="java.lang.String"/>
         <result property="fileYn" column="FILE_YN" javaType="string"/>
-        <collection property="fileList" ofType="com.ai.board.vo.BoardFileVo">
+        <collection property="fileList" ofType="com.ai.common.vo.FileVo">
 	        <result property="fileId" column="FILE_ID" javaType="java.lang.String"/>
 	        <result property="fileNm" column="FILE_NM" javaType="java.lang.String"/>
     	    <result property="fileOgNm" column="FILE_OG_NM" javaType="java.lang.String"/>
@@ -73,7 +74,6 @@
     </resultMap>
 
 	<!-- 게시판 상세 조회 -->
-	<!-- <select id="selectBoardOne" parameterType="com.ai.board.vo.BoardVo" resultType="com.ai.board.vo.BoardVo"> -->
 	<select id="selectBoardOne" parameterType="com.ai.board.vo.BoardVo" resultMap="boardMap">
 		SELECT BB.BOARD_ID
 			 , F_GET_CODE_NAME('BO001', BB.BOARD_GUBUN) AS BOARD_NM
@@ -86,21 +86,12 @@
 			 , BB.IMPO_YN
 			 , BB.BOARD_TIT
 			 , BB.BOARD_CTT
-			 , IF(IFNULL(BBF.FILE_ID, '') = '', 'N', 'Y') AS FILE_YN
-			 , BBF.FILE_ID
-			 , BBF.FILE_NM
-	 		 , BBF.FILE_OG_NM
+			 , IF(IFNULL(CF.FILE_ID, '') = '', 'N', 'Y') AS FILE_YN
+			 , CF.FILE_ID
+			 , CF.FILE_NM
+	 		 , CF.FILE_OG_NM
 		  FROM BO_BOARD BB
-		  LEFT JOIN BO_BOARD_FILE BBF ON BB.BOARD_ID = BBF.BOARD_ID AND BB.BOARD_GUBUN = BBF.BOARD_GUBUN
-	      <!-- LEFT JOIN (
-	     	SELECT BOARD_ID
-			      , BOARD_GUBUN
-			      , FILE_ID
-			      , GROUP_CONCAT(FILE_NM ORDER BY FILE_ID ASC SEPARATOR ',')  AS FILE_NM
-			      , GROUP_CONCAT(FILE_OG_NM ORDER BY FILE_ID ASC SEPARATOR ',')  AS FILE_OG_NM
-			    FROM BO_BOARD_FILE
-			    GROUP BY BOARD_ID, BOARD_GUBUN
-	      ) BBF ON BB.BOARD_ID = BBF.BOARD_ID AND BB.BOARD_GUBUN = BBF.BOARD_GUBUN -->
+		  LEFT JOIN CM_FILE CF ON 'BOARD' = CF.CHNL_ID AND BB.BOARD_ID = CF.TARGET_ID AND BB.BOARD_GUBUN = CF.TARGET_GUBUN
 		 WHERE 1 = 1
 		   AND BB.DEL_YN = 'N'
 		   AND BB.BOARD_GUBUN = #{boardGubun}
@@ -113,39 +104,6 @@
 		  FROM BO_BOARD
 		 WHERE BOARD_GUBUN = #{boardGubun}
 	</select>
-
-	<!-- 게시판 파일 등록 -->
-	<insert id="insertBordFile" parameterType="com.ai.board.vo.BoardFileVo">
-		<selectKey resultType="string" keyProperty="fileId" order="BEFORE">
-			SELECT LPAD(IFNULL(MAX(FILE_ID), 0) + 1, 3, '0') AS FILE_ID
-			  FROM BO_BOARD_FILE
-			 WHERE 1 = 1
-			   AND BOARD_ID = #{boardId}
-			   AND BOARD_GUBUN = #{boardGubun}
-		</selectKey>
-		INSERT INTO BO_BOARD_FILE (
-			BOARD_ID
-			, BOARD_GUBUN
-			, FILE_ID
-			, FST_CRER_ID
-			, FST_CRE_DTM
-			, AUDIT_ID
-			, AUDIT_DTM
-			, FILE_NM
-			, FILE_OG_NM
-		)
-		VALUES (
-			#{boardId}
-			, #{boardGubun}
-			, #{fileId}
-			, #{ssLoginId}
-			, NOW()
-			, #{ssLoginId}
-			, NOW()
-			, #{fileNm}
-			, #{fileOgNm}
-		)
-	</insert>
 
 	<!-- 게시판 등록 -->
 	<insert id="insertBoard" parameterType="com.ai.board.vo.BoardVo">
@@ -199,26 +157,6 @@
 		   AND BOARD_ID = #{boardId}
 	</update>
 
-	<!-- 게시판 파일 삭제 -->
-	<delete id="deleteBoardFile" parameterType="com.ai.board.vo.BoardFileVo">
-		DELETE FROM BO_BOARD_FILE
-		 WHERE BOARD_ID = #{boardId}
-		   AND BOARD_GUBUN = #{boardGubun}
-		   AND FILE_ID = #{fileId}
-	</delete>
-
-	<!-- 게시판 파일 조회 -->
-	<select id="selectBoardFile" parameterType="com.ai.board.vo.BoardVo" resultType="com.ai.board.vo.BoardFileVo">
-		SELECT BOARD_ID
-		     , BOARD_GUBUN
-		     , FILE_ID
-		     , FILE_NM
-		     , FILE_OG_NM
-		  FROM BO_BOARD_FILE
-		 WHERE BOARD_ID = #{boardId}
-		   AND BOARD_GUBUN = #{boardGubun}
-	</select>
-
 	<!-- 게시판 조회 -->
 	<select id="selectBoardListByExternal" resultType="com.ai.board.vo.BoardVo">
 		SELECT BB.BOARD_ID
@@ -233,21 +171,22 @@
 			 , BB.BOARD_TIT
 			 , BB.BOARD_CTT
 			 , IF((SELECT BB.FST_CRE_DTM BETWEEN DATE(DATE_ADD(NOW(), INTERVAL -#{dateControlDay} DAY)) AND NOW() FROM DUAL) = '1', 'Y', 'N') AS NEW_YN
-			 , IF(IFNULL(BBF.FILE_ID, '') = '', 'N', 'Y') AS FILE_YN
-			 , BBF.FILE_CNT
-			 , BBF.FILE_NM
-	 		 , BBF.FILE_OG_NM
+			 , IF(IFNULL(CF.FILE_ID, '') = '', 'N', 'Y') AS FILE_YN
+			 , CF.FILE_CNT
+			 , CF.FILE_NM
+	 		 , CF.FILE_OG_NM
 		  FROM BO_BOARD BB
 	      LEFT JOIN (
-	     	SELECT BOARD_ID
-			      , BOARD_GUBUN
-			      , FILE_ID
-			      , COUNT(*) AS FILE_CNT
-			      , GROUP_CONCAT(FILE_NM ORDER BY FILE_ID ASC SEPARATOR ',')  AS FILE_NM
-			      , GROUP_CONCAT(FILE_OG_NM ORDER BY FILE_ID ASC SEPARATOR ',')  AS FILE_OG_NM
-			    FROM BO_BOARD_FILE
-			    GROUP BY BOARD_ID, BOARD_GUBUN
-	      ) BBF ON BB.BOARD_ID = BBF.BOARD_ID AND BB.BOARD_GUBUN = BBF.BOARD_GUBUN
+	     	SELECT CHNL_ID
+			     , TARGET_ID
+				 , TARGET_GUBUN
+				 , FILE_ID
+				 , COUNT(*) AS FILE_CNT
+				 , GROUP_CONCAT(FILE_NM ORDER BY FILE_ID ASC SEPARATOR ',')  AS FILE_NM
+				 , GROUP_CONCAT(FILE_OG_NM ORDER BY FILE_ID ASC SEPARATOR ',')  AS FILE_OG_NM
+			  FROM CM_FILE
+			 GROUP BY CHNL_ID, TARGET_ID, TARGET_GUBUN
+	      ) CF ON 'BOARD' = CF.CHNL_ID AND BB.BOARD_ID = CF.TARGET_ID AND BB.BOARD_GUBUN = CF.TARGET_GUBUN
 		 WHERE 1 = 1
 		   AND BB.DEL_YN = 'N'
 		   AND BB.BOARD_GUBUN = #{boardGubun}

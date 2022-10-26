@@ -163,8 +163,9 @@ function fileDelete(file) {
 	"use strict"
 	if (confirm('파일을 삭제하시겠습니까?')) {
 		let param = {
-			boardGubun: $('input:hidden[name=boardGubun]').val(),
-			boardId: $('input:hidden[name=boardId]').val(),
+			chnlId: 'BOARD',
+			targetGubun: $('input:hidden[name=boardGubun]').val(),
+			targetId: $('input:hidden[name=boardId]').val(),
 			fileId: file.data('id'),
 			fileNm: file.data('name')
 		}
@@ -190,10 +191,10 @@ function fileDelete(file) {
 function fileDownload(file) {
 	"use strict"
 	if (confirm('파일을 다운로드하시겠습니까?')) {
-		let boardId = $('input:hidden[name=boardId]').val();
-		let boardGubun = $('input:hidden[name=boardGubun]').val();
+		let targetId = $('input:hidden[name=boardId]').val();
+		let targetGubun = $('input:hidden[name=boardGubun]').val();
 		let fileNm = file.data('name');
 		let fileOgNm = file.text();
-		window.location.href='/board/'+path+'/fileDownload?boardId='+boardId+'&boardGubun='+boardGubun+'&fileNm='+fileNm+'&fileOgNm='+fileOgNm;
+		window.location.href='/board/'+path+'/fileDownload?chnlId=BOARD&targetId='+targetId+'&targetGubun='+targetGubun+'&fileNm='+fileNm+'&fileOgNm='+fileOgNm;
 	}
 }

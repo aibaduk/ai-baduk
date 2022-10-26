@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- SQL Mapping -->
+<mapper namespace="com.ai.common.dao.FileMapper">
+	<!-- 파일 등록 -->
+	<insert id="insertFile" parameterType="com.ai.common.vo.FileVo">
+		<selectKey resultType="string" keyProperty="fileId" order="BEFORE">
+			SELECT LPAD(IFNULL(MAX(FILE_ID), 0) + 1, 3, '0') AS FILE_ID
+			  FROM CM_FILE
+			 WHERE 1 = 1
+			   AND CHNL_ID = #{chnlId}
+			   AND TARGET_ID = #{targetId}
+			   AND TARGET_GUBUN = #{targetGubun}
+		</selectKey>
+		INSERT INTO CM_FILE (
+			CHNL_ID
+			, TARGET_ID
+			, TARGET_GUBUN
+			, FILE_ID
+			, FST_CRER_ID
+			, FST_CRE_DTM
+			, AUDIT_ID
+			, AUDIT_DTM
+			, FILE_NM
+			, FILE_OG_NM
+		)
+		VALUES (
+			#{chnlId}
+			, #{targetId}
+			, #{targetGubun}
+			, #{fileId}
+			, #{ssLoginId}
+			, NOW()
+			, #{ssLoginId}
+			, NOW()
+			, #{fileNm}
+			, #{fileOgNm}
+		)
+	</insert>
+
+	<!-- 파일 삭제 -->
+	<delete id="deleteFile" parameterType="com.ai.common.vo.FileVo">
+		DELETE FROM CM_FILE
+		 WHERE CHNL_ID = #{chnlId}
+		   AND TARGET_ID = #{targetId}
+		   AND TARGET_GUBUN = #{targetGubun}
+		   AND FILE_ID = #{fileId}
+	</delete>
+
+	<!-- 파일 조회 -->
+	<select id="selectFile" parameterType="com.ai.common.vo.FileVo" resultType="com.ai.common.vo.FileVo">
+		SELECT CHNL_ID
+		     , TARGET_ID
+		     , TARGET_GUBUN
+		     , FILE_ID
+		     , FILE_NM
+		     , FILE_OG_NM
+		  FROM CM_FILE
+		 WHERE CHNL_ID = #{chnlId}
+		   AND TARGET_ID = #{targetId}
+		   AND TARGET_GUBUN = #{targetGubun}
+	</select>
+
+</mapper>

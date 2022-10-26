@@ -422,6 +422,7 @@ ul.main-board li.hot p.subject a{color:#2461d0;font-weight:700}
     .tab-wrap.ea2 .tab-menu li{width:50%;}
     .tab-wrap.ea4 .tab-menu li{width:25%;}
     .tab-wrap.ea5 .tab-menu li{width:20%;}
+    .tab-wrap.ea6 .tab-menu li{width:16.66%;}
     /* table */
     table{margin-top:20px;}
     table th{font-size:16px;}
@@ -731,6 +732,14 @@ ul.main-board li.hot p.subject a{color:#2461d0;font-weight:700}
 	.brd .analyzeInfo th:nth-child(3){width:"*";}
 	.brd .analyzeInfo th:nth-child(4){width:12%;}
 	.brd .analyzeInfo th:nth-child(5){width:13%;}
+    /* 관리자페이지>컨텐츠 20221025 */
+	.brd .product th:nth-child(1){width:5%;}
+    .brd .product th:nth-child(2){width:10%;}
+    .brd .product th:nth-child(3){width:"*";}
+    .brd .product th:nth-child(4){width:10%;}
+    .brd .product th:nth-child(5){width:18%;}
+    .brd .product th:nth-child(6){width:10%;}
+    .brd .product th:nth-child(7){width:13%;}
 
     .brd .news th:nth-child(1){width:12%;}
     .brd .news th:nth-child(2){width:65%;}

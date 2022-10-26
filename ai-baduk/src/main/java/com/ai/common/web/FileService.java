@@ -14,6 +14,7 @@ import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ContentDisposition;
@@ -24,11 +25,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ai.common.dao.FileMapper;
+import com.ai.common.vo.FileVo;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
 public class FileService {
+
+	@Autowired
+	FileMapper fileMapper;
+
 	/**
 	 * @implNote common file upload.
 	 * @param uploadPath
@@ -157,5 +165,32 @@ public class FileService {
 	        try { if(zipOut != null)zipOut.closeEntry();} catch (IOException e2) {log.debug(e2.getMessage());/*ignore*/}
 	        try { if(zipOut != null)zipOut.close();} catch (IOException e3) {log.debug(e3.getMessage());/*ignore*/}
 	    }
+	}
+
+	/**
+	 * @implNote insert file.
+	 * @param fileVo
+	 * @return
+	 */
+	public int insertFile(FileVo fileVo) {
+		return fileMapper.insertFile(fileVo);
+	}
+
+	/**
+	 * @implNote delete file.
+	 * @param fileVo
+	 * @return
+	 */
+	public int deleteFile(FileVo fileVo) {
+		return fileMapper.deleteFile(fileVo);
+	}
+
+	/**
+	 * @implNote select file.
+	 * @param fileVo
+	 * @return List<FileVo>
+	 */
+	public List<FileVo> selectFile(FileVo fileVo) {
+		return fileMapper.selectFile(fileVo);
 	}
 }

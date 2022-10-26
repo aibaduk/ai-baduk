@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.ai.board.vo.BoardFileVo;
 import com.ai.board.vo.BoardSearchVo;
 import com.ai.board.vo.BoardVo;
 
@@ -57,27 +56,6 @@ public interface BoardMapper {
 	 * @return
 	 */
 	public int deleteBoard(BoardVo boardVo);
-
-	/**
-	 * @implNote insert board file.
-	 * @param boardFileVo
-	 * @return
-	 */
-	public int insertBordFile(BoardFileVo boardFileVo);
-
-	/**
-	 * @implNote delete board file.
-	 * @param boardVo
-	 * @return
-	 */
-	public int deleteBoardFile(BoardFileVo boardFileVo);
-
-	/**
-	 * @implNote select board file.
-	 * @param boardVo
-	 * @return List<BoardFileVo>
-	 */
-	public List<BoardFileVo> selectBoardFile(BoardVo boardVo);
 
 	/**
 	 * @implNote select board list by main.
