@@ -244,8 +244,9 @@ public class BoardController {
 	@PostMapping("/{path}/fileDelete")
 	public String deleteBoardFile(Model model, @PathVariable("path") String path, @RequestBody FileVo fileVo) {
 		try {
+			String targetId = fileVo.getTargetId();
 			boardService.deleteBoardFile(fileVo);
-			model.addAttribute("boardId", fileVo.getTargetId());
+			model.addAttribute("boardId", targetId);
 			model.addAttribute("result", true);
 		} catch (Exception e) {
 			model.addAttribute("msg", e.getMessage());

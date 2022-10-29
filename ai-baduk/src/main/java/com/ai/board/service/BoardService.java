@@ -9,6 +9,7 @@ import java.util.stream.IntStream;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -108,9 +109,8 @@ public class BoardService {
 					fileService.fileUpload(uploadPath, fileNm, fileOgNm, multi);
 					FileVo fileVo = new FileVo();
 					CommonService.setSessionData(fileVo);
-					fileVo.setChnlId(Constants.FILE_CHNL_BOARD);
-					fileVo.setTargetId(boardId);
-					fileVo.setTargetGubun(boardVo.getBoardGubun());
+					fileVo.setMenuId(Constants.FILE_CHNL_BOARD);
+					fileVo.setTargetId(StringUtil.join("", new Object[]{boardId, boardVo.getBoardGubun()}));
 					fileVo.setFileNm(fileNm);
 					fileVo.setFileOgNm(fileOgNm);
 					fileService.insertFile(fileVo);
@@ -143,9 +143,8 @@ public class BoardService {
 					fileService.fileUpload(uploadPath, fileNm, fileOgNm, multi);
 					FileVo fileVo = new FileVo();
 					CommonService.setSessionData(fileVo);
-					fileVo.setChnlId(Constants.FILE_CHNL_BOARD);
-					fileVo.setTargetId(boardId);
-					fileVo.setTargetGubun(boardVo.getBoardGubun());
+					fileVo.setMenuId(Constants.FILE_CHNL_BOARD);
+					fileVo.setTargetId(StringUtil.join("", new Object[]{boardId, boardVo.getBoardGubun()}));
 					fileVo.setFileNm(fileNm);
 					fileVo.setFileOgNm(fileOgNm);
 					fileService.insertFile(fileVo);
@@ -181,6 +180,7 @@ public class BoardService {
 		String uploadPath = getUploadPath(fileVo.getTargetGubun(), fileVo.getTargetId());
 		fileService.fileDelete(uploadPath, fileVo.getFileNm());
 		// 2. 데이터베이스 파일 테이블 삭제
+		fileVo.setTargetId(StringUtil.join("", new Object[]{fileVo.getTargetId(), fileVo.getTargetGubun()}));
 		fileService.deleteFile(fileVo);
 	}
 
@@ -206,9 +206,8 @@ public class BoardService {
 	 */
 	public void zipFileDownload(String zipFileName, HttpServletResponse response, BoardVo boardVo) {
 		FileVo fileVo = new FileVo();
-		fileVo.setChnlId(Constants.FILE_CHNL_BOARD);
-		fileVo.setTargetId(boardVo.getBoardId());
-		fileVo.setTargetGubun(boardVo.getBoardGubun());
+		fileVo.setMenuId(Constants.FILE_CHNL_BOARD);
+		fileVo.setTargetId(StringUtil.join("", new Object[]{boardVo.getBoardId(), boardVo.getBoardGubun()}));
 		List<FileVo> boardFileList = fileService.selectFile(fileVo);
 		List<String> fileList = new ArrayList<>();
 		String uploadPath = getUploadPath(boardVo.getBoardGubun(), boardVo.getBoardId());

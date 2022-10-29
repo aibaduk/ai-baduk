@@ -163,7 +163,7 @@ function fileDelete(file) {
 	"use strict"
 	if (confirm('파일을 삭제하시겠습니까?')) {
 		let param = {
-			chnlId: 'BOARD',
+			menuId: '00001',
 			targetGubun: $('input:hidden[name=boardGubun]').val(),
 			targetId: $('input:hidden[name=boardId]').val(),
 			fileId: file.data('id'),
@@ -195,6 +195,6 @@ function fileDownload(file) {
 		let targetGubun = $('input:hidden[name=boardGubun]').val();
 		let fileNm = file.data('name');
 		let fileOgNm = file.text();
-		window.location.href='/board/'+path+'/fileDownload?chnlId=BOARD&targetId='+targetId+'&targetGubun='+targetGubun+'&fileNm='+fileNm+'&fileOgNm='+fileOgNm;
+		window.location.href='/board/'+path+'/fileDownload?menuId=00001&targetId='+targetId+'&targetGubun='+targetGubun+'&fileNm='+fileNm+'&fileOgNm='+fileOgNm;
 	}
 }

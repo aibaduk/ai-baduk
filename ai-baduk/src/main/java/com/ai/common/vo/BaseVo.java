@@ -24,4 +24,5 @@ public abstract class BaseVo {
 	private int ssDateControlDay = 7;
 	protected String ssLoginId;
 	protected String ssRoleId;
+	protected String ssMenuId;
 }

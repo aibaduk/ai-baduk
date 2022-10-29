@@ -9,14 +9,11 @@ import lombok.ToString;
 @ToString
 public class FileVo extends BaseVo {
 
-	/** 채널ID */
-	private String chnlId;
+	/** 메뉴ID */
+	private String menuId;
 
-	/** 타켓ID */
+	/** 대상ID */
 	private String targetId;
-
-	/** 타켓구분 */
-	private String targetGubun;
 
 	/** 파일ID */
 	private String fileId;
@@ -26,5 +23,8 @@ public class FileVo extends BaseVo {
 
 	/** 파일원본명 */
 	private String fileOgNm;
+
+	/** 대상구분 */
+	private String targetGubun;
 
 }
