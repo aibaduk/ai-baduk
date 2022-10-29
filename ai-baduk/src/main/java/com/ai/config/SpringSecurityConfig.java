@@ -88,9 +88,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/chrome-download", "/gibo-download").permitAll()
                 .antMatchers("/introduce/**").permitAll()
                 .antMatchers("/board/**").permitAll()
+                .antMatchers("/product/**").permitAll()
         		.antMatchers("/admin/**").hasRole("ADMIN")
         		.antMatchers("/mypage/analyzeInfo/**").hasRole("MEMBER")
         		.antMatchers("/mypage/user/**").hasRole("USER")
+        		.antMatchers("/download/**").hasRole("USER")
         		.anyRequest().authenticated();
         http.exceptionHandling()
         		.accessDeniedHandler(new CustomAccessDeniedHandler());

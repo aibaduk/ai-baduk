@@ -59,4 +59,7 @@ public class ProductVo extends BaseVo {
 	/** 파일리스트 */
 	private List<FileVo> fileList;
 
+	/** new여부 */
+	private String newYn;
+
 }

@@ -134,8 +134,9 @@ public class ProductController {
 	@PostMapping("/fileDelete")
 	public String deleteProductFile(Model model, @RequestBody FileVo fileVo) {
 		try {
+			String targetId = fileVo.getTargetId();
 			productService.deleteProductFile(fileVo);
-			model.addAttribute("productId", fileVo.getTargetId());
+			model.addAttribute("productId", targetId);
 			model.addAttribute("result", true);
 		} catch (Exception e) {
 			model.addAttribute("msg", e.getMessage());

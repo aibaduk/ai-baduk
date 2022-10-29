@@ -132,3 +132,11 @@ String.prototype.format = function() {
 function fnNull(val) {
 	return (typeof val === undefined || val == null || val.length <= 0) ? '' : val;
 }
+
+/**
+ * comma 제거
+ * @param {String} val comma 제거할 변수
+ */
+function replaceComma(val) {
+	return isNullOrEmpty(val) ? '' : val.replace(/,/g,"");;
+}

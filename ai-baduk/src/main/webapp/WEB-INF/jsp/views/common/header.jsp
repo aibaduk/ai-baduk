@@ -47,12 +47,14 @@ $(function() {
         <button class="btn-menu"><span></span><span></span><span></span></button>
         <nav class="gnb">
             <a href="/introduce/introduce/main">연구소 소개</a>
+            <a href="/product/main">AI컨텐츠</a>
             <a href="/mypage/user/detail">마이페이지</a>
             <a href="/board/notice/main">게시판</a>
             <a href="/admin/code/main">관리자 페이지</a>
         </nav>
         <c:if test="${user ne 'anonymousUser'}">
 	        <div class="logtop">
+	            <a href="/auth/download/main">다운로드 관리</a>
 	            <a href="/auth/logout">로그아웃</a>
 	        </div>
         </c:if>

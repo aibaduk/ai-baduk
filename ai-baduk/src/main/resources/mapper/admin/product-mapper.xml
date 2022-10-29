@@ -21,6 +21,7 @@
 			 , FORMAT(PP.PROD_PRICE , 0) AS PROD_PRICE
 			 , PP.PROD_MARKET
 			 , PP.PROD_CTT
+			 , IF((SELECT PP.FST_CRE_DTM BETWEEN DATE(DATE_ADD(NOW(), INTERVAL -#{ssDateControlDay} DAY)) AND NOW() FROM DUAL) = '1', 'Y', 'N') AS NEW_YN
 		  FROM PR_PROD PP
 		 WHERE 1 = 1
 		   <if test='@org.apache.commons.lang3.StringUtils@isNotEmpty(searchValue)'>
@@ -79,7 +80,7 @@
 			 , CF.FILE_NM
 	 		 , CF.FILE_OG_NM
 		  FROM PR_PROD PP
-		  LEFT JOIN CM_FILE CF ON 'PRODUCT' = CF.CHNL_ID AND PP.PROD_ID = CF.TARGET_ID AND PP.PROD_CL_CD = CF.TARGET_GUBUN
+		  LEFT JOIN CM_FILE CF ON '00002' = CF.MENU_ID AND CONCAT(PP.PROD_ID, PP.PROD_CL_CD) = CF.TARGET_ID
 	     WHERE 1 = 1
 	       AND PP.PROD_ID = #{prodId}
 	       AND PP.PROD_CL_CD = #{prodClCd}

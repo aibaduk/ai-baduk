@@ -3,7 +3,7 @@
 <html>
 <head>
 	<%@ include file="/WEB-INF/jsp/views/common/head.jsp" %>
-	<title>공통코드 메인</title>
+	<title>AI컨텐츠관리 메인</title>
 </head>
 <script type="text/javascript">
 $(function() {
@@ -85,7 +85,7 @@ function goPage(pageNo) {
 }
 
 function setSaleProdPrice(data) {
-	let saleProdPrice = Number(data.prodPrice.replaceAll(',', '')) * ((100 - Number(data.prodDiscountRate)) / 100)
+	let saleProdPrice = Number(replaceComma(data.prodPrice)) * ((100 - Number(data.prodDiscountRate)) / 100);
 	return saleProdPrice.toLocaleString();
 }
 </script>
@@ -130,7 +130,6 @@ function setSaleProdPrice(data) {
 		                                        <th>상품명</th>
 		                                        <th class="show-pc">판매처</th>
 		                                        <th class="show-pc">상품가격</th>
-		                                        <th class="show-pc">등록자</th>
 		                                        <th>등록일</th>
 		                                    </tr>
 		                                </thead>
@@ -157,16 +156,19 @@ function setSaleProdPrice(data) {
 <tr>
 	<td>{{:rowId}}</td>
 	<td>{{:prodClNm}}</td>
-	<td class="subject l-data"><a href="/admin/product/detail?prodId={{:prodId}}&prodClCd={{:prodClCd}}">{{:prodNm}}</a></td>
+	<td class="subject l-data">
+		<a href="/admin/product/detail?prodId={{:prodId}}&prodClCd={{:prodClCd}}">{{:prodNm}}
+			{{if newYn == 'Y'}}<span><em>new</em></span>{{/if}}
+		</a>
+	</td>
 	<td class="show-pc l-data">{{:prodMarket}}</td>
 	<td class="show-pc r-data subject">
 		{{if prodDiscountRate != '0'}}
 			<s>{{:prodPrice}}</s>
-			<span><em>{{:prodDiscountRate}}%</em> <b>{{:~setSaleProdPrice(#data)}}</b></span>
+			<span><em style="background-color:red;">{{:prodDiscountRate}}%</em> <b>{{:~setSaleProdPrice(#data)}}</b></span>
 			{{else}}{{:prodPrice}}
 		{{/if}}
 	</td>
-	<td class="show-pc">{{:fstCrerNm}}</td>
 	<td>{{:fstCreDtm}}</td>
 </tr>
 </script>

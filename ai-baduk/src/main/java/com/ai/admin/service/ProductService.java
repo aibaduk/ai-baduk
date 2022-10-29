@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
+import org.apache.poi.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -72,8 +73,8 @@ public class ProductService {
 	}
 
 	/**
-	 * @implNote select lcd product by list.
-	 * @param lCd
+	 * @implNote select product by list.
+	 * @param productVo
 	 * @return List<ProductVo>
 	 */
 	public ProductVo selectProductOne(ProductVo productVo) {
@@ -100,9 +101,8 @@ public class ProductService {
 					fileService.fileUpload(uploadPath, fileNm, fileOgNm, multi);
 					FileVo fileVo = new FileVo();
 					CommonService.setSessionData(fileVo);
-					fileVo.setChnlId(Constants.FILE_CHNL_PROD);
-					fileVo.setTargetId(prodId);
-					fileVo.setTargetGubun(productVo.getProdClCd());
+					fileVo.setMenuId(Constants.FILE_CHNL_PROD);
+					fileVo.setTargetId(StringUtil.join("", new Object[]{prodId, productVo.getProdClCd()}));
 					fileVo.setFileNm(fileNm);
 					fileVo.setFileOgNm(fileOgNm);
 					fileService.insertFile(fileVo);
@@ -135,9 +135,8 @@ public class ProductService {
 					fileService.fileUpload(uploadPath, fileNm, fileOgNm, multi);
 					FileVo fileVo = new FileVo();
 					CommonService.setSessionData(fileVo);
-					fileVo.setChnlId(Constants.FILE_CHNL_PROD);
-					fileVo.setTargetId(prodId);
-					fileVo.setTargetGubun(productVo.getProdClCd());
+					fileVo.setMenuId(Constants.FILE_CHNL_PROD);
+					fileVo.setTargetId(StringUtil.join("", new Object[]{prodId, productVo.getProdClCd()}));
 					fileVo.setFileNm(fileNm);
 					fileVo.setFileOgNm(fileOgNm);
 					fileService.insertFile(fileVo);
@@ -160,6 +159,7 @@ public class ProductService {
 		String uploadPath = getUploadPath(fileVo.getTargetGubun(), fileVo.getTargetId());
 		fileService.fileDelete(uploadPath, fileVo.getFileNm());
 		// 2. 데이터베이스 파일 테이블 삭제
+		fileVo.setTargetId(StringUtil.join("", new Object[]{fileVo.getTargetId(), fileVo.getTargetGubun()}));
 		fileService.deleteFile(fileVo);
 	}
 
