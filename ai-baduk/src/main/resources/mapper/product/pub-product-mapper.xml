@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- SQL Mapping -->
+<mapper namespace="com.ai.product.dao.PubProductMapper">
+	<!-- 상품 리스트 조회 -->
+	<select id="selectProductList" parameterType="com.ai.product.vo.PubProductSearchVo" resultType="com.ai.product.vo.PubProductVo">
+		SELECT PP.PROD_ID
+			 , PP.PROD_CL_CD
+			 , F_GET_CODE_NAME('CU005', PP.PROD_CL_CD) AS PROD_CL_NM
+			 , PP.FST_CRER_ID
+			 , IFNULL((SELECT USER_NM FROM CU_USER WHERE USER_ID = PP.FST_CRER_ID), PP.FST_CRER_ID) AS FST_CRER_NM
+			 , DATE_FORMAT(PP.FST_CRE_DTM, '%Y.%m.%d') AS FST_CRE_DTM
+			 , PP.AUDIT_ID
+			 , IFNULL((SELECT USER_NM FROM CU_USER WHERE USER_ID = PP.AUDIT_ID), PP.AUDIT_ID) AS AUDIT_NM
+			 , DATE_FORMAT(PP.AUDIT_DTM, '%Y.%m.%d') AS AUDIT_DTM
+			 , PP.PROD_NM
+			 , PP.DISPLAY_YN
+			 , PP.PROD_DISCOUNT_RATE
+			 , FORMAT(PP.PROD_PRICE , 0) AS PROD_PRICE
+			 , PP.PROD_MARKET
+			 , PP.PROD_CTT
+			 , IF((SELECT PP.FST_CRE_DTM BETWEEN DATE(DATE_ADD(NOW(), INTERVAL -#{ssDateControlDay} DAY)) AND NOW() FROM DUAL) = '1', 'Y', 'N') AS NEW_YN
+		  FROM PR_PROD PP
+		 WHERE 1 = 1
+	       AND PP.DISPLAY_YN = 'Y'
+		   <if test='@org.apache.commons.lang3.StringUtils@isNotEmpty(searchValue)'>
+			   <if test='@org.apache.commons.lang3.StringUtils@equals(searchKey, "prodClNm")'>
+				   AND F_GET_CODE_NAME('CU005', PP.PROD_CL_CD) LIKE CONCAT('%', #{searchValue}, '%')
+			   </if>
+			   <if test='@org.apache.commons.lang3.StringUtils@equals(searchKey, "prodNm")'>
+				   AND PP.PROD_NM LIKE CONCAT('%', #{searchValue}, '%')
+			   </if>
+		   </if>
+		 ORDER BY PP.PROD_DISCOUNT_RATE DESC, PP.FST_CRE_DTM DESC
+	</select>
+
+	<!-- 상품 상세 조회 -->
+	<select id="selectProductOne" parameterType="com.ai.product.vo.PubProductVo" resultType="com.ai.product.vo.PubProductVo">
+		SELECT PP.PROD_ID
+			 , PP.PROD_CL_CD
+			 , F_GET_CODE_NAME('CU005', PP.PROD_CL_CD) AS PROD_CL_NM
+			 , PP.FST_CRER_ID
+			 , IFNULL((SELECT USER_NM FROM CU_USER WHERE USER_ID = PP.FST_CRER_ID), PP.FST_CRER_ID) AS FST_CRER_NM
+			 , DATE_FORMAT(PP.FST_CRE_DTM, '%Y.%m.%d') AS FST_CRE_DTM
+			 , PP.AUDIT_ID
+			 , IFNULL((SELECT USER_NM FROM CU_USER WHERE USER_ID = PP.AUDIT_ID), PP.AUDIT_ID) AS AUDIT_NM
+			 , DATE_FORMAT(PP.AUDIT_DTM, '%Y.%m.%d') AS AUDIT_DTM
+			 , PP.PROD_NM
+			 , PP.DISPLAY_YN
+			 , PP.PROD_DISCOUNT_RATE
+			 , FORMAT(PP.PROD_PRICE , 0) AS PROD_PRICE
+			 , PP.PROD_MARKET
+			 , PP.PROD_CTT
+		  FROM PR_PROD PP
+	     WHERE 1 = 1
+	       AND PP.PROD_ID = #{prodId}
+	       AND PP.PROD_CL_CD = #{prodClCd}
+	       AND PP.DISPLAY_YN = 'Y'
+	</select>
+</mapper>
