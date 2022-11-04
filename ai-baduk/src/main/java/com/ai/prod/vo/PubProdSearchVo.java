@@ -1,4 +1,4 @@
-package com.ai.product.vo;
+package com.ai.prod.vo;
 
 import com.ai.common.vo.BaseVo;
 
@@ -9,7 +9,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class PubProductSearchVo extends BaseVo {
+public class PubProdSearchVo extends BaseVo {
 	private String searchKey;
 	private String searchValue;
 }

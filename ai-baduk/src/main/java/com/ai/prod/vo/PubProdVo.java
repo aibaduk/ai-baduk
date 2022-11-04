@@ -1,4 +1,4 @@
-package com.ai.product.vo;
+package com.ai.prod.vo;
 
 import com.ai.common.vo.BaseVo;
 
@@ -9,7 +9,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class PubProductVo extends BaseVo {
+public class PubProdVo extends BaseVo {
 
 	/** 상품ID */
 	private String prodId;
