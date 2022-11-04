@@ -3,9 +3,9 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- SQL Mapping -->
-<mapper namespace="com.ai.product.dao.PubProductMapper">
+<mapper namespace="com.ai.prod.dao.PubProdMapper">
 	<!-- 상품 리스트 조회 -->
-	<select id="selectProductList" parameterType="com.ai.product.vo.PubProductSearchVo" resultType="com.ai.product.vo.PubProductVo">
+	<select id="selectProdList" parameterType="com.ai.prod.vo.PubProdSearchVo" resultType="com.ai.prod.vo.PubProdVo">
 		SELECT PP.PROD_ID
 			 , PP.PROD_CL_CD
 			 , F_GET_CODE_NAME('CU005', PP.PROD_CL_CD) AS PROD_CL_NM
@@ -37,7 +37,7 @@
 	</select>
 
 	<!-- 상품 상세 조회 -->
-	<select id="selectProductOne" parameterType="com.ai.product.vo.PubProductVo" resultType="com.ai.product.vo.PubProductVo">
+	<select id="selectProdOne" parameterType="com.ai.prod.vo.PubProdVo" resultType="com.ai.prod.vo.PubProdVo">
 		SELECT PP.PROD_ID
 			 , PP.PROD_CL_CD
 			 , F_GET_CODE_NAME('CU005', PP.PROD_CL_CD) AS PROD_CL_NM

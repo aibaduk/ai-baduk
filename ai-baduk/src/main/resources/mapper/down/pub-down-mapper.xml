@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- SQL Mapping -->
+<mapper namespace="com.ai.down.dao.PubDownMapper">
+	<!-- 상품다운로드 리스트 조회 -->
+	<select id="selectProdDownList" parameterType="com.ai.down.vo.PubProdDownSearchVo" resultType="com.ai.down.vo.PubProdDownVo">
+		SELECT PD.MENU_ID
+		     , (SELECT MENU_NM FROM CM_MENU WHERE MENU_ID = PD.MENU_ID) AS MENU_NM
+		     , PD.PROD_ID
+		     , PD.PROD_CL_CD
+			 , F_GET_CODE_NAME('CU005', PD.PROD_CL_CD) AS PROD_CL_NM
+			 , PD.DOWN_ID
+			 , PD.FST_CRER_ID
+			 , IFNULL((SELECT USER_NM FROM CU_USER WHERE USER_ID = PD.FST_CRER_ID), PD.FST_CRER_ID) AS FST_CRER_NM
+			 , DATE_FORMAT(PD.FST_CRE_DTM, '%Y.%m.%d') AS FST_CRE_DTM
+			 , PD.AUDIT_ID
+			 , IFNULL((SELECT USER_NM FROM CU_USER WHERE USER_ID = PD.AUDIT_ID), PD.AUDIT_ID) AS AUDIT_NM
+			 , DATE_FORMAT(PD.AUDIT_DTM, '%Y.%m.%d') AS AUDIT_DTM
+			 , PD.USER_ID
+			 , PD.DOWN_STATUS
+			 , F_GET_CODE_NAME('CU006', PD.DOWN_STATUS) AS DOWN_STATUS_NM
+			 , PD.DOWN_CNT
+			 , PD.PROD_DISCOUNT_RATE
+			 , PD.PROD_NM
+			 , PD.PROD_PRICE
+		  FROM PR_PROD_DOWN PD
+		 WHERE 1 = 2
+		    OR PD.USER_ID = #{searchUserId}
+		    <if test='@org.apache.commons.lang3.StringUtils@isNotEmpty(searchValue)'>
+			   <if test='@org.apache.commons.lang3.StringUtils@equals(searchKey, "prodNm")'>
+				   AND PD.PROD_NM LIKE CONCAT('%', #{searchValue}, '%')
+			   </if>
+			   <if test='@org.apache.commons.lang3.StringUtils@equals(searchKey, "prodClNm")'>
+				   AND F_GET_CODE_NAME('CU005', PD.PROD_CL_CD) LIKE CONCAT('%', #{searchValue}, '%')
+			   </if>
+		   </if>
+		 ORDER BY PD.FST_CRE_DTM DESC
+	</select>
+
+	<!-- 상품다운로드 등록 -->
+	<insert id="insertProdDown" parameterType="com.ai.down.vo.PubProdDownVo">
+		<selectKey resultType="string" keyProperty="downId" order="BEFORE">
+			SELECT LPAD(IFNULL(MAX(DOWN_ID), 0) + 1, 3, '0') AS DOWN_ID
+			  FROM PR_PROD_DOWN
+			 WHERE 1 = 1
+			   AND MENU_ID = #{menuId}
+			   AND PROD_ID = #{prodId}
+			   AND PROD_CL_CD = #{prodClCd}
+		</selectKey>
+		INSERT INTO PR_PROD_DOWN (
+			MENU_ID
+			, PROD_ID
+			, PROD_CL_CD
+			, DOWN_ID
+			, FST_CRER_ID
+			, FST_CRE_DTM
+			, AUDIT_ID
+			, AUDIT_DTM
+			, USER_ID
+			, DOWN_STATUS
+			, DOWN_CNT
+			, PROD_DISCOUNT_RATE
+			, PROD_NM
+			, PROD_PRICE
+		)
+		VALUES (
+			#{menuId}
+			, #{prodId}
+			, #{prodClCd}
+			, #{downId}
+			, #{ssLoginId}
+			, NOW()
+			, #{ssLoginId}
+			, NOW()
+			, #{ssLoginId}
+			, '01'
+			, '0'
+			, #{prodDiscountRate}
+			, #{prodNm}
+			, #{prodPrice}
+		)
+	</insert>
+
+	<!-- 상품다운로드 상태 수정(완료) -->
+	<update id="updateProdDownStatus03" parameterType="com.ai.down.vo.PubProdDownVo">
+		UPDATE PR_PROD_DOWN
+		   SET DOWN_STATUS = '03'
+			 , AUDIT_ID = #{ssLoginId}
+			 , AUDIT_DTM = NOW()
+		 WHERE 1 = 1
+		   AND MENU_ID = #{menuId}
+		   AND PROD_ID = #{prodId}
+		   AND PROD_CL_CD = #{prodClCd}
+		   AND DOWN_ID = #{downId}
+	</update>
+
+	<!-- 상품다운로드 상태 수정(취소) -->
+	<update id="updateProdDownStatus04" parameterType="com.ai.down.vo.PubProdDownVo">
+		UPDATE PR_PROD_DOWN
+		   SET DOWN_STATUS = '04'
+			 , AUDIT_ID = #{ssLoginId}
+			 , AUDIT_DTM = NOW()
+		 WHERE 1 = 1
+		   AND MENU_ID = #{menuId}
+		   AND PROD_ID = #{prodId}
+		   AND PROD_CL_CD = #{prodClCd}
+		   AND DOWN_ID = #{downId}
+	</update>
+
+	<select id="selectIsExists" parameterType="com.ai.down.vo.PubProdDownVo" resultType="boolean">
+		SELECT IF(COUNT(*) = 0, 1, 0)
+		  FROM PR_PROD_DOWN PD
+		 WHERE 1 = 1
+		   AND PD.USER_ID = #{userId}
+		   AND PD.PROD_ID = #{prodId}
+		   AND PD.PROD_CL_CD = #{prodClCd}
+		   AND DOWN_ID = #{downId}
+	</select>
+</mapper>
