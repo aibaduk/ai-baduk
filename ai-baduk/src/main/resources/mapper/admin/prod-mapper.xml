@@ -3,9 +3,9 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- SQL Mapping -->
-<mapper namespace="com.ai.admin.dao.ProductMapper">
+<mapper namespace="com.ai.admin.dao.ProdMapper">
 	<!-- 상품 리스트 조회 -->
-	<select id="selectProductList" parameterType="com.ai.admin.vo.ProductSearchVo" resultType="com.ai.admin.vo.ProductVo">
+	<select id="selectProdList" parameterType="com.ai.admin.vo.ProdSearchVo" resultType="com.ai.admin.vo.ProdVo">
 		SELECT PP.PROD_ID
 			 , PP.PROD_CL_CD
 			 , F_GET_CODE_NAME('CU005', PP.PROD_CL_CD) AS PROD_CL_NM
@@ -35,7 +35,7 @@
 		 ORDER BY PP.PROD_DISCOUNT_RATE DESC, PP.FST_CRE_DTM DESC
 	</select>
 
-	<resultMap id="productMap" type="com.ai.admin.vo.ProductVo">
+	<resultMap id="prodMap" type="com.ai.admin.vo.ProdVo">
 		<id property="prodId" column="PROD_ID" javaType="java.lang.String"/>
 		<id property="prodClCd" column="PROD_CL_CD" javaType="java.lang.String"/>
 		<result property="prodNm" column="PROD_NM" javaType="java.lang.String"/>
@@ -59,7 +59,7 @@
 	</resultMap>
 
 	<!-- 상품 상세 조회 -->
-	<select id="selectProductOne" parameterType="com.ai.admin.vo.ProductVo" resultMap="productMap">
+	<select id="selectProdOne" parameterType="com.ai.admin.vo.ProdVo" resultMap="prodMap">
 		SELECT PP.PROD_ID
 			 , PP.PROD_CL_CD
 			 , F_GET_CODE_NAME('CU005', PP.PROD_CL_CD) AS PROD_CL_NM
@@ -87,7 +87,7 @@
 	</select>
 
 	<!-- 상품 등록 -->
-	<insert id="insertProduct" parameterType="com.ai.admin.vo.ProductVo">
+	<insert id="insertProd" parameterType="com.ai.admin.vo.ProdVo">
 		INSERT INTO PR_PROD (
 			PROD_ID
 			, PROD_CL_CD
@@ -119,7 +119,7 @@
 	</insert>
 
 	<!-- 상품 수정 -->
-	<update id="updateProduct" parameterType="com.ai.admin.vo.ProductVo">
+	<update id="updateProd" parameterType="com.ai.admin.vo.ProdVo">
 		UPDATE PR_PROD
 		   SET PROD_NM = #{prodNm}
 		     , DISPLAY_YN = #{displayYn}

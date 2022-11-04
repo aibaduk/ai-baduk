@@ -425,6 +425,7 @@ ul.main-board li.hot p.subject a{color:#2461d0;font-weight:700}
     .tab-wrap.ea4 .tab-menu li{width:25%;}
     .tab-wrap.ea5 .tab-menu li{width:20%;}
     .tab-wrap.ea6 .tab-menu li{width:16.66%;}
+    .tab-wrap.ea7 .tab-menu li{width:14.28%;}
     /* table */
     table{margin-top:20px;}
     table th{font-size:16px;}
@@ -735,12 +736,30 @@ ul.main-board li.hot p.subject a{color:#2461d0;font-weight:700}
 	.brd .analyzeInfo th:nth-child(4){width:12%;}
 	.brd .analyzeInfo th:nth-child(5){width:13%;}
     /* 관리자페이지>컨텐츠 20221025 */
-	.brd .product th:nth-child(1){width:5%;}
-    .brd .product th:nth-child(2){width:10%;}
-    .brd .product th:nth-child(3){width:"*";}
-    .brd .product th:nth-child(4){width:12%;}
-    .brd .product th:nth-child(5){width:15%;}
-    .brd .product th:nth-child(6){width:13%;}
+	.brd .prod th:nth-child(1){width:5%;}
+    .brd .prod th:nth-child(2){width:10%;}
+    .brd .prod th:nth-child(3){width:"*";}
+    .brd .prod th:nth-child(4){width:12%;}
+    .brd .prod th:nth-child(5){width:15%;}
+    .brd .prod th:nth-child(6){width:13%;}
+    /* AI컨텐츠 > AI 컨텐츠 다운로드 20221101 */
+	.brd .pubdown th:nth-child(1){width:5%;}
+	.brd .pubdown th:nth-child(2){width:5%;}
+    .brd .pubdown th:nth-child(3){width:10%;}
+    .brd .pubdown th:nth-child(4){width:10%;}
+    .brd .pubdown th:nth-child(5){width:"*";}
+    .brd .pubdown th:nth-child(6){width:13%;}
+    .brd .pubdown th:nth-child(7){width:10%;}
+    .brd .pubdown th:nth-child(8){width:11%;}
+    /* 관리자페이지 > AI 컨텐츠 다운로드 20221102 */
+	.brd .down th:nth-child(1){width:5%;}
+	.brd .down th:nth-child(2){width:13%;}
+    .brd .down th:nth-child(3){width:10%;}
+    .brd .down th:nth-child(4){width:10%;}
+    .brd .down th:nth-child(5){width:"*";}
+    .brd .down th:nth-child(6){width:13%;}
+    .brd .down th:nth-child(7){width:10%;}
+    .brd .down th:nth-child(8){width:11%;}
 
     .brd .news th:nth-child(1){width:12%;}
     .brd .news th:nth-child(2){width:65%;}

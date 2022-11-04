@@ -17,15 +17,15 @@ $(function() {
 	});
 
 	$('#btn-insert').click(function() {
-		product.insert();
+		prod.insert();
 	});
 
 	$('#btn-update').click(function() {
-		product.update();
+		prod.update();
 	});
 
 	$('#btn-cancle').click(function() {
-		window.location.href="/admin/product/main";
+		window.location.href="/admin/prod/main";
 	});
 
 	$('#btn-file').click(function() {
@@ -34,11 +34,11 @@ $(function() {
 	});
 
 	$('.btn-delete-file').click(function() {
-		product.fileDelete($(this));
+		prod.fileDelete($(this));
 	});
 
 	$('.file-download').click(function() {
-		product.fileDownload($(this));
+		prod.fileDownload($(this));
 	});
 
 	$('#uploadFile').change(function() {
@@ -49,10 +49,10 @@ $(function() {
 		$('#prodFile').val(file.join(', '));
 	});
 
-	product.init();
+	prod.init();
 });
 
-var product = {
+var prod = {
 	init: function() {
 
 	},
@@ -78,14 +78,14 @@ var product = {
 
 			$.ajax({
 				type: 'post',
-				url: '/admin/product/insert',
+				url: '/admin/prod/insert',
 				processData: false,
 				contentType: false,
 				data: formData,
 				success: function (data) {
 					if (data.result) {
 						alert('컨텐츠가 등록되었습니다.');
-						window.location.href='/admin/product/detail?prodId='+data.productVo.prodId+'&prodClCd='+data.productVo.prodClCd;
+						window.location.href='/admin/prod/detail?prodId='+data.prodVo.prodId+'&prodClCd='+data.prodVo.prodClCd;
 					} else {
 						alert(data.msg);
 					}
@@ -116,14 +116,14 @@ var product = {
 
 			$.ajax({
 				type: 'post',
-				url: '/admin/product/update',
+				url: '/admin/prod/update',
 				processData: false,
 				contentType: false,
 				data: formData,
 				success: function (data) {
 					if (data.result) {
 						alert('컨텐츠가 수정되었습니다.');
-						window.location.href='/admin/product/detail?prodId='+data.productVo.prodId+'&prodClCd='+data.productVo.prodClCd;
+						window.location.href='/admin/prod/detail?prodId='+data.prodVo.prodId+'&prodClCd='+data.prodVo.prodClCd;
 					} else {
 						alert(data.msg);
 					}
@@ -144,13 +144,13 @@ var product = {
 			}
 			$.ajax({
 				type: 'post',
-				url: '/admin/product/fileDelete',
+				url: '/admin/prod/fileDelete',
 				contentType: 'application/json',
 				data: JSON.stringify(param),
 				success: function (data) {
 					if (data.result) {
 						alert('파일이 삭제되었습니다.');
-						window.location.href='/admin/product/detail?prodId='+prodId+'&prodClCd='+prodClCd;
+						window.location.href='/admin/prod/detail?prodId='+prodId+'&prodClCd='+prodClCd;
 					} else {
 						alert(data.msg);
 					}
@@ -164,7 +164,7 @@ var product = {
 			let targetGubun = $('#prodClCd').val();
 			let fileNm = file.data('name');
 			let fileOgNm = file.text();
-			window.location.href='/admin/product/fileDownload?menuId=00002&targetId='+targetId+'&targetGubun='+targetGubun+'&fileNm='+fileNm+'&fileOgNm='+fileOgNm;
+			window.location.href='/admin/prod/fileDownload?menuId=00002&targetId='+targetId+'&targetGubun='+targetGubun+'&fileNm='+fileNm+'&fileOgNm='+fileOgNm;
 		}
 	}
 }
@@ -173,35 +173,36 @@ var product = {
 	<div class="wrapper">
 		<%@ include file="/WEB-INF/jsp/views/common/header.jsp" %>
 		<form id="form">
-			<c:set var="isInsert" value="${empty productDetailInfo }"></c:set>
-			<c:set var="isDetail" value="${not empty productDetailInfo }"></c:set>
+			<c:set var="isInsert" value="${empty prodDetailInfo }"></c:set>
+			<c:set var="isDetail" value="${not empty prodDetailInfo }"></c:set>
 			<section class="container">
 		        <div class="keyvi"></div>
 		        <section class="content brd">
 		            <div class="inner">
-		                <div class="tab-wrap ea6">
+		                <div class="tab-wrap ea7">
 		                    <ul class="tab-menu">
 		                        <li><a href="/admin/code/main">공통코드</a></li>
 		                        <li><a href="javascript:void(0)">메뉴관리</a></li>
 		                        <li><a href="/admin/user/main">사용자관리</a></li>
 		                        <li><a href="/admin/withdrawal/main">탈퇴회원관리</a></li>
 		                        <li><a href="/admin/analyzeInfo/main">분석정보</a></li>
-		                        <li class="on"><a href="/admin/product/main">컨텐츠</a></li>
+		                        <li class="on"><a href="/admin/prod/main">AI 컨텐츠</a></li>
+		                        <li><a href="/admin/down/prod/main">AI 컨텐츠 다운로드</a></li>
 		                    </ul>
 		                    <div class="inner-depth">
 		                        <div class="tab-inner">
 		                            <h2>컨텐츠 상세</h2>
 		                            <ul class="write-box">
 		                                <li class="tit">
-		                                    <span class="form-ele"><label for="tit">컨텐츠명</label><input type="text" id="prodNm" name="prodNm" value="${productDetailInfo.prodNm }" required></span>
-		                                    <input type="hidden" id="prodId" name="prodId" value="${productDetailInfo.prodId }">
+		                                    <span class="form-ele"><label for="tit">컨텐츠명</label><input type="text" id="prodNm" name="prodNm" value="${prodDetailInfo.prodNm }" required></span>
+		                                    <input type="hidden" id="prodId" name="prodId" value="${prodDetailInfo.prodId }">
 		                                </li>
 		                                <li class="tit">
 											<span class="form-ele">
 		                                    	<label for="tit">상품구분</label>
 				                            	<select id="prodClCd" name="prodClCd">
 										            <c:forEach items="${codeCU005 }" var="item">
-														<option value="${item.codeId }" <c:if test="${productDetailInfo.prodClCd eq item.codeId }">selected</c:if>>${item.codeNm }</option>
+														<option value="${item.codeId }" <c:if test="${prodDetailInfo.prodClCd eq item.codeId }">selected</c:if>>${item.codeNm }</option>
 				                                   	</c:forEach>
 									            </select>
 		                                    </span>
@@ -213,7 +214,7 @@ var product = {
 		                                    </span>
 		                                </li>
 		                                <li class="file_text">
-		                                    <c:forEach items="${productDetailInfo.fileList }" var="file">
+		                                    <c:forEach items="${prodDetailInfo.fileList }" var="file">
 	                                    		<a href="javascript:void(0)" class="file-download" data-name="${file.fileNm}_${file.fileOgNm}">${file.fileOgNm}</a>
 	                                    		<span class='custem_close btn-delete-file' data-id="${file.fileId}" data-name="${file.fileNm}_${file.fileOgNm}">&times;</span>
 	                                    	</c:forEach>
@@ -223,27 +224,27 @@ var product = {
 		                                    	<label for="impo" class="fm-label">전시여부</label>
 		                                    	<div class="fm-group" style="display: inline;">
 					                                <div class="fm-check fm-inline">
-					                                    <input class="fm-check-input" type="radio" name="displayYn" id="displayY" value="Y" <c:if test="${empty productDetailInfo or productDetailInfo.displayYn eq 'Y' }">checked="checked"</c:if>>
+					                                    <input class="fm-check-input" type="radio" name="displayYn" id="displayY" value="Y" <c:if test="${empty prodDetailInfo or prodDetailInfo.displayYn eq 'Y' }">checked="checked"</c:if>>
 					                                    <label class="fm-check-label" for="displayY">Y</label>
 					                                </div>
 					                                <div class="fm-check fm-inline">
-					                                    <input class="fm-check-input" type="radio" name="displayYn" id="displayN" value="N" <c:if test="${productDetailInfo.displayYn eq 'N' }">checked="checked"</c:if>>
+					                                    <input class="fm-check-input" type="radio" name="displayYn" id="displayN" value="N" <c:if test="${prodDetailInfo.displayYn eq 'N' }">checked="checked"</c:if>>
 					                                    <label class="fm-check-label" for="displayN">N</label>
 					                                </div>
 					                            </div>
 				                            </div>
 		                                </li>
 		                                <li class="tit">
-		                                    <span class="form-ele"><label for="tit">상품할인율</label><input type="text" id="prodDiscountRate" name="prodDiscountRate" value="${productDetailInfo.prodDiscountRate }"></span>
+		                                    <span class="form-ele"><label for="tit">상품할인율</label><input type="text" id="prodDiscountRate" name="prodDiscountRate" value="${prodDetailInfo.prodDiscountRate }"></span>
 		                                </li>
 		                                <li class="tit">
-		                                    <span class="form-ele"><label for="tit">상품판매처</label><input type="text" id="prodMarket" name="prodMarket" value="${productDetailInfo.prodMarket }"></span>
+		                                    <span class="form-ele"><label for="tit">상품판매처</label><input type="text" id="prodMarket" name="prodMarket" value="${prodDetailInfo.prodMarket }"></span>
 		                                </li>
 		                                <li class="tit">
-		                                    <span class="form-ele"><label for="tit">상품가격</label><input type="text" id="prodPrice" name="prodPrice" value="${productDetailInfo.prodPrice }"></span>
+		                                    <span class="form-ele"><label for="tit">상품가격</label><input type="text" id="prodPrice" name="prodPrice" value="${prodDetailInfo.prodPrice }"></span>
 		                                </li>
 		                                <li class="cont">
-		                                    <textarea col="100" row="50" id="prodCtt" name="prodCtt">${productDetailInfo.prodCtt }</textarea>
+		                                    <textarea col="100" row="50" id="prodCtt" name="prodCtt">${prodDetailInfo.prodCtt }</textarea>
 		                                </li>
 		                            </ul>
 		                            <div class="btn-wrap">

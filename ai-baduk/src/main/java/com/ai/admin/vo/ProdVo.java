@@ -12,7 +12,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class ProductVo extends BaseVo {
+public class ProdVo extends BaseVo {
 
 	/** 상품ID */
 	private String prodId;

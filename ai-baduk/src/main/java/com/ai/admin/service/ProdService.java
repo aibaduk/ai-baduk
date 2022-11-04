@@ -15,9 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ai.admin.dao.ProductMapper;
-import com.ai.admin.vo.ProductSearchVo;
-import com.ai.admin.vo.ProductVo;
+import com.ai.admin.dao.ProdMapper;
+import com.ai.admin.vo.ProdSearchVo;
+import com.ai.admin.vo.ProdVo;
 import com.ai.common.util.Constants;
 import com.ai.common.vo.FileVo;
 import com.ai.common.web.CommonService;
@@ -28,13 +28,13 @@ import com.github.pagehelper.PageInfo;
 /**
  * @author 우동하
  * @since 2022. 10. 24
- * @implSpec product service business logic.
+ * @implSpec prod service business logic.
  */
 @Service
-public class ProductService {
+public class ProdService {
 
 	@Autowired
-	ProductMapper productMapper;
+	ProdMapper prodMapper;
 
 	@Autowired
 	FileService fileService;
@@ -42,57 +42,57 @@ public class ProductService {
 	@Value("${upload.default.path}")
 	private String UPLOAD_DEFAULT_PATH;
 
-	@Value("${upload.product.opening.path}")
+	@Value("${upload.prod.opening.path}")
 	private String OPENING_PATH;
 
-	@Value("${upload.product.pattern.path}")
+	@Value("${upload.prod.pattern.path}")
 	private String PATTERN_PATH;
 
-	@Value("${upload.product.endGame.path}")
+	@Value("${upload.prod.endGame.path}")
 	private String ENDGAME_PATH;
 
-	@Value("${upload.product.haengma.path}")
+	@Value("${upload.prod.haengma.path}")
 	private String HAENGMA_PATH;
 
 	/**
-	 * @implNote select product list.
-	 * @param productSearchVo
-	 * @return PageInfo<ProductVo>
+	 * @implNote select prod list.
+	 * @param prodSearchVo
+	 * @return PageInfo<ProdVo>
 	 */
-	public PageInfo<ProductVo> selectProductList(ProductSearchVo productSearchVo) {
-		PageHelper.startPage(productSearchVo.getPageNo(), productSearchVo.getPageSize());
+	public PageInfo<ProdVo> selectProdList(ProdSearchVo prodSearchVo) {
+		PageHelper.startPage(prodSearchVo.getPageNo(), prodSearchVo.getPageSize());
 
-		PageInfo<ProductVo> productList = new PageInfo<ProductVo>(productMapper.selectProductList(productSearchVo), productSearchVo.getNavigatePages());
-		int index = productSearchVo.getPageNo() * productSearchVo.getPageSize() - 10 + 1;
-		IntStream.range(0, productList.getList().size())
+		PageInfo<ProdVo> prodList = new PageInfo<ProdVo>(prodMapper.selectProdList(prodSearchVo), prodSearchVo.getNavigatePages());
+		int index = prodSearchVo.getPageNo() * prodSearchVo.getPageSize() - 10 + 1;
+		IntStream.range(0, prodList.getList().size())
 		         .forEach(i -> {
-		        	 productList.getList().get(i).setRowId(String.valueOf(index + i));
+		        	 prodList.getList().get(i).setRowId(String.valueOf(index + i));
 		         });
 
-		return productList;
+		return prodList;
 	}
 
 	/**
-	 * @implNote select product by list.
-	 * @param productVo
-	 * @return List<ProductVo>
+	 * @implNote select prod by list.
+	 * @param prodVo
+	 * @return List<ProdVo>
 	 */
-	public ProductVo selectProductOne(ProductVo productVo) {
-		return productMapper.selectProductOne(productVo);
+	public ProdVo selectProdOne(ProdVo prodVo) {
+		return prodMapper.selectProdOne(prodVo);
 	}
 
 	/**
-	 * @implNote insert product.
-	 * @param productVo
-	 * @return ProductVo
+	 * @implNote insert prod.
+	 * @param prodVo
+	 * @return ProdVo
 	 */
 	@Transactional
-	public ProductVo insertProduct(ProductVo productVo, List<MultipartFile> fileList) throws IllegalStateException, IOException {
+	public ProdVo insertProd(ProdVo prodVo, List<MultipartFile> fileList) throws IllegalStateException, IOException {
 		// 1. 상품ID 채번.
-		String prodId = productMapper.selectProdId(productVo.getProdClCd());
+		String prodId = prodMapper.selectProdId(prodVo.getProdClCd());
 		// 2. file 경로 설정 (기본경로 + 상품구분경로 + 채번)
-		String uploadPath = getUploadPath(productVo.getProdClCd(), prodId);
-		// 3. file upload / product_file insert
+		String uploadPath = getUploadPath(prodVo.getProdClCd(), prodId);
+		// 3. file upload / prod_file insert
 		if (!Objects.isNull(fileList)) {
 			for (MultipartFile multi : fileList) {
 				if (!multi.isEmpty()) {
@@ -102,31 +102,31 @@ public class ProductService {
 					FileVo fileVo = new FileVo();
 					CommonService.setSessionData(fileVo);
 					fileVo.setMenuId(Constants.FILE_CHNL_PROD);
-					fileVo.setTargetId(StringUtil.join("", new Object[]{prodId, productVo.getProdClCd()}));
+					fileVo.setTargetId(StringUtil.join("", new Object[]{prodId, prodVo.getProdClCd()}));
 					fileVo.setFileNm(fileNm);
 					fileVo.setFileOgNm(fileOgNm);
 					fileService.insertFile(fileVo);
 				}
 			}
 		}
-		// 4. product insert
-		CommonService.setSessionData(productVo);
-		productVo.setProdId(prodId);
-		productMapper.insertProduct(productVo);
-		return productVo;
+		// 4. prod insert
+		CommonService.setSessionData(prodVo);
+		prodVo.setProdId(prodId);
+		prodMapper.insertProd(prodVo);
+		return prodVo;
 	}
 
 	/**
-	 * @implNote update product.
-	 * @param productVo
+	 * @implNote update prod.
+	 * @param prodVo
 	 * @return
 	 */
 	@Transactional
-	public void updateProduct(ProductVo productVo, List<MultipartFile> fileList) throws IllegalStateException, IOException {
+	public void updateProd(ProdVo prodVo, List<MultipartFile> fileList) throws IllegalStateException, IOException {
 		// 1. file 경로 설정 (기본경로 + 메뉴경로 + 채번)
-		String prodId = productVo.getProdId();
-		String uploadPath = getUploadPath(productVo.getProdClCd(), prodId);
-		// 2. file upload / product_file insert
+		String prodId = prodVo.getProdId();
+		String uploadPath = getUploadPath(prodVo.getProdClCd(), prodId);
+		// 2. file upload / prod_file insert
 		if (!Objects.isNull(fileList)) {
 			for (MultipartFile multi : fileList) {
 				if (!multi.isEmpty()) {
@@ -136,7 +136,7 @@ public class ProductService {
 					FileVo fileVo = new FileVo();
 					CommonService.setSessionData(fileVo);
 					fileVo.setMenuId(Constants.FILE_CHNL_PROD);
-					fileVo.setTargetId(StringUtil.join("", new Object[]{prodId, productVo.getProdClCd()}));
+					fileVo.setTargetId(StringUtil.join("", new Object[]{prodId, prodVo.getProdClCd()}));
 					fileVo.setFileNm(fileNm);
 					fileVo.setFileOgNm(fileOgNm);
 					fileService.insertFile(fileVo);
@@ -144,8 +144,8 @@ public class ProductService {
 			}
 		}
 		// 3. board update
-		CommonService.setSessionData(productVo);
-		productMapper.updateProduct(productVo);
+		CommonService.setSessionData(prodVo);
+		prodMapper.updateProd(prodVo);
 	}
 
 	/**
@@ -154,7 +154,7 @@ public class ProductService {
 	 * @return
 	 */
 	@Transactional
-	public void deleteProductFile(FileVo fileVo) {
+	public void deleteProdFile(FileVo fileVo) {
 		// 1. 파일경로상에 있는 물리적인 파일 삭제
 		String uploadPath = getUploadPath(fileVo.getTargetGubun(), fileVo.getTargetId());
 		fileService.fileDelete(uploadPath, fileVo.getFileNm());
@@ -169,7 +169,7 @@ public class ProductService {
 	 * @return
 	 * @throws IOException
 	 */
-	public ResponseEntity<Resource> productFileDownload(FileVo fileVo) throws IOException {
+	public ResponseEntity<Resource> prodFileDownload(FileVo fileVo) throws IOException {
 		String boardId = fileVo.getTargetId();
 		String fileNm = fileVo.getFileNm();
 		String fileOgNm = fileVo.getFileOgNm();

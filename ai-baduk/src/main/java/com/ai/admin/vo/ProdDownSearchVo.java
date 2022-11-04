@@ -9,7 +9,8 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class ProductSearchVo extends BaseVo {
+public class ProdDownSearchVo extends BaseVo {
 	private String searchKey;
 	private String searchValue;
+	private String searchUserId;
 }

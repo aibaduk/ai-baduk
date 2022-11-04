@@ -2,10 +2,10 @@
  * 체크박스 이벤트
  */
 $(document).on('click', '#allCheck', function() {
-	$('[id^=chk_]').prop('checked', $(this).is(':checked'));
+	$('[id^=chk_]:not(:disabled)').prop('checked', $(this).is(':checked'));
 });
 $(document).on('click', '[id^=chk_]', function() {
-	let total = $("[id^=chk_]").length;
+	let total = $("[id^=chk_]:not(':disabled')").length;
 	let checked = $("[id^=chk_]:checked").length;
 	$('#allCheck').prop("checked", (total == checked));
 });
