@@ -7,6 +7,7 @@
 
 <!-- library javascript -->
 <script type="text/javascript" src="/static/js/jquery.3.4.1.min.js"></script>
+<script type="text/javascript" src="/static/js/jstree.js"></script>
 <script type="text/javascript" src="/static/js/d3.v5.min.js"></script>
 <script type="text/javascript" src="/static/js/jsrender.js"></script>
 
@@ -14,6 +15,7 @@
 <link rel="stylesheet" href="/static/css/reset.css">
 <link rel="stylesheet" href="/static/css/MalgunGothic.css">
 <link rel="stylesheet" href="/static/css/front.css">
+<link rel="stylesheet" href="/static/css/jstree.css">
 
 <script type="text/javascript" src="/static/js/chart_data.js"></script>
 <script type="text/javascript" src="/static/js/ui.js"></script>
