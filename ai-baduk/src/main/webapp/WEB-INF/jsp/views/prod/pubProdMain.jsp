@@ -123,7 +123,7 @@ function setSaleProdPrice(data) {
 		                                        <th>상품명</th>
 		                                        <th class="show-pc">상품가격</th>
 		                                        <th class="show-pc">판매처</th>
-		                                        <th>등록일</th>
+		                                        <th class="show-pc">등록일</th>
 		                                    </tr>
 		                                </thead>
 		                                <tbody id="prod-tbody"></tbody>
@@ -162,7 +162,7 @@ function setSaleProdPrice(data) {
 		{{/if}}
 	</td>
 	<td class="show-pc l-data">{{:prodMarket}}</td>
-	<td>{{:fstCreDtm}}</td>
+	<td class="show-pc">{{:fstCreDtm}}</td>
 </tr>
 </script>
 </html>

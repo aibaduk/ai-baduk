@@ -170,32 +170,32 @@
 			, #{bp}
 			, #{ibm}
 			, #{target}
-			, #{opening}
+			, IF(#{opening} = '', NULL, #{opening})
 			, #{openingStarting}
 			, #{openingAiMatchRate}
 			, #{openingAiGraph}
 			, #{openingMissRate}
-			, #{middleGame}
+			, IF(#{middleGame} = '', NULL, #{middleGame})
 			, #{middleGameCombativePower}
 			, #{middleGameSaveRate}
 			, #{middleGameMissCnt}
 			, #{middleGameMissRate}
-			, #{endGame}
+			, IF(#{endGame} = '', NULL, #{endGame})
 			, #{endGameDefense}
 			, #{endGameDefenseFailure}
 			, #{endGameTurnTheTables}
 			, #{endGameMissCnt}
-			, #{gameTiming}
+			, IF(#{gameTiming} = '', NULL, #{gameTiming})
 			, #{gameTimingWave}
 			, #{gameTimingDefence}
-			, #{technique}
-			, #{techniqueValueJudgment}
-			, #{techniqueHaengma}
-			, #{techniqueReading}
-			, #{examOpeningPositionalJudgment}
-			, #{examHaengmaValueJudgment}
-			, #{examReadingLifeAndDeath}
-			, #{examEndGameCounting}
+			, IF(#{technique} = '', NULL, #{technique})
+			, IF(#{techniqueValueJudgment} = '', NULL, #{techniqueValueJudgment})
+			, IF(#{techniqueHaengma} = '', NULL, #{techniqueHaengma})
+			, IF(#{techniqueReading} = '', NULL, #{techniqueReading})
+			, IF(#{examOpeningPositionalJudgment} = '', NULL, #{examOpeningPositionalJudgment})
+			, IF(#{examHaengmaValueJudgment} = '', NULL, #{examHaengmaValueJudgment})
+			, IF(#{examReadingLifeAndDeath} = '', NULL, #{examReadingLifeAndDeath})
+			, IF(#{examEndGameCounting} = '', NULL, #{examEndGameCounting})
 			, #{etc}
 		)
 		ON DUPLICATE KEY UPDATE
@@ -208,32 +208,32 @@
 		, BP = #{bp}
 		, IBM = #{ibm}
 		, TARGET = #{target}
-		, OPENING = #{opening}
+		, OPENING = IF(#{opening} = '', NULL, #{opening})
 		, OPENING_STARTING = #{openingStarting}
 		, OPENING_AI_MATCH_RATE = #{openingAiMatchRate}
 		, OPENING_AI_GRAPH = #{openingAiGraph}
 		, OPENING_MISS_RATE = #{openingMissRate}
-		, MIDDLE_GAME = #{middleGame}
+		, MIDDLE_GAME = IF(#{middleGame} = '', NULL, #{middleGame})
 		, MIDDLE_GAME_COMBATIVE_POWER = #{middleGameCombativePower}
 		, MIDDLE_GAME_SAVE_RATE = #{middleGameSaveRate}
 		, MIDDLE_GAME_MISS_CNT = #{middleGameMissCnt}
 		, MIDDLE_GAME_MISS_RATE = #{middleGameMissRate}
-		, END_GAME = #{endGame}
+		, END_GAME = IF(#{endGame} = '', NULL, #{endGame})
 		, END_GAME_DEFENSE = #{endGameDefense}
 		, END_GAME_DEFENSE_FAILURE = #{endGameDefenseFailure}
 		, END_GAME_TURN_THE_TABLES = #{endGameTurnTheTables}
 		, END_GAME_MISS_CNT = #{endGameMissCnt}
-		, GAME_TIMING = #{gameTiming}
+		, GAME_TIMING = IF(#{gameTiming} = '', NULL, #{gameTiming})
 		, GAME_TIMING_WAVE = #{gameTimingWave}
 		, GAME_TIMING_DEFENCE = #{gameTimingDefence}
-		, TECHNIQUE = #{technique}
-		, TECHNIQUE_VALUE_JUDGMENT = #{techniqueValueJudgment}
-		, TECHNIQUE_HAENGMA = #{techniqueHaengma}
-		, TECHNIQUE_READING = #{techniqueReading}
-		, EXAM_OPENING_POSITIONAL_JUDGMENT = #{examOpeningPositionalJudgment}
-		, EXAM_HAENGMA_VALUE_JUDGMENT = #{examHaengmaValueJudgment}
-		, EXAM_READING_LIFE_AND_DEATH = #{examReadingLifeAndDeath}
-		, EXAM_END_GAME_COUNTING = #{examEndGameCounting}
+		, TECHNIQUE = IF(#{technique} = '', NULL, #{technique})
+		, TECHNIQUE_VALUE_JUDGMENT = IF(#{techniqueValueJudgment} = '', NULL, #{techniqueValueJudgment})
+		, TECHNIQUE_HAENGMA = IF(#{techniqueHaengma} = '', NULL, #{techniqueHaengma})
+		, TECHNIQUE_READING = IF(#{techniqueReading} = '', NULL, #{techniqueReading})
+		, EXAM_OPENING_POSITIONAL_JUDGMENT = IF(#{examOpeningPositionalJudgment} = '', NULL, #{examOpeningPositionalJudgment})
+		, EXAM_HAENGMA_VALUE_JUDGMENT = IF(#{examHaengmaValueJudgment} = '', NULL, #{examHaengmaValueJudgment})
+		, EXAM_READING_LIFE_AND_DEATH = IF(#{examReadingLifeAndDeath} = '', NULL, #{examReadingLifeAndDeath})
+		, EXAM_END_GAME_COUNTING = IF(#{examEndGameCounting} = '', NULL, #{examEndGameCounting})
 		, ETC = #{etc}
 	</insert>
 

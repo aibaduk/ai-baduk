@@ -131,10 +131,9 @@ var analyzeInfo = {
 	        <div class="keyvi"></div>
 	        <section class="content qna">
 	            <div class="inner">
-	                <div class="tab-wrap ea2">
+	                <div class="tab-wrap ea1">
 	                    <ul class="tab-menu">
-	                        <li><a href="/mypage/user/detail">회원정보수정</a></li>
-	                        <li class="on"><a href="/mypage/analyzeInfo/detail">개인 분석정보</a></li>
+	                        <li class="on"><a href="/mypage/analyzeInfo/detail">AI 분석정보</a></li>
 	                    </ul>
 	                    <div class="inner-depth">
 	                        <div class="tab-inner">
@@ -144,7 +143,7 @@ var analyzeInfo = {
 	                                    <em class="${analyzeInfoDetail.userGrade }" id="userGrade"></em>
 	                                    <strong id="userNm">${analyzeInfoDetail.userNm }</strong>
 	                                </div>
-	                                <div>
+									<div class="show-pc">
 	                                	<span>대상년월</span>
 	                                	<div class="fm-group">
 		                                	<select id="analyzeInfoId" name="analyzeInfoId" title="대상년월 선택" style="padding: 7px 27px 7px 7px;">

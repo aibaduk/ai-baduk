@@ -6,15 +6,12 @@ body {width:100%;min-height:100%; font-family:"MalgunGothic","맑은 고딕","he
 .btn-wrap{margin-top:6vw;min-height:6.6666vw; text-align:center;position:relative;}
 .btn-wrap .btn-right{text-align:right}
 
-/* .btns{margin-left:1.6vw;padding:2.5vw 4vw; border:.267vw solid #fff; font-size:3.2vw;color:#fff;text-align:center; display:inline-block} */
-.btns{margin-left:1.6vw;padding:2.0vw 3vw; border:.267vw solid #fff; font-size:3.2vw;color:#fff;text-align:center; display:inline-block}
+.btns{margin-left:1.6vw;padding:2.5vw 4vw; border:.267vw solid #fff; font-size:3.2vw;color:#fff;text-align:center; display:inline-block}
 .btns:first-child{margin-left:0;}
 .btns.normal{color:#222; background-color:#fff;border:solid 1px #555;}
-/* .btns.point{color:#fff; background-color:#2461d0;} */
+.btns.point{color:#fff; background-color:#1a51b67d;}
 .btns.point:hover{color:#fff;}
-.btns.point{color:#fff; background-color:#1a51b67d;}/* as-is #2461d0 */
 .btns.gray{color:#fff; background-color:#a0a0a0;}
-
 
 /* table */
 table{margin-top:3vw; border-top:solid 2px #222;border-bottom:solid 1px #ddd;}
@@ -234,7 +231,7 @@ footer p{margin-top:2vw; font-size:3.2vw;color:#afafaf;}
 .myinfo >div strong span{margin:0 0 0 1.6vw;font-size:3.2vw;line-height:5.8667vw;font-weight:400;vertical-align:top; display:inline-block}
 .myinfo >div span{margin-bottom:.6vw;font-size:3.2vw;font-weight:700; display:block}
 .myinfo >div:first-child{padding:1.6vw 0 3vw;width:100%;border:0}
-.myinfo >div:nth-child(2){border-left:0;}
+.myinfo >div:nth-child(3){border-left:0;}
 .myinfo >div:nth-child(5){width:40%; font-size:3.2vw; border-right:0}
 .myinfo >div:nth-child(5) span{margin-bottom:1.4vw;}
 .analysis .inner{padding:8vw 0 0;}
@@ -320,6 +317,18 @@ footer p{margin-top:2vw; font-size:3.2vw;color:#afafaf;}
 .brd .analyzeInfo th:nth-child(2){width:35%;}
 .brd .analyzeInfo th:nth-child(3){width:28%;}
 .brd .analyzeInfo th:nth-child(6){width:25%;}
+/* 관리자페이지 > AI 컨텐츠 20221025 */
+.brd .prod th:nth-child(1){width:10%;}
+.brd .prod th:nth-child(2){width:20%;}
+.brd .prod th:nth-child(3){width:"*";}
+/* AI컨텐츠 > AI 컨텐츠 다운로드 20221101 */
+.brd .pubdown th:nth-child(1){width:10%;}
+.brd .pubdown th:nth-child(5){width:"*";}
+.brd .pubdown th:nth-child(7){width:27%;}
+/* 관리자페이지 > AI 컨텐츠 다운로드 20221102 */
+.brd .down th:nth-child(1){width:10%;}
+.brd .down th:nth-child(5){width:"*";}
+.brd .down th:nth-child(7){width:20%;}
 
 .brd .news th:nth-child(2){width:75%;}
 .brd .news th:nth-child(3){width:25%; border-right:0;}
@@ -328,7 +337,7 @@ footer p{margin-top:2vw; font-size:3.2vw;color:#afafaf;}
 .brd .reference th:nth-child(3){width:12%;}
 .brd .reference th:nth-child(4){width:23%; border-right:0;}
 .brd .reference td:nth-child(4){border-right:0;}
-.brd .show-pc{display:none;}
+.show-pc{display:none;}
 .brd table{margin-top:6vw; text-align:center;}
 .brd table thead th{padding:2.6667vw 0; background-color:#fcfcfc}
 .brd table td{padding:2vw; font-size:3.733vw;color:#777;}
@@ -400,8 +409,7 @@ ul.main-board li.hot p.subject a{color:#2461d0;font-weight:700}
     .btn-wrap .btn-left{position:absolute;top:0;left:0;}
     .btn-wrap .btn-right{position:absolute;top:0;right:0;}
 
-    /* .btns{margin-left:8px;padding:10px 30px 12px; border:1px solid #fff; font-size:16px;color:#fff;text-align:center; display:inline-block} */
-    .btns{margin-left:0px;padding:5px 17px 7px; border:1px solid #fff; font-size:16px;color:#fff;text-align:center; display:inline-block}
+    .btns{margin-left:8px;padding:10px 30px 12px; border:1px solid #fff; font-size:16px;color:#fff;text-align:center; display:inline-block}
     /* search-wrap */
     .search-wrap{margin:40px auto 0;width:540px;}
     .search-wrap:after{content:'';display:block;clear:both}
@@ -699,7 +707,7 @@ ul.main-board li.hot p.subject a{color:#2461d0;font-weight:700}
     #popPW form div button{width:120px;height:50px; font-size:16px;color:#fff; background-color:#2461d0}
     /* qna */
     .brd .btn-more{display:none;}
-    .brd .show-pc{display:table-cell;}
+    .show-pc{display:table-cell;}
     /* .brd .qna th:nth-child(1){width:12%;}
     .brd .qna th:nth-child(2){width:65%;}
     .brd .qna th:nth-child(3){width:10%;}
@@ -735,13 +743,13 @@ ul.main-board li.hot p.subject a{color:#2461d0;font-weight:700}
 	.brd .analyzeInfo th:nth-child(3){width:"*";}
 	.brd .analyzeInfo th:nth-child(4){width:12%;}
 	.brd .analyzeInfo th:nth-child(5){width:13%;}
-    /* 관리자페이지>컨텐츠 20221025 */
+    /* 관리자페이지 > AI 컨텐츠 20221025 */
 	.brd .prod th:nth-child(1){width:5%;}
-    .brd .prod th:nth-child(2){width:10%;}
-    .brd .prod th:nth-child(3){width:"*";}
-    .brd .prod th:nth-child(4){width:12%;}
-    .brd .prod th:nth-child(5){width:15%;}
-    .brd .prod th:nth-child(6){width:13%;}
+	.brd .prod th:nth-child(2){width:10%;}
+	.brd .prod th:nth-child(3){width:"*";}
+	.brd .prod th:nth-child(4){width:12%;}
+	.brd .prod th:nth-child(5){width:15%;}
+	.brd .prod th:nth-child(6){width:13%;}
     /* AI컨텐츠 > AI 컨텐츠 다운로드 20221101 */
 	.brd .pubdown th:nth-child(1){width:5%;}
 	.brd .pubdown th:nth-child(2){width:5%;}
@@ -749,7 +757,7 @@ ul.main-board li.hot p.subject a{color:#2461d0;font-weight:700}
     .brd .pubdown th:nth-child(4){width:10%;}
     .brd .pubdown th:nth-child(5){width:"*";}
     .brd .pubdown th:nth-child(6){width:13%;}
-    .brd .pubdown th:nth-child(7){width:10%;}
+    .brd .pubdown th:nth-child(7){width:12%;}
     .brd .pubdown th:nth-child(8){width:11%;}
     /* 관리자페이지 > AI 컨텐츠 다운로드 20221102 */
 	.brd .down th:nth-child(1){width:5%;}

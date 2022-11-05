@@ -73,9 +73,9 @@ CREATE TABLE aibaduk.CU_ANALYZE_INFO (
 	GAME_TIMING_WAVE VARCHAR(50) COMMENT '승부호흡 흔들기',
 	GAME_TIMING_DEFENCE VARCHAR(50) COMMENT '승부호흡 수비',
 	TECHNIQUE SMALLINT COMMENT '기술',
-	TECHNIQUE_VALUE_JUDGMENT VARCHAR(50) COMMENT '기술 가치판단',
-	TECHNIQUE_HAENGMA VARCHAR(50) COMMENT '기술 행마',
-	TECHNIQUE_READING VARCHAR(50) COMMENT '기술 수읽기',
+	TECHNIQUE_VALUE_JUDGMENT SMALLINT COMMENT '기술 가치판단',
+	TECHNIQUE_HAENGMA SMALLINT COMMENT '기술 행마',
+	TECHNIQUE_READING SMALLINT COMMENT '기술 수읽기',
 	EXAM_OPENING_POSITIONAL_JUDGMENT SMALLINT COMMENT '시험 포석/형세판단',
 	EXAM_HAENGMA_VALUE_JUDGMENT SMALLINT COMMENT '시험 행마/가치판단',
 	EXAM_READING_LIFE_AND_DEATH  SMALLINT COMMENT '시험 수읽기/사활',
@@ -378,34 +378,38 @@ VALUES('root', 'admin', now(), 'admin', now(), '*', '0', '메뉴루트', '', 'Y'
 INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
 VALUES('00001', 'admin', now(), 'admin', now(), 'root', '1', '연구소 소개', '/introduce/introduce/main', 'Y', '1', '');
 INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00002', 'admin', now(), 'admin', now(), 'root', '1', 'AI 컨텐츠', '/product/main', 'Y', '2', '');
+VALUES('00002', 'admin', now(), 'admin', now(), 'root', '1', 'AI 컨텐츠', '/prod/main', 'Y', '2', '');
 INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00003', 'admin', now(), 'admin', now(), 'root', '1', '게시판', '/board/notice/main', 'Y', '3', '');
+VALUES('00003', 'admin', now(), 'admin', now(), 'root', '1', 'AI 분석정보', '/mypage/analyzeInfo/detail', 'Y', '3', '');
 INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00004', 'admin', now(), 'admin', now(), 'root', '1', '마이페이지', '/mypage/user/detail', 'Y', '4', '');
+VALUES('00004', 'admin', now(), 'admin', now(), 'root', '1', '게시판', '/board/notice/main', 'Y', '4', '');
 INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
 VALUES('00005', 'admin', now(), 'admin', now(), 'root', '1', '관리자페이지', '/admin/code/main', 'Y', '5', '');
 INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00006', 'admin', now(), 'admin', now(), 'root', '1', '다운로드관리', '/download/main', 'Y', '6', '');
+VALUES('00006', 'admin', now(), 'admin', now(), 'root', '1', '회원가입', '/auth/signUp', 'Y', '6', '');
 INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00007', 'admin', now(), 'admin', now(), '00001', '2', '커리큘럼', '/introduce/curriculum/main', 'Y', '1', '');
+VALUES('00007', 'admin', now(), 'admin', now(), 'root', '1', '내정보 수정', '/mypage/user/detail', 'Y', '7', '');
 INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00008', 'admin', now(), 'admin', now(), '00003', '2', '자주묻는질문', '/board/question/main', 'Y', '1', '');
+VALUES('00008', 'admin', now(), 'admin', now(), '00001', '2', '커리큘럼', '/introduce/curriculum/main', 'Y', '1', '');
 INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00009', 'admin', now(), 'admin', now(), '00003', '2', '바둑AI소식', '/board/info/main', 'Y', '2', '');
+VALUES('00009', 'admin', now(), 'admin', now(), '00002', '2', 'AI 컨텐츠 다운로드', '/down/prod/main', 'Y', '1', '');
 INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00010', 'admin', now(), 'admin', now(), '00003', '2', '바둑자료실', '/board/storage/main', 'Y', '3', '');
+VALUES('00010', 'admin', now(), 'admin', now(), '00004', '2', '자주묻는질문', '/board/question/main', 'Y', '1', '');
 INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00011', 'admin', now(), 'admin', now(), '00004', '2', '분석정보', '/mypage/analyzeInfo/detail', 'Y', '1', '');
+VALUES('00011', 'admin', now(), 'admin', now(), '00004', '2', '바둑AI소식', '/board/info/main', 'Y', '2', '');
 INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00012', 'admin', now(), 'admin', now(), '00005', '2', '공통코드', '/admin/code/main', 'Y', '1', '');
+VALUES('00012', 'admin', now(), 'admin', now(), '00004', '2', '바둑자료실', '/board/storage/main', 'Y', '3', '');
 INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00013', 'admin', now(), 'admin', now(), '00005', '2', '메뉴관리', '/admin/menu/main', 'Y', '2', '');
+VALUES('00013', 'admin', now(), 'admin', now(), '00005', '2', '공통코드', '/admin/code/main', 'Y', '1', '');
 INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00014', 'admin', now(), 'admin', now(), '00005', '2', '사용자관리', '/admin/user/main', 'Y', '3', '');
+VALUES('00014', 'admin', now(), 'admin', now(), '00005', '2', '메뉴관리', '/admin/menu/main', 'Y', '2', '');
 INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00015', 'admin', now(), 'admin', now(), '00005', '2', '탈퇴회원관리', '/admin/withdrawal/main', 'Y', '4', '');
+VALUES('00015', 'admin', now(), 'admin', now(), '00005', '2', '사용자관리', '/admin/user/main', 'Y', '3', '');
 INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00016', 'admin', now(), 'admin', now(), '00005', '2', '분석정보', '/admin/analyzeInfo/main', 'Y', '5', '');
+VALUES('00016', 'admin', now(), 'admin', now(), '00005', '2', '탈퇴회원관리', '/admin/withdrawal/main', 'Y', '4', '');
 INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00017', 'admin', now(), 'admin', now(), '00005', '2', 'AI 컨텐츠', '/admin/product/main', 'Y', '6', '');
+VALUES('00017', 'admin', now(), 'admin', now(), '00005', '2', '분석정보', '/admin/analyzeInfo/main', 'Y', '5', '');
+INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
+VALUES('00018', 'admin', now(), 'admin', now(), '00005', '2', 'AI 컨텐츠', '/admin/prod/main', 'Y', '6', '');
+INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
+VALUES('00018', 'admin', now(), 'admin', now(), '00005', '2', 'AI 컨텐츠 다운', '/admin/down/prod/main', 'Y', '7', '');

@@ -40,13 +40,20 @@ $(function() {
 
 	$('#btn-info').click(function() {
 		let id = $(this).attr('id');
-		let text = $(this).text();
-		let msg = (id.indexOf('_1') != -1) ? text : text.replace(' 안내', '') + '을 하고싶으신가요?';
+		let msg = $(this).text();
 		alert(msg + '\nAI바둑연구소로 연락바랍니다. 02-6235-0361');
 	});
 
 	$('#btn-join').click(function() {
 		window.location.href='/auth/signUp';
+	});
+
+	$('#userIdArea').click(function() {
+		$('#userId').focus();
+	});
+
+	$('#userPwArea').click(function() {
+		$('#userPw').focus();
 	});
 
 	if ('${error}') {
@@ -64,8 +71,8 @@ $(function() {
                     <c:if test="${user eq 'anonymousUser'}">
                     	<h3>LOGIN</h3>
 	                    <form id="frm" action="/auth/login_proc" method="post">
-		                    <span class="form-ele"><label for="userId" class="ir-blind">아이디</label><input type="text" id="userId" name="username" placeholder="아이디를 입력해주세요."></span>
-		                    <span class="form-ele"><label for="userPw" class="ir-blind">비밀번호</label><input type="password" id="userPw" name="password" placeholder="비밀번호를 입력해주세요."></span>
+		                    <span class="form-ele" id="userIdArea"><label for="userId" class="ir-blind">아이디</label><input type="text" id="userId" name="username" placeholder="아이디를 입력해주세요."></span>
+		                    <span class="form-ele" id="userPwArea"><label for="userPw" class="ir-blind">비밀번호</label><input type="password" id="userPw" name="password" placeholder="비밀번호를 입력해주세요."></span>
 		                    <button id="btn-login">로그인</button>
 		                    <div>
 		                        <a href="javascript:void(0)" id="btn-info">아이디/비밀번호를 잊으셨나요?</a>

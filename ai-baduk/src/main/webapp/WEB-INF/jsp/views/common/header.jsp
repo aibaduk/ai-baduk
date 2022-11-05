@@ -31,13 +31,18 @@ $(function() {
 
 	$('#btn-mobile-info').click(function() {
 		let id = $(this).attr('id');
-		let text = $(this).text();
-		let msg = (id.indexOf('_1') != -1) ? text : text.replace(' 안내', '') + '을 하고싶으신가요?';
+		let msg = $(this).text();
 		alert(msg + '\nAI바둑연구소로 연락바랍니다. 02-6235-0361');
 	});
 
 	$('#btn-mobile-join').click(function() {
 		window.location.href='/auth/signUp';
+	});
+	$('#mUserIdArea').click(function() {
+		$('#mUserId').focus();
+	});
+	$('#mUserPwArea').click(function() {
+		$('#mUserPw').focus();
 	});
 });
 </script>
@@ -48,8 +53,8 @@ $(function() {
         <nav class="gnb">
             <a href="/introduce/introduce/main">연구소 소개</a>
             <a href="/prod/main">AI 컨텐츠</a>
+            <a href="/mypage/analyzeInfo/detail">AI 분석정보</a>
             <a href="/board/notice/main">게시판</a>
-            <a href="/mypage/user/detail">마이페이지</a>
             <a href="/admin/code/main">관리자 페이지</a>
         </nav>
         <c:if test="${user ne 'anonymousUser'}">
@@ -71,8 +76,8 @@ $(function() {
                         <c:if test="${user eq 'anonymousUser'}">
 	                        <h3>LOGIN</h3>
 	                        <form id="mFrm" action="/auth/login_proc" method="post">
-	                            <span class="form-ele"><label for="userID" class="blind">아이디</label><input type="text" id="mUserId" name="username" placeholder="아이디를 입력해주세요."></span>
-	                            <span class="form-ele"><label for="userPW" class="blind">비밀번호</label><input type="password" id="mUserPw" name="password" placeholder="비밀번호를 입력해주세요."></span>
+	                            <span class="form-ele" id="mUserIdArea"><label for="userID" class="blind">아이디</label><input type="text" id="mUserId" name="username" placeholder="아이디를 입력해주세요."></span>
+	                            <span class="form-ele" id="mUserPwArea"><label for="userPW" class="blind">비밀번호</label><input type="password" id="mUserPw" name="password" placeholder="비밀번호를 입력해주세요."></span>
 	                            <button type="button" id="btn-mobile-login">로그인</button>
 	                            <div>
 	                                <a href="javascript:void(0)" id="btn-mobile-info">아이디/비밀번호를 잊으셨나요?</a>
@@ -96,10 +101,15 @@ $(function() {
                                 <li><a href="/introduce/curriculum/main">커리큘럼</a></li>
                             </ul>
                         </li>
-                        <li><a href="javascript:void(0)" data-location="myinfo">마이페이지</a>
+                        <li><a href="javascript:void(0)" data-location="prod">AI 컨텐츠</a>
                             <ul>
-                                <li><a href="/mypage/analyzeInfo/detail">개인분석정보</a></li>
-                                <li><a href="/mypage/user/detail">회원정보수정</a></li>
+                                <li><a href="/prod/main">AI 컨텐츠</a></li>
+                                <li><a href="/down/prod/main">AI 컨텐츠 다운로드</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="javascript:void(0)" data-location="analyzeinfo">AI 분석정보</a>
+                            <ul>
+                                <li><a href="/mypage/analyzeInfo/detail">AI 분석정보</a></li>
                             </ul>
                         </li>
                         <li><a href="javascript:void(0)" data-location="board-list">게시판</a>
@@ -116,7 +126,9 @@ $(function() {
                                 <li><a href="javascript:void(0)">메뉴관리</a></li>
                                 <li><a href="/admin/user/main">사용자관리</a></li>
                                 <li><a href="/admin/withdrawal/main">탈퇴회원관리</a></li>
-                                <li><a href="/admin/analyzeInfo/main">분석정보</a></li>
+                                <li class="show-pc"><a href="/admin/analyzeInfo/main">분석정보</a></li>
+                                <li><a href="/admin/prod/main">AI 컨텐츠</a></li>
+		                        <li><a href="/admin/down/prod/main">AI 컨텐츠 다운로드</a></li>
                             </ul>
                         </li>
                     </ul>

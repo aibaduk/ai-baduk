@@ -139,7 +139,7 @@
 				value += Number(isNullOrEmpty($(this).val()) ? 0 : $(this).val());
 			});
 			if (maxScore < value) {
-				obj.val('');
+				obj.val(0);
 				value = 0;
 				$('.event-exam').not(obj).each(function() {
 					value += Number(isNullOrEmpty($(this).val()) ? 0 : $(this).val());
@@ -279,10 +279,10 @@
 		                                        </thead>
 		                                        <tbody>
 		                                            <tr>
-		                                                <td><input type="text" class="analyzeInfo-input4 dev-number event-exam" id="examOpeningPositionalJudgment" name="examOpeningPositionalJudgment" maxlength="50" value="${analyzeInfoDetailInfo.examOpeningPositionalJudgment }"></td>
-		                                                <td><input type="text" class="analyzeInfo-input4 dev-number event-exam" id="examHaengmaValueJudgment" name="examHaengmaValueJudgment" maxlength="50" value="${analyzeInfoDetailInfo.examHaengmaValueJudgment }"></td>
-		                                                <td><input type="text" class="analyzeInfo-input4 dev-number event-exam" id="examReadingLifeAndDeath" name="examReadingLifeAndDeath" maxlength="50" value="${analyzeInfoDetailInfo.examReadingLifeAndDeath }"></td>
-		                                                <td><input type="text" class="analyzeInfo-input4 dev-number event-exam" id="examEndGameCounting" name="examEndGameCounting" maxlength="50" value="${analyzeInfoDetailInfo.examEndGameCounting }"></td>
+		                                                <td><input type="text" class="analyzeInfo-input4 dev-number event-exam" id="examOpeningPositionalJudgment" name="examOpeningPositionalJudgment" maxlength="3" value="${analyzeInfoDetailInfo.examOpeningPositionalJudgment }"></td>
+		                                                <td><input type="text" class="analyzeInfo-input4 dev-number event-exam" id="examHaengmaValueJudgment" name="examHaengmaValueJudgment" maxlength="3" value="${analyzeInfoDetailInfo.examHaengmaValueJudgment }"></td>
+		                                                <td><input type="text" class="analyzeInfo-input4 dev-number event-exam" id="examReadingLifeAndDeath" name="examReadingLifeAndDeath" maxlength="3" value="${analyzeInfoDetailInfo.examReadingLifeAndDeath }"></td>
+		                                                <td><input type="text" class="analyzeInfo-input4 dev-number event-exam" id="examEndGameCounting" name="examEndGameCounting" maxlength="3" value="${analyzeInfoDetailInfo.examEndGameCounting }"></td>
 		                                                <td id="examTotal">${analyzeInfoDetailInfo.examTotal }</td>
 		                                            </tr>
 		                                        </tbody>

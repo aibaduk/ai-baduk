@@ -176,7 +176,7 @@ function setData() {
 		                            <table class="table-col down">
 		                                <thead>
 		                                    <tr>
-		                                    	<th class="show-pc">
+		                                    	<th>
 			                                    	<div class="fm-group">
 														<div class="fm-check fm-inline fm-round">
 															<input class="fm-check-input" type="checkbox" name="allCheck" id="allCheck">
@@ -184,13 +184,13 @@ function setData() {
 														</div>
 													</div>
 		                                    	</th>
-		                                    	<th>회원ID (회원명)</th>
-		                                        <th>메뉴명</th>
-		                                        <th>상품구분</th>
+		                                    	<th class="show-pc">회원ID (회원명)</th>
+		                                        <th class="show-pc">메뉴명</th>
+		                                        <th class="show-pc">상품구분</th>
 		                                        <th>상품명</th>
-		                                        <th>상품가격</th>
+		                                        <th class="show-pc">상품가격</th>
 		                                        <th>승인상태</th>
-		                                        <th>등록일</th>
+		                                        <th class="show-pc">등록일</th>
 		                                    </tr>
 		                                </thead>
 		                                <tbody id="down-tbody"></tbody>
@@ -222,13 +222,13 @@ function setData() {
 			</div>
 		</div>
 	</td>
-	<td>{{:userId}} ({{:userNm}})</td>
-	<td>{{:menuNm}}</td>
-	<td>{{:prodClNm}}</td>
+	<td class="show-pc">{{:userId}} ({{:userNm}})</td>
+	<td class="show-pc">{{:menuNm}}</td>
+	<td class="show-pc">{{:prodClNm}}</td>
 	<td class="subject l-data">
 		<a href="/admin/prod/detail?prodId={{:prodId}}&prodClCd={{:prodClCd}}">{{:prodNm}}</a>
 	</td>
-	<td class="r-data subject">
+	<td class="r-data subject show-pc">
 		{{if prodDiscountRate != '0'}}
 			<s>{{:prodPrice}}</s>
 			<span><em style="background-color:red;">{{:prodDiscountRate}}%</em> <b>{{:~setSaleProdPrice(#data)}}</b></span>
@@ -236,7 +236,7 @@ function setData() {
 		{{/if}}
 	</td>
 	<td>{{:downStatusNm}}</td>
-	<td>{{:fstCreDtm}}</td>
+	<td class="show-pc">{{:fstCreDtm}}</td>
 </tr>
 </script>
 </html>

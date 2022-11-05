@@ -112,7 +112,7 @@ function setSaleProdPrice(data) {
 		                    </ul>
 		                    <div class="inner-depth">
 		                        <div class="tab-inner">
-		                            <h2>컨텐츠</h2>
+		                            <h2>AI 컨텐츠</h2>
 		                            <div class="search-wrap">
 		                                <select id="searchKey" name="searchKey" title="검색 구분 선택">
 		                                    <option value="prodNm" selected>상품명</option>
@@ -131,7 +131,7 @@ function setSaleProdPrice(data) {
 		                                        <th>상품명</th>
 		                                        <th class="show-pc">판매처</th>
 		                                        <th class="show-pc">상품가격</th>
-		                                        <th>등록일</th>
+		                                        <th class="show-pc">등록일</th>
 		                                    </tr>
 		                                </thead>
 		                                <tbody id="prod-tbody"></tbody>
@@ -170,7 +170,7 @@ function setSaleProdPrice(data) {
 			{{else}}{{:prodPrice}}
 		{{/if}}
 	</td>
-	<td>{{:fstCreDtm}}</td>
+	<td class="show-pc">{{:fstCreDtm}}</td>
 </tr>
 </script>
 </html>
