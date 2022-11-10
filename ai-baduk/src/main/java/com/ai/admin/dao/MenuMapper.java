@@ -20,4 +20,46 @@ public interface MenuMapper {
 	 */
 	public List<MenuVo> selectMenuList();
 
+	/**
+	 * @implNote select menu tree.
+	 * @param menuId
+	 * @return List<MenuVo>
+	 */
+	public List<MenuVo> selectMenuTree(String menuId);
+
+	/**
+	 * @implNote select menuId.
+	 * @param
+	 * @return
+	 */
+	public String selectMenuId();
+
+	/**
+	 * @implNote insert menu.
+	 * @param menuVo
+	 * @return
+	 */
+	public int insertMenu(MenuVo menuVo);
+
+	/**
+	 * @implNote update menu.
+	 * @param menuVo
+	 * @return
+	 */
+	public int updateMenu(MenuVo menuVo);
+
+	/**
+	 * @implNote delete role menu.
+	 * @param menuVo
+	 * @return
+	 */
+	public int deleteRoleMenu(MenuVo menuVo);
+
+	/**
+	 * @implNote insert role menu.
+	 * @param menuVo
+	 * @return
+	 */
+	public int insertRoleMenu(MenuVo menuVo);
+
 }

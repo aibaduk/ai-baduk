@@ -1,5 +1,7 @@
 package com.ai.admin.vo;
 
+import java.util.List;
+
 import com.ai.common.vo.BaseVo;
 
 import lombok.Getter;
@@ -34,5 +36,14 @@ public class MenuVo extends BaseVo {
 
 	/** 메모 */
 	private String etc;
+
+	/** 룰ID */
+	private String roleId;
+
+	/** 룰 리스트 */
+	private List<String> roleList;
+
+	/** 룰 리스트 */
+	private List<RoleMenuVo> roleMenuList;
 
 }

@@ -4,8 +4,28 @@
 
 <!-- SQL Mapping -->
 <mapper namespace="com.ai.admin.dao.MenuMapper">
+	<resultMap id="menuMap" type="com.ai.admin.vo.MenuVo">
+        <id property="menuId" column="MENU_ID" javaType="java.lang.String"/>
+        <result property="menuNm" column="MENU_NM" javaType="java.lang.String"/>
+        <result property="fstCrerId" column="FST_CRER_ID" javaType="java.lang.String"/>
+        <result property="fstCrerNm" column="FST_CRER_NM" javaType="java.lang.String"/>
+        <result property="fstCreDtm" column="FST_CRE_DTM" javaType="java.lang.String"/>
+        <result property="auditId" column="AUDIT_ID" javaType="java.lang.String"/>
+        <result property="auditNm" column="AUDIT_NM" javaType="java.lang.String"/>
+        <result property="auditDtm" column="AUDIT_DTM" javaType="java.lang.String"/>
+        <result property="upMenuId" column="UP_MENU_ID" javaType="java.lang.String"/>
+        <result property="menuDepth" column="MENU_DEPTH" javaType="java.lang.String"/>
+        <result property="menuUrl" column="MENU_URL" javaType="java.lang.String"/>
+        <result property="visibleYn" column="VISIBLE_YN" javaType="java.lang.String"/>
+        <result property="sortSeq" column="SORT_SEQ" javaType="java.lang.String"/>
+        <result property="etc" column="ETC" javaType="java.lang.String"/>
+        <collection property="roleMenuList" ofType="com.ai.admin.vo.RoleMenuVo">
+	        <result property="roleId" column="ROLE_ID" javaType="java.lang.String"/>
+	        <result property="menuId" column="MENU_ID" javaType="java.lang.String"/>
+        </collection>
+    </resultMap>
 	<!-- 메뉴 리스트 조회 -->
-	<select id="selectMenuList" resultType="com.ai.admin.vo.MenuVo">
+	<select id="selectMenuList" resultMap="menuMap">
 		SELECT CM.MENU_ID
 			 , CM.MENU_NM
 			 , CM.FST_CRER_ID
@@ -20,9 +40,116 @@
 			 , CM.VISIBLE_YN
 			 , CM.SORT_SEQ
 			 , CM.ETC
+			 , RM.ROLE_ID
 		  FROM CM_MENU CM
+		  LEFT JOIN CM_ROLE_MENU RM ON CM.MENU_ID = RM.MENU_ID
 		 WHERE 1 = 1
 		 ORDER BY CM.MENU_DEPTH
 	</select>
+
+	<!-- 상위에서 하위를 조회하는 계층쿼리 -->
+	<select id="selectMenuTree" resultType="com.ai.admin.vo.MenuVo">
+		WITH RECURSIVE MENU_3 (MENU_ID, MENU_NM, UP_MENU_ID, MENU_DEPTH, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC) AS
+		(
+			SELECT MENU_1.MENU_ID, MENU_1.MENU_NM, MENU_1.UP_MENU_ID, MENU_1.MENU_DEPTH, MENU_1.MENU_URL, MENU_1.VISIBLE_YN, MENU_1.SORT_SEQ, MENU_1.ETC
+			FROM CM_MENU MENU_1
+			WHERE MENU_1.UP_MENU_ID = #{menuId}
+
+			UNION ALL
+
+			SELECT MENU_2.MENU_ID, MENU_2.MENU_NM, MENU_2.UP_MENU_ID, MENU_2.MENU_DEPTH, MENU_2.MENU_URL, MENU_2.VISIBLE_YN, MENU_2.SORT_SEQ, MENU_2.ETC
+			FROM CM_MENU MENU_2
+			INNER JOIN MENU_3 ON MENU_2.MENU_ID = MENU_3.UP_MENU_ID
+		)
+		SELECT *
+		  FROM MENU_3
+		 WHERE 1 = 1
+		 GROUP BY MENU_ID
+		 ORDER BY MENU_3.MENU_DEPTH
+		        , MENU_3.MENU_ID
+		        , MENU_3.SORT_SEQ
+	</select>
+
+	<!-- 메뉴ID 채번 -->
+	<select id="selectMenuId" resultType="java.lang.String">
+		SELECT LPAD(IFNULL(MAX(MENU_ID), 0) + 1, 5, '0') AS MENU_ID
+		  FROM CM_MENU
+		 WHERE MENU_ID <![CDATA[<>]]> 'root'
+	</select>
+
+	<!-- 메뉴관리 등록 -->
+    <insert id="insertMenu" parameterType="com.ai.admin.vo.MenuVo">
+        INSERT INTO CM_MENU (
+			MENU_ID
+            , FST_CRER_ID
+            , FST_CRE_DTM
+            , AUDIT_ID
+            , AUDIT_DTM
+            , UP_MENU_ID
+            , MENU_DEPTH
+            , MENU_NM
+            , MENU_URL
+            , VISIBLE_YN
+            , SORT_SEQ
+            , ETC
+        )
+        VALUES(
+        	#{menuId}
+        	, #{ssLoginId}
+        	, NOW()
+        	, #{ssLoginId}
+        	, NOW()
+        	, #{upMenuId}
+        	, #{menuDepth}
+        	, #{menuNm}
+        	, #{menuUrl}
+        	, #{visibleYn}
+        	, #{sortSeq}
+        	, #{etc}
+        );
+    </insert>
+
+	<!-- 메뉴관리 수정 -->
+	<update id="updateMenu" parameterType="com.ai.admin.vo.MenuVo">
+		UPDATE CM_MENU
+		   SET UP_MENU_ID = #{upMenuId}
+		     , MENU_DEPTH = #{menuDepth}
+		     , MENU_NM = #{menuNm}
+		     , MENU_URL = #{menuUrl}
+		     , VISIBLE_YN = #{visibleYn}
+		     , SORT_SEQ = #{sortSeq}
+		     , ETC = #{etc}
+			 , AUDIT_ID = #{ssLoginId}
+			 , AUDIT_DTM = NOW()
+		 WHERE 1 = 1
+		   AND MENU_ID = #{menuId}
+	</update>
+
+	<!-- 메뉴룰 삭제 -->
+	<delete id="deleteRoleMenu" parameterType="com.ai.admin.vo.MenuVo">
+		DELETE FROM CM_ROLE_MENU
+		 WHERE 1 = 1
+		   AND MENU_ID = #{menuId}
+	</delete>
+
+	<!-- 메뉴룰 등록 -->
+	<insert id="insertRoleMenu" parameterType="com.ai.admin.vo.MenuVo">
+        INSERT INTO CM_ROLE_MENU (
+			ROLE_ID
+			, MENU_ID
+            , FST_CRER_ID
+            , FST_CRE_DTM
+            , AUDIT_ID
+            , AUDIT_DTM
+        )
+        VALUES(
+        	#{roleId}
+        	, #{menuId}
+        	, #{ssLoginId}
+        	, NOW()
+        	, #{ssLoginId}
+        	, NOW()
+        );
+    </insert>
 
 </mapper>
