@@ -1,4 +1,4 @@
-package com.ai.board.vo;
+package com.ai.admin.vo;
 
 import com.ai.common.vo.BaseVo;
 

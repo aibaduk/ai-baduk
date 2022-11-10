@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ai.board.service.BoardService;
-import com.ai.board.vo.BoardSearchVo;
-import com.ai.board.vo.BoardVo;
+import com.ai.board.service.PubBoardService;
+import com.ai.board.vo.PubBoardSearchVo;
+import com.ai.board.vo.PubBoardVo;
 import com.ai.common.util.Constants;
 import com.ai.common.vo.FileVo;
 import com.ai.common.vo.PageResult;
@@ -37,10 +37,10 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/board")
 @Slf4j
-public class BoardController {
+public class PubBoardController {
 
 	@Autowired
-	BoardService boardService;
+	PubBoardService boardService;
 
 	/**
 	 * @implNote notice main.
@@ -88,9 +88,9 @@ public class BoardController {
 	 * @return
 	 */
 	@RequestMapping("/select-list")
-	public String selectBoardList(Model model, BoardSearchVo boardSearchVo) {
-		final PageInfo<BoardVo> pageInfo = boardService.selectBoardList(boardSearchVo);
-		model.addAttribute("result", new PageResult<List<BoardVo>>(new pageInfoVo(pageInfo), pageInfo.getList()));
+	public String selectBoardList(Model model, PubBoardSearchVo boardSearchVo) {
+		final PageInfo<PubBoardVo> pageInfo = boardService.selectBoardList(boardSearchVo);
+		model.addAttribute("result", new PageResult<List<PubBoardVo>>(new pageInfoVo(pageInfo), pageInfo.getList()));
 		log.debug("#######boardgubun: {}", boardSearchVo.getSearchBoardGubun());
 		return Constants.JSON_VIEW;
 	}
@@ -111,7 +111,7 @@ public class BoardController {
 	 * @return
 	 */
 	@GetMapping("/notice/detail")
-	public String noticeDetail(Model model, BoardVo boardVo) {
+	public String noticeDetail(Model model, PubBoardVo boardVo) {
 		model.addAttribute("noticeDetailInfo", boardService.selectBoardOne(boardVo));
 		return "board/notice/noticeDetail";
 	}
@@ -132,7 +132,7 @@ public class BoardController {
 	 * @return
 	 */
 	@GetMapping("/question/detail")
-	public String questionDetail(Model model, BoardVo boardVo) {
+	public String questionDetail(Model model, PubBoardVo boardVo) {
 		model.addAttribute("questionDetailInfo", boardService.selectBoardOne(boardVo));
 		return "board/question/questionDetail";
 	}
@@ -153,7 +153,7 @@ public class BoardController {
 	 * @return
 	 */
 	@GetMapping("/info/detail")
-	public String infoDetail(Model model, BoardVo boardVo) {
+	public String infoDetail(Model model, PubBoardVo boardVo) {
 		model.addAttribute("infoDetailInfo", boardService.selectBoardOne(boardVo));
 		return "board/info/infoDetail";
 	}
@@ -174,7 +174,7 @@ public class BoardController {
 	 * @return
 	 */
 	@GetMapping("/storage/detail")
-	public String storageDetail(Model model, BoardVo boardVo) {
+	public String storageDetail(Model model, PubBoardVo boardVo) {
 		model.addAttribute("storageDetailInfo", boardService.selectBoardOne(boardVo));
 		return "board/storage/storageDetail";
 	}
@@ -187,7 +187,7 @@ public class BoardController {
 	@PostMapping("/{path}/insert")
 	public String insertBoard(Model model
 			, @PathVariable("path") String path
-			, BoardVo boardVo
+			, PubBoardVo boardVo
 			, @RequestParam(value="uploadFiles", required = false) List<MultipartFile> fileList
 			) {
 		try {
@@ -207,7 +207,7 @@ public class BoardController {
 	@PostMapping("/{path}/update")
 	public String updateBoard(Model model
 			, @PathVariable("path") String path
-			, BoardVo boardVo
+			, PubBoardVo boardVo
 			, @RequestParam(value="uploadFiles", required = false) List<MultipartFile> fileList
 			) {
 		try {
@@ -226,7 +226,7 @@ public class BoardController {
 	 * @return
 	 */
 	@PostMapping("/{path}/delete")
-	public String deleteBoard(Model model, @PathVariable("path") String path, @RequestBody List<BoardVo> boardList) {
+	public String deleteBoard(Model model, @PathVariable("path") String path, @RequestBody List<PubBoardVo> boardList) {
 		try {
 			boardService.deleteBoard(boardList);
 			model.addAttribute("result", true);
@@ -272,7 +272,7 @@ public class BoardController {
 	 * @return
 	 */
 	@GetMapping("/{path}/zipFileDownload")
-	public void zipFileDownload(Model model, @PathVariable("path") String path, HttpServletResponse response, BoardVo boardVo) {
+	public void zipFileDownload(Model model, @PathVariable("path") String path, HttpServletResponse response, PubBoardVo boardVo) {
 		String zipFileName = path + ".zip";
 		boardService.zipFileDownload(zipFileName, response, boardVo);
 	}

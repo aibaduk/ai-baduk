@@ -5,8 +5,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.ai.board.vo.BoardSearchVo;
-import com.ai.board.vo.BoardVo;
+import com.ai.board.vo.PubBoardSearchVo;
+import com.ai.board.vo.PubBoardVo;
 
 /**
  * @author 우동하
@@ -14,20 +14,20 @@ import com.ai.board.vo.BoardVo;
  * @implSpec board database connection.
  */
 @Mapper
-public interface BoardMapper {
+public interface PubBoardMapper {
 	/**
 	 * @implNote select board list.
 	 * @param boardSearchVo
 	 * @return List<BoardVo>
 	 */
-	public List<BoardVo> selectBoardList(BoardSearchVo boardSearchVo);
+	public List<PubBoardVo> selectBoardList(PubBoardSearchVo boardSearchVo);
 
 	/**
 	 * @implNote select board info.
 	 * @param boardVo
 	 * @return BoardVo
 	 */
-	public BoardVo selectBoardOne(BoardVo boardVo);
+	public PubBoardVo selectBoardOne(PubBoardVo boardVo);
 
 	/**
 	 * @implNote select board primary key.
@@ -41,21 +41,21 @@ public interface BoardMapper {
 	 * @param boardVo
 	 * @return
 	 */
-	public int insertBoard(BoardVo boardVo);
+	public int insertBoard(PubBoardVo boardVo);
 
 	/**
 	 * @implNote update board.
 	 * @param boardVo
 	 * @return
 	 */
-	public int updateBoard(BoardVo boardVo);
+	public int updateBoard(PubBoardVo boardVo);
 
 	/**
 	 * @implNote delete board.
 	 * @param boardVo
 	 * @return
 	 */
-	public int deleteBoard(BoardVo boardVo);
+	public int deleteBoard(PubBoardVo boardVo);
 
 	/**
 	 * @implNote select board list by main.
@@ -64,7 +64,7 @@ public interface BoardMapper {
 	 * @param size
 	 * @return List<BoardVo>
 	 */
-	public List<BoardVo> selectBoardListByExternal(@Param("boardGubun") String boardGubun
+	public List<PubBoardVo> selectBoardListByExternal(@Param("boardGubun") String boardGubun
 			, @Param("dateControlDay") int dateControlDay
 			, @Param("size") int size);
 }

@@ -1,4 +1,4 @@
-package com.ai.board.service;
+package com.ai.admin.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,9 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ai.board.dao.BoardMapper;
-import com.ai.board.vo.BoardSearchVo;
-import com.ai.board.vo.BoardVo;
+import com.ai.admin.dao.BoardMapper;
+import com.ai.admin.vo.BoardSearchVo;
+import com.ai.admin.vo.BoardVo;
 import com.ai.common.util.Constants;
 import com.ai.common.vo.FileVo;
 import com.ai.common.web.CommonService;
@@ -30,7 +30,7 @@ import com.github.pagehelper.PageInfo;
 
 /**
  * @author 우동하
- * @since 2022. 08. 05
+ * @since 2022. 11. 10
  * @implSpec board service business logic.
  */
 @Service
@@ -72,8 +72,6 @@ public class BoardService {
 		        	 boardList.getList().get(i).setRowId(String.valueOf(index + i));
 		         });
 
-
-//		return new PageInfo<BoardVo>(boardMapper.selectBoardList(boardSearchVo), boardSearchVo.getNavigatePages());
 		return boardList;
 	}
 

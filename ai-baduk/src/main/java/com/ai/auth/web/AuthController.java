@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.ai.admin.service.CodeService;
 import com.ai.auth.service.AuthService;
 import com.ai.auth.vo.UserVo;
-import com.ai.board.service.BoardService;
+import com.ai.board.service.PubBoardService;
 import com.ai.common.exception.BizException;
 import com.ai.common.util.Constants;
 
@@ -28,7 +28,7 @@ public class AuthController {
 	private CodeService codeService;
 
 	@Autowired
-	private BoardService boardService;
+	private PubBoardService boardService;
 
 	/**
      * localhost:8080 시 login 으로 redirect

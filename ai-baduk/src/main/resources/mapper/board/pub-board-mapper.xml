@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- SQL Mapping -->
+<mapper namespace="com.ai.board.dao.PubBoardMapper">
+	<!-- 게시판 조회 -->
+	<select id="selectBoardList" parameterType="com.ai.board.vo.PubBoardSearchVo" resultType="com.ai.board.vo.PubBoardVo">
+		SELECT BB.BOARD_ID
+			 , F_GET_CODE_NAME('BO001', BB.BOARD_GUBUN) AS BOARD_NM
+			 , BB.FST_CRER_ID
+			 , IFNULL((SELECT USER_NM FROM CU_USER WHERE USER_ID = BB.FST_CRER_ID), BB.FST_CRER_ID) AS FST_CRER_NM
+			 , DATE_FORMAT(BB.FST_CRE_DTM, '%Y.%m.%d') AS FST_CRE_DTM
+			 , BB.AUDIT_ID
+			 , IFNULL((SELECT USER_NM FROM CU_USER WHERE USER_ID = BB.AUDIT_ID), BB.AUDIT_ID) AS AUDIT_NM
+		     , DATE_FORMAT(BB.AUDIT_DTM, '%Y.%m.%d') AS AUDIT_DTM
+			 , BB.IMPO_YN
+			 , BB.BOARD_TIT
+			 , BB.BOARD_CTT
+			 , IF((SELECT BB.FST_CRE_DTM BETWEEN DATE(DATE_ADD(NOW(), INTERVAL -#{ssDateControlDay} DAY)) AND NOW() FROM DUAL) = '1', 'Y', 'N') AS NEW_YN
+			 , IF(IFNULL(CF.FILE_ID, '') = '', 'N', 'Y') AS FILE_YN
+			 , CF.FILE_CNT
+			 , CF.FILE_NM
+	 		 , CF.FILE_OG_NM
+		  FROM BO_BOARD BB
+	      LEFT JOIN (
+	     	SELECT MENU_ID
+			     , TARGET_ID
+				 , FILE_ID
+				 , COUNT(*) AS FILE_CNT
+				 , GROUP_CONCAT(FILE_NM ORDER BY FILE_ID ASC SEPARATOR ',')  AS FILE_NM
+				 , GROUP_CONCAT(FILE_OG_NM ORDER BY FILE_ID ASC SEPARATOR ',')  AS FILE_OG_NM
+			  FROM CM_FILE
+			 GROUP BY MENU_ID, TARGET_ID
+	      ) CF ON '00001' = CF.MENU_ID AND CONCAT(BB.BOARD_ID, BB.BOARD_GUBUN) = CF.TARGET_ID
+		 WHERE 1 = 1
+		   AND BB.DEL_YN = 'N'
+		   AND BB.BOARD_GUBUN = #{searchBoardGubun}
+		   <if test='@org.apache.commons.lang3.StringUtils@isNotEmpty(searchValue)'>
+			   <if test='@org.apache.commons.lang3.StringUtils@equals(searchKey, "01")'>
+				   AND CONCAT(BB.BOARD_TIT, BB.BOARD_CTT) LIKE CONCAT('%', #{searchValue}, '%')
+			   </if>
+			   <if test='@org.apache.commons.lang3.StringUtils@equals(searchKey, "02")'>
+				   AND BB.BOARD_TIT LIKE CONCAT('%', #{searchValue}, '%')
+			   </if>
+			   <if test='@org.apache.commons.lang3.StringUtils@equals(searchKey, "03")'>
+				   AND BB.BOARD_CTT LIKE CONCAT('%', #{searchValue}, '%')
+			   </if>
+		   </if>
+		 ORDER BY IF(BB.IMPO_YN = 'Y', 1, 2), BOARD_ID DESC
+	</select>
+
+	<resultMap id="boardMap" type="com.ai.board.vo.PubBoardVo">
+        <id property="boardId" column="BOARD_ID" javaType="java.lang.String"/>
+        <result property="boardNm" column="BOARD_NM" javaType="java.lang.String"/>
+        <result property="fstCrerId" column="FST_CRER_ID" javaType="java.lang.String"/>
+        <result property="fstCrerNm" column="FST_CRER_NM" javaType="java.lang.String"/>
+        <result property="fstCreDtm" column="FST_CRE_DTM" javaType="java.lang.String"/>
+        <result property="auditId" column="AUDIT_ID" javaType="java.lang.String"/>
+        <result property="auditNm" column="AUDIT_NM" javaType="java.lang.String"/>
+        <result property="auditDtm" column="AUDIT_DTM" javaType="java.lang.String"/>
+        <result property="impoYn" column="IMPO_YN" javaType="java.lang.String"/>
+        <result property="boardTit" column="BOARD_TIT" javaType="java.lang.String"/>
+        <result property="boardCtt" column="BOARD_CTT" javaType="java.lang.String"/>
+        <result property="fileYn" column="FILE_YN" javaType="string"/>
+        <collection property="fileList" ofType="com.ai.common.vo.FileVo">
+	        <result property="fileId" column="FILE_ID" javaType="java.lang.String"/>
+	        <result property="fileNm" column="FILE_NM" javaType="java.lang.String"/>
+    	    <result property="fileOgNm" column="FILE_OG_NM" javaType="java.lang.String"/>
+        </collection>
+    </resultMap>
+
+	<!-- 게시판 상세 조회 -->
+	<select id="selectBoardOne" parameterType="com.ai.board.vo.PubBoardVo" resultMap="boardMap">
+		SELECT BB.BOARD_ID
+			 , F_GET_CODE_NAME('BO001', BB.BOARD_GUBUN) AS BOARD_NM
+			 , BB.FST_CRER_ID
+			 , IFNULL((SELECT USER_NM FROM CU_USER WHERE USER_ID = BB.FST_CRER_ID), BB.FST_CRER_ID) AS FST_CRER_NM
+			 , DATE_FORMAT(BB.FST_CRE_DTM, '%Y-%m-%d %h:%i') AS FST_CRE_DTM
+			 , BB.AUDIT_ID
+			 , IFNULL((SELECT USER_NM FROM CU_USER WHERE USER_ID = BB.AUDIT_ID), BB.AUDIT_ID) AS AUDIT_NM
+		     , DATE_FORMAT(BB.AUDIT_DTM, '%Y-%m-%d %h:%i') AS AUDIT_DTM
+			 , BB.IMPO_YN
+			 , BB.BOARD_TIT
+			 , BB.BOARD_CTT
+			 , IF(IFNULL(CF.FILE_ID, '') = '', 'N', 'Y') AS FILE_YN
+			 , CF.FILE_ID
+			 , CF.FILE_NM
+	 		 , CF.FILE_OG_NM
+		  FROM BO_BOARD BB
+		  LEFT JOIN CM_FILE CF ON '00001' = CF.MENU_ID AND CONCAT(BB.BOARD_ID, BB.BOARD_GUBUN) = CF.TARGET_ID
+		 WHERE 1 = 1
+		   AND BB.DEL_YN = 'N'
+		   AND BB.BOARD_GUBUN = #{boardGubun}
+		   AND BB.BOARD_ID = #{boardId}
+	</select>
+
+	<!-- 게시판 PK 조회 -->
+	<select id="selectBoardId" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT LPAD(IFNULL(MAX(BOARD_ID), 0) + 1, 8, '0') AS BOARD_ID
+		  FROM BO_BOARD
+		 WHERE BOARD_GUBUN = #{boardGubun}
+	</select>
+
+	<!-- 게시판 등록 -->
+	<insert id="insertBoard" parameterType="com.ai.board.vo.PubBoardVo">
+		INSERT INTO BO_BOARD (
+			BOARD_ID
+			, BOARD_GUBUN
+			, FST_CRER_ID
+			, FST_CRE_DTM
+			, AUDIT_ID
+			, AUDIT_DTM
+			, DEL_YN
+			, IMPO_YN
+			, BOARD_TIT
+			, BOARD_CTT
+		)
+		VALUES (
+			#{boardId}
+			, #{boardGubun}
+			, #{ssLoginId}
+			, NOW()
+			, #{ssLoginId}
+			, NOW()
+			, 'N'
+			, #{impoYn}
+			, #{boardTit}
+			, #{boardCtt}
+		)
+	</insert>
+
+	<!-- 게시판 수정 -->
+	<update id="updateBoard" parameterType="com.ai.board.vo.PubBoardVo">
+		UPDATE BO_BOARD
+		   SET IMPO_YN = #{impoYn}
+			 , BOARD_TIT = #{boardTit}
+			 , BOARD_CTT = #{boardCtt}
+			 , AUDIT_ID = #{ssLoginId}
+			 , AUDIT_DTM = NOW()
+		 WHERE 1 = 1
+		   AND BOARD_GUBUN = #{boardGubun}
+		   AND BOARD_ID = #{boardId}
+	</update>
+
+	<!-- 게시판 삭제 -->
+	<update id="deleteBoard" parameterType="com.ai.board.vo.PubBoardVo">
+		UPDATE BO_BOARD
+		   SET DEL_YN = 'Y'
+			 , AUDIT_ID = #{ssLoginId}
+			 , AUDIT_DTM = NOW()
+		 WHERE 1 = 1
+		   AND BOARD_GUBUN = #{boardGubun}
+		   AND BOARD_ID = #{boardId}
+	</update>
+
+	<!-- 게시판 조회 -->
+	<select id="selectBoardListByExternal" resultType="com.ai.board.vo.PubBoardVo">
+		SELECT BB.BOARD_ID
+			 , F_GET_CODE_NAME('BO001', BB.BOARD_GUBUN) AS BOARD_NM
+			 , BB.FST_CRER_ID
+			 , IFNULL((SELECT USER_NM FROM CU_USER WHERE USER_ID = BB.FST_CRER_ID), BB.FST_CRER_ID) AS FST_CRER_NM
+			 , DATE_FORMAT(BB.FST_CRE_DTM, '%Y-%m-%d %h:%i') AS FST_CRE_DTM
+			 , BB.AUDIT_ID
+			 , IFNULL((SELECT USER_NM FROM CU_USER WHERE USER_ID = BB.AUDIT_ID), BB.AUDIT_ID) AS AUDIT_NM
+		     , DATE_FORMAT(BB.AUDIT_DTM, '%Y-%m-%d %h:%i') AS AUDIT_DTM
+			 , BB.IMPO_YN
+			 , BB.BOARD_TIT
+			 , BB.BOARD_CTT
+			 , IF((SELECT BB.FST_CRE_DTM BETWEEN DATE(DATE_ADD(NOW(), INTERVAL -#{dateControlDay} DAY)) AND NOW() FROM DUAL) = '1', 'Y', 'N') AS NEW_YN
+			 , IF(IFNULL(CF.FILE_ID, '') = '', 'N', 'Y') AS FILE_YN
+			 , CF.FILE_CNT
+			 , CF.FILE_NM
+	 		 , CF.FILE_OG_NM
+		  FROM BO_BOARD BB
+	      LEFT JOIN (
+	     	SELECT MENU_ID
+			     , TARGET_ID
+				 , FILE_ID
+				 , COUNT(*) AS FILE_CNT
+				 , GROUP_CONCAT(FILE_NM ORDER BY FILE_ID ASC SEPARATOR ',')  AS FILE_NM
+				 , GROUP_CONCAT(FILE_OG_NM ORDER BY FILE_ID ASC SEPARATOR ',')  AS FILE_OG_NM
+			  FROM CM_FILE
+			 GROUP BY MENU_ID, TARGET_ID
+	      ) CF ON '00001' = CF.MENU_ID AND CONCAT(BB.BOARD_ID, BB.BOARD_GUBUN) = CF.TARGET_ID
+		 WHERE 1 = 1
+		   AND BB.DEL_YN = 'N'
+		   AND BB.BOARD_GUBUN = #{boardGubun}
+		 ORDER BY IF(BB.IMPO_YN = 'Y', 1, 2), BOARD_ID DESC
+		 LIMIT 0, #{size}
+	</select>
+
+</mapper>

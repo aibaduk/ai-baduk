@@ -3,9 +3,9 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- SQL Mapping -->
-<mapper namespace="com.ai.board.dao.BoardMapper">
+<mapper namespace="com.ai.admin.dao.BoardMapper">
 	<!-- 게시판 조회 -->
-	<select id="selectBoardList" parameterType="com.ai.board.vo.BoardSearchVo" resultType="com.ai.board.vo.BoardVo">
+	<select id="selectBoardList" parameterType="com.ai.admin.vo.BoardSearchVo" resultType="com.ai.admin.vo.BoardVo">
 		SELECT BB.BOARD_ID
 			 , F_GET_CODE_NAME('BO001', BB.BOARD_GUBUN) AS BOARD_NM
 			 , BB.FST_CRER_ID
@@ -50,7 +50,7 @@
 		 ORDER BY IF(BB.IMPO_YN = 'Y', 1, 2), BOARD_ID DESC
 	</select>
 
-	<resultMap id="boardMap" type="com.ai.board.vo.BoardVo">
+	<resultMap id="boardMap" type="com.ai.admin.vo.BoardVo">
         <id property="boardId" column="BOARD_ID" javaType="java.lang.String"/>
         <result property="boardNm" column="BOARD_NM" javaType="java.lang.String"/>
         <result property="fstCrerId" column="FST_CRER_ID" javaType="java.lang.String"/>
@@ -71,7 +71,7 @@
     </resultMap>
 
 	<!-- 게시판 상세 조회 -->
-	<select id="selectBoardOne" parameterType="com.ai.board.vo.BoardVo" resultMap="boardMap">
+	<select id="selectBoardOne" parameterType="com.ai.admin.vo.BoardVo" resultMap="boardMap">
 		SELECT BB.BOARD_ID
 			 , F_GET_CODE_NAME('BO001', BB.BOARD_GUBUN) AS BOARD_NM
 			 , BB.FST_CRER_ID
@@ -103,7 +103,7 @@
 	</select>
 
 	<!-- 게시판 등록 -->
-	<insert id="insertBoard" parameterType="com.ai.board.vo.BoardVo">
+	<insert id="insertBoard" parameterType="com.ai.admin.vo.BoardVo">
 		INSERT INTO BO_BOARD (
 			BOARD_ID
 			, BOARD_GUBUN
@@ -131,7 +131,7 @@
 	</insert>
 
 	<!-- 게시판 수정 -->
-	<update id="updateBoard" parameterType="com.ai.board.vo.BoardVo">
+	<update id="updateBoard" parameterType="com.ai.admin.vo.BoardVo">
 		UPDATE BO_BOARD
 		   SET IMPO_YN = #{impoYn}
 			 , BOARD_TIT = #{boardTit}
@@ -144,7 +144,7 @@
 	</update>
 
 	<!-- 게시판 삭제 -->
-	<update id="deleteBoard" parameterType="com.ai.board.vo.BoardVo">
+	<update id="deleteBoard" parameterType="com.ai.admin.vo.BoardVo">
 		UPDATE BO_BOARD
 		   SET DEL_YN = 'Y'
 			 , AUDIT_ID = #{ssLoginId}
@@ -155,7 +155,7 @@
 	</update>
 
 	<!-- 게시판 조회 -->
-	<select id="selectBoardListByExternal" resultType="com.ai.board.vo.BoardVo">
+	<select id="selectBoardListByExternal" resultType="com.ai.admin.vo.BoardVo">
 		SELECT BB.BOARD_ID
 			 , F_GET_CODE_NAME('BO001', BB.BOARD_GUBUN) AS BOARD_NM
 			 , BB.FST_CRER_ID

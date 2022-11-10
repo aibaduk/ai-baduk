@@ -12,7 +12,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class BoardVo extends BaseVo {
+public class PubBoardVo extends BaseVo {
 
 	/** 게시판ID */
 	private String boardId;
