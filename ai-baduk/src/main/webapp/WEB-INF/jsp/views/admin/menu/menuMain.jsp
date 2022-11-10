@@ -46,6 +46,10 @@ $(function() {
 	 */
 	 menu.tree('root', true);
 
+	$('#btn-insert').click(function() {
+		menu.insert();
+	});
+
 	$('#btn-update').click(function() {
 		if ($('#tree').jstree("get_selected").length < 1) {
 			alert('트리에서 메뉴를 선택하세요.');
@@ -82,8 +86,8 @@ var menu = {
 			        $.each(data.result, function(idx, item){
 			        	arr[idx] = {
 			        		id:item.menuId, parent:item.upMenuId, text:item.menuNm, url:item.menuUrl,
-			        		visibleYn:item.visibleYn, etc:item.etc, sortSeq:item.sortSeq, depth:item.menuDepth,
-			        		roleMenuList: item.roleMenuList
+			        		visibleYn:item.visibleYn, dpYn:item.dpYn, etc:item.etc, sortSeq:item.sortSeq,
+			        		depth:item.menuDepth, roleMenuList: item.roleMenuList
 			        	};
 			        });
 			        if (bind) {
@@ -116,9 +120,8 @@ var menu = {
         .bind('select_node.jstree', function(event, data){
         	//노드 선택 이벤트
             let node = data.node;
-        	console.log(node);
             menu.bind(node);
-        })
+        });
 	},
 	bind: function(data) {
 		$('#divMenuId').text(data.id);
@@ -129,6 +132,7 @@ var menu = {
 		$('#sortSeq').val(data.original.sortSeq);
 		$('#menuDepth').val(data.original.depth);
 		$('input:radio[name=visibleYn][value='+data.original.visibleYn+']').prop('checked', true);
+		$('input:radio[name=dpYn][value='+data.original.dpYn+']').prop('checked', true);
 		$('input:checkbox[name=roleList]').prop('checked', false);
 		$.each(data.original.roleMenuList, function(i, item) {
 			$('input:checkbox[name=roleList][value='+item.roleId+']').prop('checked', true);
@@ -145,12 +149,14 @@ var menu = {
 			let menuId = node.id;
 			let upMenuId = node.parent;
 			let visibleYn = (node.original.visibleYn == 'Y') ? '활성' : '비활성';
+			let dpYn = (node.original.dpYn == 'Y') ? '활성' : '비활성';
 			html += '<tr>';
 			html += 	'<td class="subject l-data">'+menuNm+'</td>';
 			html += 	'<td class="subject l-data">'+menuUrl+'</td>';
 			html += 	'<td>'+menuId+'</td>';
 			html += 	'<td>'+upMenuId+'</td>';
 			html += 	'<td>'+visibleYn+'</td>';
+			html += 	'<td>'+dpYn+'</td>';
 			html += '</tr>';
 		});
 		$('#menu-child-tbody').html(html);
@@ -167,7 +173,7 @@ var menu = {
 				success: function (data) {
 					if (data.result) {
 						alert('메뉴정보가 등록되었습니다.');
-				        $('.btn-close').trigger('click');
+				        $('#btn-close').trigger('click');
 						menu.tree(data.menuId, false);
 					} else {
 						alert(data.msg);
@@ -243,7 +249,7 @@ var menu = {
 			                                    <li>
 			                                    	<strong style="width: 138px;">메뉴URL</strong><div class="fm-group" style="width: 100%"><input type="text" id="menuUrl" name="menuUrl" title="메뉴URL" required/></div>
 			                                    </li>
-			                                    <li>
+			                                    <li style="width: 50%; float: left;">
 			                                    	<strong style="width: 118px;">활성화여부</strong>
 				                                    <div class="form-ele">
 				                                    	<div class="fm-group" style="display: inline;">
@@ -254,6 +260,21 @@ var menu = {
 							                                <div class="fm-check fm-inline">
 							                                    <input class="fm-check-input" type="radio" name="visibleYn" id="visibleN" value="N">
 							                                    <label class="fm-check-label" for="visibleN">N</label>
+							                                </div>
+							                            </div>
+						                            </div>
+				                                </li>
+			                                    <li>
+						                            <strong style="width: 118px;">노출여부</strong>
+				                                    <div class="form-ele">
+				                                    	<div class="fm-group" style="display: inline;">
+							                                <div class="fm-check fm-inline">
+							                                    <input class="fm-check-input" type="radio" name="dpYn" id="dpY" value="Y" checked="checked">
+							                                    <label class="fm-check-label" for="dpY">Y</label>
+							                                </div>
+							                                <div class="fm-check fm-inline">
+							                                    <input class="fm-check-input" type="radio" name="dpYn" id="dpN" value="N">
+							                                    <label class="fm-check-label" for="dpN">N</label>
 							                                </div>
 							                            </div>
 						                            </div>
@@ -279,8 +300,9 @@ var menu = {
 	                                <div class="block6">
 			                            <table class="table-col">
 			                                <colgroup>
-			                                    <col width="25%">
+			                                    <col width="22%">
 			                                    <col width="*">
+			                                    <col width="12%">
 			                                    <col width="12%">
 			                                    <col width="12%">
 			                                    <col width="12%">
@@ -292,6 +314,7 @@ var menu = {
 			                                        <th>메뉴ID</th>
 			                                        <th>상위메뉴</th>
 			                                        <th>활성화여부</th>
+			                                        <th>노출여부</th>
 			                                    </tr>
 			                                </thead>
 			                                <tbody id="menu-child-tbody"></tbody>
@@ -312,7 +335,7 @@ var menu = {
 	    <div class="pop-layer">
 	        <div class="head">
 	            <h1>메뉴 등록</h1>
-	            <button class="btn-close">Close</button>
+	            <button class="btn-close" id="btn-close">Close</button>
 	        </div>
 	        <div class="contents">
 				<form id="menu-insert-form" name="menu-insert-form">
@@ -331,6 +354,19 @@ var menu = {
 							<span class="fm-check fm-inline" style="margin-top: 0px; padding-top: 0px; border: 0">
                                	<input class="fm-check-input" type="radio" name="visibleYn" id="pop-visibleN" value="N">
                                	<label class="fm-check-label" for="pop-visibleN" style="width: 70px;">N</label>
+                            </span>
+                        </span>
+	                </span>
+	                <span class="form-ele">
+	                	<label for="newPW">노출여부</label>
+						<span class="fm-group" style="margin-top: 0px; padding-top: 0px; border: 0">
+							<span class="fm-check fm-inline" style="margin-top: 0px; padding-top: 0px; border: 0">
+								<input class="fm-check-input" type="radio" name="dpYn" id="pop-dpY" value="Y" checked="checked">
+								<label class="fm-check-label" for="pop-dpY" style="width: 70px;">Y</label>
+							</span>
+							<span class="fm-check fm-inline" style="margin-top: 0px; padding-top: 0px; border: 0">
+                               	<input class="fm-check-input" type="radio" name="dpYn" id="pop-dpN" value="N">
+                               	<label class="fm-check-label" for="pop-dpN" style="width: 70px;">N</label>
                             </span>
                         </span>
 	                </span>
@@ -354,13 +390,5 @@ var menu = {
 	        </div>
 	    </div>
 	</section>
-	<script type="text/javascript">
-	$(function() {
-		"use strict"
-		$('#btn-insert').click(function() {
-			menu.insert();
-		});
-	});
-	</script>
 </body>
 </html>

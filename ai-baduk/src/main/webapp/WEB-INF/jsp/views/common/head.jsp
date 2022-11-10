@@ -26,3 +26,29 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.14.3/xlsx.full.min.js"></script>
 <!--필수, FileSaver savaAs 이용 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
+
+<script type="text/javascript">
+$(function() {
+	"use strict"
+	head.processTopMenu();
+});
+var head = {
+	processTopMenu: function() {
+		$.ajax({
+			type: 'get',
+			url: '/common/menu/header',
+			success: function (data) {
+				if (data.result) {
+					$.each(data.menuList, function(i, item) {
+						if (item.dpYn == 'Y') {
+							$('#gnb').append('<a href="'+item.menuUrl+'">'+item.menuNm+'</a>');
+						}
+					});
+				} else {
+					alert(data.msg);
+				}
+			}
+		});
+	}
+}
+</script>

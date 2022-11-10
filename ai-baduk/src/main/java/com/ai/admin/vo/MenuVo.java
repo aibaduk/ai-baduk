@@ -31,6 +31,9 @@ public class MenuVo extends BaseVo {
 	/** 활성화여부 */
 	private String visibleYn;
 
+	/** 노출여부 */
+	private String dpYn;
+
 	/** 정렬순서 */
 	private String sortSeq;
 

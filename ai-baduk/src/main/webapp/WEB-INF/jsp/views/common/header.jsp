@@ -50,13 +50,7 @@ $(function() {
     <div class="inner">
         <h1><a href="/">한국바둑AI연구소</a></h1>
         <button class="btn-menu"><span></span><span></span><span></span></button>
-        <nav class="gnb">
-            <a href="/introduce/introduce/main">연구소 소개</a>
-            <a href="/prod/main">AI 컨텐츠</a>
-            <a href="/mypage/analyzeInfo/detail">AI 분석정보</a>
-            <a href="/board/notice/main">게시판</a>
-            <a href="/admin/code/main">관리자 페이지</a>
-        </nav>
+        <nav class="gnb" id="gnb"></nav>
         <c:if test="${user ne 'anonymousUser'}">
 	        <div class="logtop">
 	            <a href="/auth/logout">로그아웃</a>
