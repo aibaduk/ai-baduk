@@ -17,5 +17,6 @@ public class CommonService {
 		Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		UserVo userVo = (object.equals("anonymousUser")) ? new UserVo() : (UserVo)object;
 		baseVo.setSsLoginId(userVo.getSsLoginId());
+		baseVo.setSsRoleId(userVo.getSsRoleId());
 	}
 }

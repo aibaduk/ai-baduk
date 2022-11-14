@@ -179,16 +179,8 @@ var prod = {
 		        <div class="keyvi"></div>
 		        <section class="content brd">
 		            <div class="inner">
-		                <div class="tab-wrap ea7">
-		                    <ul class="tab-menu">
-		                        <li><a href="/admin/code/main">공통코드</a></li>
-		                        <li><a href="javascript:void(0)">메뉴관리</a></li>
-		                        <li><a href="/admin/user/main">사용자관리</a></li>
-		                        <li><a href="/admin/withdrawal/main">탈퇴회원관리</a></li>
-		                        <li><a href="/admin/analyzeInfo/main">분석정보</a></li>
-		                        <li class="on"><a href="/admin/prod/main">AI 컨텐츠</a></li>
-		                        <li><a href="/admin/down/prod/main">AI 컨텐츠 다운로드</a></li>
-		                    </ul>
+		                <div class="tab-wrap">
+		                    <ul class="tab-menu"></ul>
 		                    <div class="inner-depth">
 		                        <div class="tab-inner">
 		                            <h2>컨텐츠 상세</h2>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- SQL Mapping -->
+<mapper namespace="com.ai.common.dao.RoleMapper">
+	<select id="selectMenuId" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT MAX(MENU_ID) AS MENU_ID
+		  FROM CM_MENU
+		 WHERE MENU_URL = #{forwordUrl}
+	</select>
+
+	<select id="selectPermCnt" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT COUNT(1) AS PERM_CNT
+		  FROM CM_ROLE_MENU
+		 WHERE 1 = 1
+		   AND ROLE_ID = #{roleId}
+		   AND MENU_ID = #{menuId}
+	</select>
+
+</mapper>

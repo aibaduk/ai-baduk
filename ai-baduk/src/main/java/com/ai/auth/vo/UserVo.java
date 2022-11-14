@@ -29,6 +29,7 @@ public class UserVo implements UserDetails {
     private String team;
     private String level;
     private String ssLoginId;
+    private String ssRoleId;
 
     @SuppressWarnings("unused")
 	private Collection<? extends GrantedAuthority> authorities;

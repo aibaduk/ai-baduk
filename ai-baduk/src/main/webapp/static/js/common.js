@@ -140,3 +140,12 @@ function fnNull(val) {
 function replaceComma(val) {
 	return isNullOrEmpty(val) ? '' : val.replace(/,/g,"");;
 }
+/**
+ * 권한 체크
+ */
+function checkPermCnt() {
+	if (ssPermCnt == '0') {
+		alert('해당 페이지의 권한이 없습니다.');
+		history.back;
+	}
+}

@@ -67,10 +67,8 @@
 	            <div class="keyvi"></div>
 	            <section class="content personal">
 	                <div class="inner">
-	                    <div class="tab-wrap ea1">
-		                    <ul class="tab-menu">
-		                        <li class="on"><a href="/mypage/user/detail">회원정보수정</a></li>
-		                    </ul>
+	                    <div class="tab-wrap">
+		                    <ul class="tab-menu"></ul>
 		                    <div class="inner-depth">
 	                            <div class="tab-inner">
 	                                <h2>회원정보수정</h2>

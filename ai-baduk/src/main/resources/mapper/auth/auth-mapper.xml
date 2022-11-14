@@ -27,6 +27,7 @@
              , TEAM
              , F_GET_CODE_NAME('CU003', LEVEL) AS LEVEL
              , USER_ID AS SS_LOGIN_ID
+             , USER_AUTH AS SS_ROLE_ID
           FROM CU_USER
          WHERE USER_ID = #{userId}
            AND DEL_YN = 'N'

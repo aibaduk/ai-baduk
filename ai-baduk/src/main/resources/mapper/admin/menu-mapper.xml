@@ -47,6 +47,7 @@
 		  LEFT JOIN CM_ROLE_MENU RM ON CM.MENU_ID = RM.MENU_ID
 		 WHERE 1 = 1
 		 ORDER BY CM.MENU_DEPTH
+		        , CM.MENU_ID
 	</select>
 
 	<!-- 상위에서 하위를 조회하는 계층쿼리 -->

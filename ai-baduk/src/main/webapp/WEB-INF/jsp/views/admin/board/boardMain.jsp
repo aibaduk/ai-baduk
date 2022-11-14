@@ -28,13 +28,8 @@
 		        <div class="keyvi"></div>
 		        <section class="content brd">
 		            <div class="inner">
-		                <div class="tab-wrap ea4">
-		                    <ul class="tab-menu">
-		                        <li><a href="/board/notice/main">공지사항</a></li>
-		                        <li><a href="/board/question/main">자주묻는질문</a></li>
-		                        <li><a href="/board/info/main">바둑AI소식</a></li>
-		                        <li class="on"><a href="javascript:void(0)">자료실</a></li>
-		                    </ul>
+		                <div class="tab-wrap">
+		                    <ul class="tab-menu"></ul>
 		                    <div class="inner-depth">
 		                        <div class="tab-inner">
 		                            <h2>자료실</h2>

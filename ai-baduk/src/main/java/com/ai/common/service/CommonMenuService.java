@@ -22,4 +22,13 @@ public class CommonMenuService {
 	public List<CommonMenuVo> selectTopMenu(String roleId) {
 		return commonMenuMapper.selectTopMenu(roleId);
 	}
+
+	/**
+	 * @implNote select menu.
+	 * @param menuId, roleId
+	 * @return List<CommonMenuVo>
+	 */
+	public List<CommonMenuVo> selectMenu(String menuId, String roleId) {
+		return commonMenuMapper.selectMenu(menuId, roleId);
+	}
 }

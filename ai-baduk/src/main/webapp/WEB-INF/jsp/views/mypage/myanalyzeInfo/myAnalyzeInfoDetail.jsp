@@ -131,13 +131,11 @@ var analyzeInfo = {
 	        <div class="keyvi"></div>
 	        <section class="content qna">
 	            <div class="inner">
-	                <div class="tab-wrap ea1">
-	                    <ul class="tab-menu">
-	                        <li class="on"><a href="/mypage/analyzeInfo/detail">AI 분석정보</a></li>
-	                    </ul>
+	                <div class="tab-wrap">
+	                    <ul class="tab-menu"></ul>
 	                    <div class="inner-depth">
 	                        <div class="tab-inner">
-	                            <h2>개인 분석정보</h2>
+	                            <h2>AI 분석정보</h2>
 	                            <div class="myinfo">
 	                                <div>
 	                                    <em class="${analyzeInfoDetail.userGrade }" id="userGrade"></em>

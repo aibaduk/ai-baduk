@@ -24,4 +24,7 @@ public class CommonMenuVo extends BaseVo {
 	/** 노출여부 */
 	private String dpYn;
 
+	/** 클래스 여부 */
+	private String yn;
+
 }

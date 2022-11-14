@@ -12,11 +12,8 @@
             <div class="keyvi"></div>
             <section class="content intro">
                 <div class="inner">
-                    <div class="tab-wrap ea2">
-                        <ul class="tab-menu">
-                            <li class="on"><a href="/introduce/introduce/main">연구소 소개</a></li>
-                            <li><a href="/introduce/curriculum/main">커리큘럼</a></li>
-                        </ul>
+                    <div class="tab-wrap">
+                        <ul class="tab-menu"></ul>
                         <div class="inner-depth">
                             <div class="tab-inner">
                                 <h2>연구소 소개</h2>

@@ -160,11 +160,8 @@ function fnZipFileDownload(targetId) {
 		        <div class="keyvi"></div>
 		        <section class="content brd">
 		            <div class="inner">
-		                <div class="tab-wrap ea2">
-		                    <ul class="tab-menu">
-		                        <li><a href="/prod/main">AI 컨텐츠</a></li>
-		                        <li class="on"><a href="/down/prod/main">AI 컨텐츠 다운로드</a></li>
-		                    </ul>
+		                <div class="tab-wrap">
+		                    <ul class="tab-menu"></ul>
 		                    <div class="inner-depth">
 		                        <div class="tab-inner">
 		                            <h2>AI 컨텐츠 다운로드</h2>
