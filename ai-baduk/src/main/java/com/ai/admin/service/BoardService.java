@@ -162,8 +162,23 @@ public class BoardService {
 	@Transactional
 	public void deleteBoard(List<BoardVo> boardList) {
 		boardList.stream().forEach(board -> {
+			// 1. 게시판 삭제
 			CommonService.setSessionData(board);
 			boardMapper.deleteBoard(board);
+			// 2. 파일 조회
+			FileVo fileVo = new FileVo();
+			fileVo.setMenuId(Constants.FILE_CHNL_BOARD);
+			fileVo.setTargetId(StringUtil.join("", new Object[]{board.getBoardId(), board.getBoardGubun()}));
+			List<FileVo> fileList = fileService.selectFile(fileVo);
+			// 3. 파일 삭제
+			if (!fileList.isEmpty()) {
+				fileList.forEach(file -> {
+					file.setTargetGubun(board.getBoardGubun());
+					file.setTargetId(board.getBoardId());
+					file.setFileNm(StringUtil.join("_", new Object[]{file.getFileNm(), file.getFileOgNm()}));
+					deleteBoardFile(file);
+				});
+			}
 		});
 	}
 
@@ -175,6 +190,7 @@ public class BoardService {
 	@Transactional
 	public void deleteBoardFile(FileVo fileVo) {
 		// 1. 파일경로상에 있는 물리적인 파일 삭제
+		fileVo.setMenuId(Constants.FILE_CHNL_BOARD);
 		String uploadPath = getUploadPath(fileVo.getTargetGubun(), fileVo.getTargetId());
 		fileService.fileDelete(uploadPath, fileVo.getFileNm());
 		// 2. 데이터베이스 파일 테이블 삭제

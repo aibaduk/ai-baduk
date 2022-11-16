@@ -136,7 +136,7 @@ var prod = {
 			let prodClCd = $('#prodClCd').val();
 			let prodId = $('input:hidden[name=prodId]').val();
 			let param = {
-				menuId: '00002',
+				menuId: '00021',
 				targetGubun: prodClCd,
 				targetId: prodId,
 				fileId: file.data('id'),
@@ -164,7 +164,7 @@ var prod = {
 			let targetGubun = $('#prodClCd').val();
 			let fileNm = file.data('name');
 			let fileOgNm = file.text();
-			window.location.href='/admin/prod/fileDownload?menuId=00002&targetId='+targetId+'&targetGubun='+targetGubun+'&fileNm='+fileNm+'&fileOgNm='+fileOgNm;
+			window.location.href='/admin/prod/fileDownload?menuId=00021&targetId='+targetId+'&targetGubun='+targetGubun+'&fileNm='+fileNm+'&fileOgNm='+fileOgNm;
 		}
 	}
 }

@@ -155,7 +155,7 @@ function fnZipFileDownload(targetId) {
 			<input type="hidden" name="pageNo" value="1">
 			<input type="hidden" name="pageSize" value="10">
 			<input type="hidden" name="chnlGubun" value="PC">
-			<input type="hidden" id="menuId" value="00002">
+			<input type="hidden" id="menuId" value="00021">
 			<section class="container">
 		        <div class="keyvi"></div>
 		        <section class="content brd">

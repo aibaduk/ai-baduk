@@ -12,11 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.ai.board.service.PubBoardService;
 import com.ai.board.vo.PubBoardSearchVo;
@@ -184,75 +180,75 @@ public class PubBoardController {
 	 * @param boardVo
 	 * @return
 	 */
-	@PostMapping("/{path}/insert")
-	public String insertBoard(Model model
-			, @PathVariable("path") String path
-			, PubBoardVo boardVo
-			, @RequestParam(value="uploadFiles", required = false) List<MultipartFile> fileList
-			) {
-		try {
-			model.addAttribute("boardId", boardService.insertBoard(boardVo, fileList));
-			model.addAttribute("result", true);
-		} catch (Exception e) {
-			model.addAttribute("msg", e.getMessage());
-		}
-		return Constants.JSON_VIEW;
-	}
+//	@PostMapping("/{path}/insert")
+//	public String insertBoard(Model model
+//			, @PathVariable("path") String path
+//			, PubBoardVo boardVo
+//			, @RequestParam(value="uploadFiles", required = false) List<MultipartFile> fileList
+//			) {
+//		try {
+//			model.addAttribute("boardId", boardService.insertBoard(boardVo, fileList));
+//			model.addAttribute("result", true);
+//		} catch (Exception e) {
+//			model.addAttribute("msg", e.getMessage());
+//		}
+//		return Constants.JSON_VIEW;
+//	}
 
 	/**
 	 * @implNote update board and file upload.
 	 * @param boardVo
 	 * @return
 	 */
-	@PostMapping("/{path}/update")
-	public String updateBoard(Model model
-			, @PathVariable("path") String path
-			, PubBoardVo boardVo
-			, @RequestParam(value="uploadFiles", required = false) List<MultipartFile> fileList
-			) {
-		try {
-			boardService.updateBoard(boardVo, fileList);
-			model.addAttribute("boardId", boardVo.getBoardId());
-			model.addAttribute("result", true);
-		} catch (Exception e) {
-			model.addAttribute("msg", e.getMessage());
-		}
-		return Constants.JSON_VIEW;
-	}
+//	@PostMapping("/{path}/update")
+//	public String updateBoard(Model model
+//			, @PathVariable("path") String path
+//			, PubBoardVo boardVo
+//			, @RequestParam(value="uploadFiles", required = false) List<MultipartFile> fileList
+//			) {
+//		try {
+//			boardService.updateBoard(boardVo, fileList);
+//			model.addAttribute("boardId", boardVo.getBoardId());
+//			model.addAttribute("result", true);
+//		} catch (Exception e) {
+//			model.addAttribute("msg", e.getMessage());
+//		}
+//		return Constants.JSON_VIEW;
+//	}
 
 	/**
 	 * @implNote delete board.
 	 * @param boardList
 	 * @return
 	 */
-	@PostMapping("/{path}/delete")
-	public String deleteBoard(Model model, @PathVariable("path") String path, @RequestBody List<PubBoardVo> boardList) {
-		try {
-			boardService.deleteBoard(boardList);
-			model.addAttribute("result", true);
-		} catch (Exception e) {
-			model.addAttribute("msg", e.getMessage());
-		}
-		return Constants.JSON_VIEW;
-	}
+//	@PostMapping("/{path}/delete")
+//	public String deleteBoard(Model model, @PathVariable("path") String path, @RequestBody List<PubBoardVo> boardList) {
+//		try {
+//			boardService.deleteBoard(boardList);
+//			model.addAttribute("result", true);
+//		} catch (Exception e) {
+//			model.addAttribute("msg", e.getMessage());
+//		}
+//		return Constants.JSON_VIEW;
+//	}
 
 	/**
 	 * @implNote delete board file.
 	 * @param boardVo
 	 * @return
 	 */
-	@PostMapping("/{path}/fileDelete")
-	public String deleteBoardFile(Model model, @PathVariable("path") String path, @RequestBody FileVo fileVo) {
-		try {
-			String targetId = fileVo.getTargetId();
-			boardService.deleteBoardFile(fileVo);
-			model.addAttribute("boardId", targetId);
-			model.addAttribute("result", true);
-		} catch (Exception e) {
-			model.addAttribute("msg", e.getMessage());
-		}
-		return Constants.JSON_VIEW;
-	}
+//	@PostMapping("/{path}/fileDelete")
+//	public String deleteBoardFile(Model model, @PathVariable("path") String path, @RequestBody FileVo fileVo) {
+//		try {
+//			String targetId = fileVo.getTargetId();
+//			boardService.deleteBoardFile(fileVo);
+//			model.addAttribute("boardId", targetId);
+//			model.addAttribute("result", true);
+//		} catch (Exception e) {
+//			model.addAttribute("msg", e.getMessage());
+//		}
+//		return Constants.JSON_VIEW;
+//	}
 
 	/**
 	 * @implNote download board file.

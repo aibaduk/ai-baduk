@@ -6,15 +6,6 @@ $(function() {
 		return false;
 	});
 
-	$('#btn-insert').click(function() {
-		window.location.href=insertUrl;
-	});
-
-	$('#btn-delete').click(function() {
-		fnDelete();
-		return false;
-	});
-
 	$(document).on('click', '.file-zip-download', function() {
 		fnZipFileDownload($(this).data('id'));
 	});
@@ -93,50 +84,4 @@ function fnZipFileDownload(boardId) {
 		let boardGubun = $('input:hidden[name=searchBoardGubun]').val();
 		window.location.href='/board/'+path+'/zipFileDownload?boardId='+boardId+'&boardGubun='+boardGubun;
 	}
-}
-/**
- * 게시판 삭제
- */
-function fnDelete() {
-	"use strict"
-	if (validation()) {
-		return;
-	}
-	if (confirm(deleteMsg)) {
-		$.ajax({
-			type: 'post',
-			url: deleteUrl,
-			contentType: 'application/json',
-			data: JSON.stringify(setData()),
-			success: function (data) {
-				if (data.result) {
-					alert(deleteComplteMsg);
-					goPage(1);
-				} else {
-					alert(data.msg);
-				}
-			}
-		});
-	}
-}
-function validation() {
-	"use strict"
-	let checked = $('[id^=chk_]:checked').length;
-	if (checked < 1) {
-		alert(deleteValidMsg);
-		return true;
-	}
-	return false;
-}
-function setData() {
-	let data = new Array();
-	$('[id^=chk_]:checked').each(function() {
-		let param = {};
-		let boardGubun = $('input:hidden[name=searchBoardGubun]').val();
-		let boardId = $(this).data('id');
-		param.boardGubun = boardGubun;
-		param.boardId = boardId;
-		data.push(param);
-	});
-	return data;
 }

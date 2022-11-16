@@ -60,7 +60,7 @@ var prod = {
 		<form id="form">
 			<c:set var="isInsert" value="${empty prodDetailInfo }"></c:set>
 			<c:set var="isDetail" value="${not empty prodDetailInfo }"></c:set>
-			<input type="hidden" id="menuId" name="menuId" value="00002"/>
+			<input type="hidden" id="menuId" name="menuId" value="00021"/>
 			<input type="hidden" id="prodId" name="prodId" value="${prodDetailInfo.prodId }">
 			<input type="hidden" id="prodId" name="prodClCd" value="${prodDetailInfo.prodClCd }">
            	<input type="hidden" id="prodDiscountRate" name="prodDiscountRate" value="${prodDetailInfo.prodDiscountRate }">

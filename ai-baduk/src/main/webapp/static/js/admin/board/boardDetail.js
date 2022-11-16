@@ -1,6 +1,9 @@
 $(function() {
 	"use strict"
 
+	let gubun = $('#boardGubun').val();
+	init(board[gubun]);
+
 	$('#btn-insert').click(function() {
 		boardInsert();
 	});
@@ -14,7 +17,7 @@ $(function() {
 	});
 
 	$('#btn-cancle').click(function() {
-		window.location.href = mainUrl;
+		window.location.href = '/admin/board/main?boardGubun='+boardGubun;
 	});
 
 	$('#btn-file').click(function() {
@@ -39,6 +42,22 @@ $(function() {
 	});
 
 });
+
+/**
+ * 화면 인입시 초기화
+ * @param {object} data 게시판 데이터
+ */
+function init(data) {
+	insertMsg = data.insertMsg;
+	insertComplteMsg = data.insertComplteMsg;
+	boardGubun = data.boardGubun;
+	updateMsg = data.updateMsg;
+	updateComplteMsg = data.updateComplteMsg;
+	updateValidMsg = data.updateValidMsg;
+	deleteMsg = data.deleteMsg;
+	deleteComplteMsg = data.deleteComplteMsg;
+}
+
 /**
  * 게시판 등록
  */
@@ -62,14 +81,14 @@ function boardInsert() {
 
 		$.ajax({
 			type: 'post',
-			url: insertUrl,
+			url: '/admin/board/insert',
 			processData: false,
 			contentType: false,
 			data: formData,
 			success: function (data) {
 				if (data.result) {
 					alert(insertComplteMsg);
-					window.location.href='/board/'+path+'/detail?boardGubun='+boardGubun+'&boardId='+data.boardId;
+					window.location.href='/admin/board/detail?boardGubun='+boardGubun+'&boardId='+data.boardId;
 				} else {
 					alert(data.msg);
 				}
@@ -102,14 +121,14 @@ function boardUpdate() {
 
 		$.ajax({
 			type: 'post',
-			url: updateUrl,
+			url: '/admin/board/update',
 			processData: false,
 			contentType: false,
 			data: formData,
 			success: function (data) {
 				if (data.result) {
 					alert(updateComplteMsg);
-					window.location.href='/board/'+path+'/detail?boardGubun='+boardGubun+'&boardId='+data.boardId;
+					window.location.href='/admin/board/detail?boardGubun='+boardGubun+'&boardId='+data.boardId;
 				} else {
 					alert(data.msg);
 				}
@@ -142,13 +161,13 @@ function boardDelete() {
 		data.push(param);
 		$.ajax({
 			type: 'post',
-			url: deleteUrl,
+			url: '/admin/board/delete',
 			contentType: 'application/json',
 			data: JSON.stringify(data),
 			success: function (data) {
 				if (data.result) {
 					alert(deleteComplteMsg);
-					window.location.href = mainUrl;
+					window.location.href = '/admin/board/main?boardGubun='+boardGubun;
 				} else {
 					alert(data.msg);
 				}
@@ -163,7 +182,6 @@ function fileDelete(file) {
 	"use strict"
 	if (confirm('파일을 삭제하시겠습니까?')) {
 		let param = {
-			menuId: '00001',
 			targetGubun: $('input:hidden[name=boardGubun]').val(),
 			targetId: $('input:hidden[name=boardId]').val(),
 			fileId: file.data('id'),
@@ -171,13 +189,13 @@ function fileDelete(file) {
 		}
 		$.ajax({
 			type: 'post',
-			url: fileDeleteUrl,
+			url: '/admin/board/fileDelete',
 			contentType: 'application/json',
 			data: JSON.stringify(param),
 			success: function (data) {
 				if (data.result) {
 					alert('파일이 삭제되었습니다.');
-					window.location.href='/board/'+path+'/detail?boardGubun='+boardGubun+'&boardId='+data.boardId;
+					window.location.href = '/admin/board/detail?boardGubun='+boardGubun+'&boardId='+data.boardId;
 				} else {
 					alert(data.msg);
 				}
@@ -195,6 +213,6 @@ function fileDownload(file) {
 		let targetGubun = $('input:hidden[name=boardGubun]').val();
 		let fileNm = file.data('name');
 		let fileOgNm = file.text();
-		window.location.href='/board/'+path+'/fileDownload?menuId=00001&targetId='+targetId+'&targetGubun='+targetGubun+'&fileNm='+fileNm+'&fileOgNm='+fileOgNm;
+		window.location.href='/admin/board/fileDownload?targetId='+targetId+'&targetGubun='+targetGubun+'&fileNm='+fileNm+'&fileOgNm='+fileOgNm;
 	}
 }

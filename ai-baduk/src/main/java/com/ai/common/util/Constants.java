@@ -10,6 +10,6 @@ public class Constants {
 	public static final String BOARD_GUBUN_INFO = "03";
 	public static final int MAIN_BOARD_LIST_CNT = 5;
 	public static final int DATE_CONTROL_DAY = 7;
-	public static final String FILE_CHNL_BOARD = "00001";
-	public static final String FILE_CHNL_PROD = "00002";
+	public static final String FILE_CHNL_BOARD = "00023";
+	public static final String FILE_CHNL_PROD = "00021";
 }

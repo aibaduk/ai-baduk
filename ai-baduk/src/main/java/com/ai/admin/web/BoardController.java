@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ai.admin.service.BoardService;
+import com.ai.admin.service.CodeService;
 import com.ai.admin.vo.BoardSearchVo;
 import com.ai.admin.vo.BoardVo;
 import com.ai.common.util.Constants;
@@ -41,13 +42,19 @@ public class BoardController {
 	@Autowired
 	BoardService boardService;
 
+	@Autowired
+	CodeService codeService;
+
 	/**
 	 * @implNote board main.
 	 * @param model
 	 * @return
 	 */
 	@GetMapping("/main")
-	public String boardMain(Model model) {
+	public String boardMain(Model model
+			, @RequestParam(value="boardGubun", required = false) String boardGubun) {
+		model.addAttribute("boardGubun", boardGubun);
+		model.addAttribute("codeBO001", codeService.selectCode("BO001"));
 		return "admin/board/boardMain";
 	}
 
@@ -70,7 +77,9 @@ public class BoardController {
 	 * @return
 	 */
 	@GetMapping("/insert")
-	public String boardInsert(Model model) {
+	public String boardInsert(Model model, BoardVo boardVo) {
+		model.addAttribute("boardGubun", boardVo.getBoardGubun());
+		model.addAttribute("boardTit", boardVo.getBoardNm());
 		return "admin/board/boardDetail";
 	}
 
@@ -81,7 +90,10 @@ public class BoardController {
 	 */
 	@GetMapping("/detail")
 	public String boardDetail(Model model, BoardVo boardVo) {
-		model.addAttribute("boardDetailInfo", boardService.selectBoardOne(boardVo));
+		BoardVo resVo = boardService.selectBoardOne(boardVo);
+		model.addAttribute("boardGubun", boardVo.getBoardGubun());
+		model.addAttribute("boardTit", resVo.getBoardNm());
+		model.addAttribute("boardDetailInfo", resVo);
 		return "admin/board/boardDetail";
 	}
 	/**

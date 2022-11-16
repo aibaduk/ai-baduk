@@ -7,21 +7,9 @@
 </head>
 <script type="text/javascript">
 	let mainUrl = '/board/notice/main';
-	let insertMsg = '공지사항을 등록하시겠습니까?';
-	let insertUrl = '/board/notice/insert';
-	let insertComplteMsg = '공지사항이 등록되었습니다.';
 	let path = 'notice';
-	let boardGubun = '01';
-	let updateMsg = '공지사항을 수정하시겠습니까?';
-	let updateUrl = '/board/notice/update';
-	let updateComplteMsg = '공지사항이 수정되었습니다.';
-	let updateValidMsg = '공지사항 제목을 입력하세요.';
-	let deleteMsg = '공지사항을 삭제하시겠습니까?';
-	let deleteUrl = '/board/notice/delete';
-	let deleteComplteMsg = '공지사항이 삭제되었습니다.';
-	let fileDeleteUrl = '/board/notice/fileDelete';
 </script>
-<script type="text/javascript" src="/static/js/board/boardDetail.js?var=${version }"></script>
+<script type="text/javascript" src="/static/js/board/pubBoardDetail.js?var=${version }"></script>
 <body>
 	<div class="wrapper">
 		<%@ include file="/WEB-INF/jsp/views/common/header.jsp" %>
@@ -38,7 +26,7 @@
 	                    <div class="inner-depth">
 	                        <div class="tab-inner">
 	                            <h2>공지사항</h2>
-	                            <c:if test="${isInsert }">
+	                            <%-- <c:if test="${isInsert }">
 		                            <ul class="write-box">
 		                                <li class="tit">
 		                                    <span class="form-ele"><label for="tit">제목</label><input type="text" id="boardTit" name="boardTit"></span>
@@ -68,10 +56,10 @@
 		                                    <textarea col="100" row="50" id="boardCtt" name="boardCtt"></textarea>
 		                                </li>
 		                            </ul>
-	                            </c:if>
+	                            </c:if> --%>
 	                            <c:if test="${isDetail }">
 	                            	<!-- 일반사용자 view 화면 -->
-	                            	<%-- <ul class="view-box">
+	                            	<ul class="view-box">
 		                                <li class="tit">${noticeDetailInfo.boardTit }</li>
 		                                <li class="file">
 		                                    <c:forEach items="${noticeDetailInfo.fileList }" var="file">
@@ -82,7 +70,8 @@
 		                                <li class="cont">
 		                                    ${noticeDetailInfo.boardCtt }
 		                                </li>
-		                            </ul> --%>
+		                            </ul>
+		                            <%--
 		                            <!-- 관리자 write 화면 -->
 		                            <ul class="write-box">
 		                                <li class="tit">
@@ -118,13 +107,14 @@
 		                                <li class="cont">
 		                                    <textarea col="100" row="50" id="boardCtt" name="boardCtt">${noticeDetailInfo.boardCtt }</textarea>
 		                                </li>
-		                            </ul>
+		                            </ul> --%>
 	                            </c:if>
 	                        </div>
 	                        <!-- 일반사용자 view 화면 -->
-	                        <!-- <div class="btn-wrap">
-	                        	<a href="javascript:void(0)" id="btn-cancle" class="btns normal fr">목록</a>
-	                        </div> -->
+	                        <div class="btn-wrap">
+	                        	<a href="javascript:void(0)" id="btn-cancle" class="btns normal">목록</a>
+	                        </div>
+	                        <%--
 	                        <!-- 관리자 write 화면 -->
                             <div class="btn-wrap">
 	                            <c:if test="${isInsert }">
@@ -140,7 +130,7 @@
 	                                    <a href="javascript:void(0)" id="btn-cancle" class="btns normal fr">목록</a>
 	                                </div>
                                 </c:if>
-                            </div>
+                            </div> --%>
                         </div>
                     </div>
                 </div>
