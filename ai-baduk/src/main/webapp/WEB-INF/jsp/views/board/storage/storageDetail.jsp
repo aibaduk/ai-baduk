@@ -25,7 +25,10 @@
 	                    <ul class="tab-menu"></ul>
 	                    <div class="inner-depth">
 	                        <div class="tab-inner">
-	                            <h2>자료실</h2>
+	                            <h2>자료실
+	                            	<c:if test="${isInsert }">등록</c:if>
+	                            	<c:if test="${isDetail }">상세</c:if>
+	                            </h2>
 	                            <%-- <c:if test="${isInsert }">
 		                            <ul class="write-box">
 		                                <li class="tit">
