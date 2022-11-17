@@ -8,6 +8,10 @@
 	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 	<title>AI컨텐츠관리 상세</title>
+	<style type="text/css">
+	.brd .write-box .file input{width:34.8666vw;}
+	.brd .write-box .file button{color:#222; background-color:#fff;border:solid 1px #555; vertical-align:middle;display:inline-block}
+	</style>
 </head>
 <script type="text/javascript">
 $(function() {
@@ -192,12 +196,25 @@ var prod = {
 		                                <li class="tit">
 											<span class="form-ele">
 		                                    	<label for="tit">상품구분</label>
-				                            	<select id="prodClCd" name="prodClCd">
-										            <c:forEach items="${codeCU005 }" var="item">
-														<option value="${item.codeId }" <c:if test="${prodDetailInfo.prodClCd eq item.codeId }">selected</c:if>>${item.codeNm }</option>
-				                                   	</c:forEach>
-									            </select>
+		                                    	<div id="select-prod" class="fm-group">
+					                            	<select id="prodClCd" name="prodClCd">
+											            <c:forEach items="${codeCU005 }" var="item">
+															<option value="${item.codeId }" <c:if test="${prodDetailInfo.prodClCd eq item.codeId }">selected</c:if>>${item.codeNm }</option>
+					                                   	</c:forEach>
+										            </select>
+		                                    	</div>
 		                                    </span>
+		                                    <script>
+		                                    	$(function() {
+													"use strict"
+													let width = $(window).width();
+													if (width >= 751) {
+														$('#select-prod').css('width', '90%');
+													} else {
+														$('#select-prod').css('width', '76%');
+													}
+												});
+		                                    </script>
 		                                </li>
 		                                <li class="file">
 		                                    <span class="form-ele">

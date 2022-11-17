@@ -35,6 +35,10 @@ $(function() {
 		alert(msg + '\nAI바둑연구소로 연락바랍니다. 02-6235-0361');
 	});
 
+	$('#btn-link-login').click(function() {
+		window.location.href='/auth/logout';
+	});
+
 	$('#btn-mobile-join').click(function() {
 		window.location.href='/auth/signUp';
 	});
@@ -54,6 +58,11 @@ $(function() {
         <c:if test="${user ne 'anonymousUser'}">
 	        <div class="logtop">
 	            <a href="/auth/logout">로그아웃</a>
+	        </div>
+        </c:if>
+        <c:if test="${user eq 'anonymousUser'}">
+        	<div class="logtop">
+	            <a href="/">로그인</a>
 	        </div>
         </c:if>
         <aside>
@@ -88,44 +97,7 @@ $(function() {
                     </div>
                 </div>
                 <nav>
-                    <ul>
-                        <li><a href="javascript:void(0)" data-location="introduce">연구소 소개</a>
-                            <ul>
-                                <li><a href="/introduce/introduce/main">연구소 소개</a></li>
-                                <li><a href="/introduce/curriculum/main">커리큘럼</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="javascript:void(0)" data-location="prod">AI 컨텐츠</a>
-                            <ul>
-                                <li><a href="/prod/main">AI 컨텐츠</a></li>
-                                <li><a href="/down/prod/main">AI 컨텐츠 다운로드</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="javascript:void(0)" data-location="analyzeinfo">AI 분석정보</a>
-                            <ul>
-                                <li><a href="/mypage/analyzeInfo/detail">AI 분석정보</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="javascript:void(0)" data-location="board-list">게시판</a>
-                            <ul>
-                                <li><a href="/board/notice/main">공지사항</a></li>
-                                <li><a href="/board/question/main">자주묻는질문</a></li>
-                                <li><a href="/board/info/main">바둑AI소식</a></li>
-                                <li><a href="/board/storage/main">자료실</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="javascript:void(0)" data-location="admin-list">관리자 페이지</a>
-                            <ul>
-                                <li><a href="/admin/code/main">코드관리</a></li>
-                                <li><a href="javascript:void(0)">메뉴관리</a></li>
-                                <li><a href="/admin/user/main">사용자관리</a></li>
-                                <li><a href="/admin/withdrawal/main">탈퇴회원관리</a></li>
-                                <li class="show-pc"><a href="/admin/analyzeInfo/main">분석정보</a></li>
-                                <li><a href="/admin/prod/main">AI 컨텐츠</a></li>
-		                        <li><a href="/admin/down/prod/main">AI 컨텐츠 다운로드</a></li>
-                            </ul>
-                        </li>
-                    </ul>
+                    <ul id="mobile-ul"></ul>
                 </nav>
             </div>
         </aside>

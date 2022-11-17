@@ -6,27 +6,31 @@
 <mapper namespace="com.ai.common.dao.CommonMenuMapper">
 	<select id="selectTopMenu" parameterType="java.lang.String" resultType="com.ai.common.vo.CommonMenuVo">
 		SELECT CM.MENU_ID
+		     , CM.UP_MENU_ID
 		     , CM.MENU_NM
 		     , CM.MENU_URL
 		     , CM.VISIBLE_YN
 		     , CM.DP_YN
+		     , CM.MENU_DEPTH
 		  FROM CM_MENU CM
 		 WHERE 1 = 1
 		   AND VISIBLE_YN = 'Y'
-		   AND MENU_DEPTH = '1'
+		   AND MENU_DEPTH IN ('1', '2')
 		   AND NOT EXISTS (SELECT 1 FROM CM_ROLE_MENU WHERE MENU_ID = CM.MENU_ID)
 		 UNION
 		SELECT CM.MENU_ID
+		     , CM.UP_MENU_ID
 		     , CM.MENU_NM
 		     , CM.MENU_URL
 		     , CM.VISIBLE_YN
 		     , CM.DP_YN
+		     , CM.MENU_DEPTH
 		  FROM CM_ROLE_MENU RM
 		     , CM_MENU CM
 		 WHERE 1 = 1
 		   AND RM.MENU_ID = CM.MENU_ID
 		   AND CM.VISIBLE_YN = 'Y'
-		   AND CM.MENU_DEPTH = '1'
+		   AND CM.MENU_DEPTH IN ('1', '2')
 		   AND RM.ROLE_ID = #{roleId}
 		 ORDER BY MENU_ID
 	</select>
