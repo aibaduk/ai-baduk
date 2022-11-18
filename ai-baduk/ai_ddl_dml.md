@@ -1,6 +1,7 @@
 ---------------
 -- MYSQL DDL --
 ---------------
+-- BO_BOARD (게시판)
 CREATE TABLE aibaduk.BO_BOARD (
 	BOARD_ID VARCHAR(8) NOT NULL COMMENT '게시판ID',
 	BOARD_GUBUN VARCHAR(2) NOT NULL COMMENT '게시판구분(BO001)',
@@ -15,12 +16,8 @@ CREATE TABLE aibaduk.BO_BOARD (
 	PRIMARY KEY (BOARD_ID, BOARD_GUBUN)
 ) COMMENT '게시판'
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
-;
 
-SELECT *
-  FROM BO_BOARD
-  ;
-
+-- CM_CODE (공통코드)
 CREATE TABLE aibaduk.CM_CODE (
 	L_CD VARCHAR(5) NOT NULL COMMENT '대분류코드',
 	M_CD VARCHAR(20) NOT NULL COMMENT '중분류코드',
@@ -38,10 +35,70 @@ CREATE TABLE aibaduk.CM_CODE (
 ) COMMENT '공통코드'
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-SELECT *
-  FROM CM_CODE
-  ;
+-- CM_DOWN (다운로드관리)
+CREATE TABLE aibaduk.CM_DOWN (
+	MENU_ID VARCHAR(5) NOT NULL COMMENT '메뉴ID',
+	TARGET_ID VARCHAR(20) NOT NULL COMMENT '대상ID',
+	DOWN_ID VARCHAR(3) NOT NULL COMMENT '다운로드ID',
+	FST_CRER_ID VARCHAR(50) NOT NULL COMMENT '최초생성자',
+	FST_CRE_DTM DATETIME NOT NULL COMMENT '최초생성일',
+	AUDIT_ID VARCHAR(50) NOT NULL COMMENT '최종변경자',
+	AUDIT_DTM DATETIME NOT NULL COMMENT '최종변경일시',
+	USER_ID VARCHAR(50) NOT NULL COMMENT '사용자ID',
+	DOWN_STATUS VARCHAR(2) NOT NULL COMMENT '다운로드상태(CU006)',
+	DOWN_CNT SMALLINT DEFAULT '0' NOT NULL COMMENT '다운로드수',
+	PRIMARY KEY (MENU_ID, TARGET_ID, DOWN_ID)
+) COMMENT '다운로드관리'
+ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- CM_FILE (공통파일)
+CREATE TABLE aibaduk.CM_FILE (
+	MENU_ID VARCHAR(5) NOT NULL COMMENT '메뉴ID',
+	TARGET_ID VARCHAR(30) NOT NULL COMMENT '대상ID',
+	FILE_ID VARCHAR(3) NOT NULL COMMENT '파일ID',
+	FST_CRER_ID VARCHAR(50) NOT NULL COMMENT '최초생성자',
+	FST_CRE_DTM DATETIME NOT NULL COMMENT '최초생성일',
+	AUDIT_ID VARCHAR(50) NOT NULL COMMENT '최종변경자',
+	AUDIT_DTM DATETIME NOT NULL COMMENT '최종변경일시',
+	FILE_NM VARCHAR(200) NOT NULL COMMENT '파일명',
+	FILE_OG_NM VARCHAR(200) NOT NULL COMMENT '파일원본명',
+	PRIMARY KEY (MENU_ID, TARGET_ID, FILE_ID)
+) COMMENT '공통파일'
+ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- CM_MENU (메뉴관리)
+CREATE TABLE aibaduk.CM_MENU (
+	MENU_ID VARCHAR(5) NOT NULL COMMENT '메뉴ID',
+	FST_CRER_ID VARCHAR(50) NOT NULL COMMENT '최초생성자',
+	FST_CRE_DTM DATETIME NOT NULL COMMENT '최초생성일',
+	AUDIT_ID VARCHAR(50) NOT NULL COMMENT '최종변경자',
+	AUDIT_DTM DATETIME NOT NULL COMMENT '최종변경일시',
+	UP_MENU_ID VARCHAR(5) NOT NULL COMMENT '상위메뉴ID',
+	MENU_DEPTH SMALLINT(1) NOT NULL COMMENT '메뉴단계',
+	MENU_NM VARCHAR(100) NOT NULL COMMENT '메뉴명',
+	MENU_URL VARCHAR(100) NOT NULL COMMENT '메뉴경로',
+	VISIBLE_YN VARCHAR(1) DEFAULT 'Y' NOT NULL COMMENT '활성화여부',
+	DP_YN VARCHAR(1) DEFAULT 'Y' NOT NULL COMMENT '노출여부',
+	MOBILE_DP_YN VARCHAR(1) DEFAULT 'Y' NOT NULL COMMENT '모바일노출여부',
+	SORT_SEQ SMALLINT(4) COMMENT '정렬순서',
+	ETC VARCHAR(500) COMMENT '메모',
+	PRIMARY KEY (MENU_ID)
+) COMMENT '메뉴관리'
+ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- CM_ROLE_MENU (메뉴룰관리)
+CREATE TABLE aibaduk.CM_ROLE_MENU (
+	ROLE_ID VARCHAR(50) NOT NULL COMMENT '룰ID',
+	MENU_ID VARCHAR(5) NOT NULL COMMENT '메뉴ID',
+	FST_CRER_ID VARCHAR(50) NOT NULL COMMENT '최초생성자',
+	FST_CRE_DTM DATETIME NOT NULL COMMENT '최초생성일',
+	AUDIT_ID VARCHAR(50) NOT NULL COMMENT '최종변경자',
+	AUDIT_DTM DATETIME NOT NULL COMMENT '최종변경일시',
+	PRIMARY KEY (ROLE_ID, MENU_ID)
+) COMMENT '메뉴룰관리'
+ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- CU_ANALYZE_INFO (분석정보)
 CREATE TABLE aibaduk.CU_ANALYZE_INFO (
 	USER_ID VARCHAR(50) NOT NULL COMMENT '회원ID',
 	ANALYZE_INFO_ID VARCHAR(6) NOT NULL COMMENT '분석정보ID',
@@ -84,12 +141,8 @@ CREATE TABLE aibaduk.CU_ANALYZE_INFO (
 	PRIMARY KEY (USER_ID, ANALYZE_INFO_ID)
 ) COMMENT '분석정보'
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
-;
 
-SELECT *
-  FROM CU_ANALYZE_INFO
- ;
-
+-- CU_USER (회원정보)
 CREATE TABLE aibaduk.CU_USER (
 	USER_ID VARCHAR(50) NOT NULL COMMENT '회원ID',
 	FST_CRER_ID VARCHAR(50) NOT NULL COMMENT '최초생성자',
@@ -115,89 +168,8 @@ CREATE TABLE aibaduk.CU_USER (
 	PRIMARY KEY (USER_ID)
 ) COMMENT '회원정보'
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
-;
 
-SELECT *
-  FROM CU_USER
- ;
-
-CREATE TABLE aibaduk.CM_MENU (
-	MENU_ID VARCHAR(5) NOT NULL COMMENT '메뉴ID',
-	FST_CRER_ID VARCHAR(50) NOT NULL COMMENT '최초생성자',
-	FST_CRE_DTM DATETIME NOT NULL COMMENT '최초생성일',
-	AUDIT_ID VARCHAR(50) NOT NULL COMMENT '최종변경자',
-	AUDIT_DTM DATETIME NOT NULL COMMENT '최종변경일시',
-	UP_MENU_ID VARCHAR(5) NOT NULL COMMENT '상위메뉴ID',
-	MENU_DEPTH SMALLINT(1) NOT NULL COMMENT '메뉴단계',
-	MENU_NM VARCHAR(100) NOT NULL COMMENT '메뉴명',
-	MENU_URL VARCHAR(100) NOT NULL COMMENT '메뉴경로',
-	VISIBLE_YN VARCHAR(1) DEFAULT 'Y' NOT NULL COMMENT '활성화여부',
-	DP_YN VARCHAR(1) DEFAULT 'Y' NOT NULL COMMENT '노출여부',
-	MOBILE_DP_YN VARCHAR(1) DEFAULT 'Y' NOT NULL COMMENT '모바일노출여부',
-	SORT_SEQ SMALLINT(4) COMMENT '정렬순서',
-	ETC VARCHAR(500) COMMENT '메모',
-	PRIMARY KEY (MENU_ID)
-) COMMENT '메뉴관리'
-ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-SELECT *
-  FROM CM_MENU
-  ;
-
-CREATE TABLE aibaduk.CM_ROLE_MENU (
-	ROLE_ID VARCHAR(50) NOT NULL COMMENT '룰ID',
-	MENU_ID VARCHAR(5) NOT NULL COMMENT '메뉴ID',
-	FST_CRER_ID VARCHAR(50) NOT NULL COMMENT '최초생성자',
-	FST_CRE_DTM DATETIME NOT NULL COMMENT '최초생성일',
-	AUDIT_ID VARCHAR(50) NOT NULL COMMENT '최종변경자',
-	AUDIT_DTM DATETIME NOT NULL COMMENT '최종변경일시',
-	PRIMARY KEY (ROLE_ID, MENU_ID)
-) COMMENT '메뉴룰관리'
-ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-SELECT *
-  FROM CM_ROLE_MENU
-  ;
-
-CREATE TABLE aibaduk.CM_FILE (
-	MENU_ID VARCHAR(5) NOT NULL COMMENT '메뉴ID',
-	TARGET_ID VARCHAR(30) NOT NULL COMMENT '대상ID',
-	FILE_ID VARCHAR(3) NOT NULL COMMENT '파일ID',
-	FST_CRER_ID VARCHAR(50) NOT NULL COMMENT '최초생성자',
-	FST_CRE_DTM DATETIME NOT NULL COMMENT '최초생성일',
-	AUDIT_ID VARCHAR(50) NOT NULL COMMENT '최종변경자',
-	AUDIT_DTM DATETIME NOT NULL COMMENT '최종변경일시',
-	FILE_NM VARCHAR(200) NOT NULL COMMENT '파일명',
-	FILE_OG_NM VARCHAR(200) NOT NULL COMMENT '파일원본명',
-	PRIMARY KEY (MENU_ID, TARGET_ID, FILE_ID)
-) COMMENT '공통파일'
-ENGINE=InnoDB DEFAULT CHARSET=utf8;
-;
-
-SELECT *
-  FROM CM_FILE
-  ;
-
-CREATE TABLE aibaduk.CM_DOWN (
-	MENU_ID VARCHAR(5) NOT NULL COMMENT '메뉴ID',
-	TARGET_ID VARCHAR(20) NOT NULL COMMENT '대상ID',
-	DOWN_ID VARCHAR(3) NOT NULL COMMENT '다운로드ID',
-	FST_CRER_ID VARCHAR(50) NOT NULL COMMENT '최초생성자',
-	FST_CRE_DTM DATETIME NOT NULL COMMENT '최초생성일',
-	AUDIT_ID VARCHAR(50) NOT NULL COMMENT '최종변경자',
-	AUDIT_DTM DATETIME NOT NULL COMMENT '최종변경일시',
-	USER_ID VARCHAR(50) NOT NULL COMMENT '사용자ID',
-	DOWN_STATUS VARCHAR(2) NOT NULL COMMENT '다운로드상태(CU006)',
-	DOWN_CNT SMALLINT DEFAULT '0' NOT NULL COMMENT '다운로드수',
-	PRIMARY KEY (MENU_ID, TARGET_ID, DOWN_ID)
-) COMMENT '다운로드관리'
-ENGINE=InnoDB DEFAULT CHARSET=utf8;
-;
-
-SELECT *
-  FROM CM_DOWN
-  ;
-
+-- PR_PROD (상품)
 CREATE TABLE aibaduk.PR_PROD (
 	PROD_ID VARCHAR(8) NOT NULL COMMENT '상품ID',
 	PROD_CL_CD VARCHAR(2) NOT NULL COMMENT '상품구분코드(CU005)',
@@ -214,12 +186,8 @@ CREATE TABLE aibaduk.PR_PROD (
 	PRIMARY KEY (PROD_ID, PROD_CL_CD)
 ) COMMENT '상품'
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
-;
 
-SELECT *
-  FROM PR_PROD
-  ;
-
+-- PR_PROD_DOWN (상품다운로드)
 CREATE TABLE aibaduk.PR_PROD_DOWN (
 	MENU_ID VARCHAR(5) NOT NULL COMMENT '메뉴ID',
 	PROD_ID VARCHAR(20) NOT NULL COMMENT '상품ID',
@@ -238,11 +206,6 @@ CREATE TABLE aibaduk.PR_PROD_DOWN (
 	PRIMARY KEY (MENU_ID, PROD_ID, PROD_CL_CD, DOWN_ID)
 ) COMMENT '상품다운로드'
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
-;
-
-SELECT *
-  FROM PR_PROD_DOWN
-  ;
 
 /* MYSQL FUNCTION */
 CREATE FUNCTION F_GET_CODE_NAME(lCd VARCHAR(5), mCd VARCHAR(20))
@@ -264,8 +227,160 @@ BEGIN
 	END IF;
 
     RETURN return_value
-	;
+;
 
+---------------
+-- MYSQL DML --
+---------------
+-- CM_CODE (BO001, 게시판구분)
+INSERT INTO CM_CODE (L_CD,M_CD,FST_CRER_ID,FST_CRE_DTM,AUDIT_ID,AUDIT_DTM,CODE_NM,SORT_SEQ,REF1,REF2,REF3,ETC) VALUES
+('BO001','*','MIG',NOW(),'MIG',NOW(),'게시판구분',0,NULL,NULL,NULL,NULL),
+('BO001','01','MIG',NOW(),'MIG',NOW(),'공지사항',1,'','','',NULL),
+('BO001','02','MIG',NOW(),'MIG',NOW(),'자주묻는질문',2,'','','',NULL),
+('BO001','03','MIG',NOW(),'MIG',NOW(),'바둑AI소식',3,'','','',NULL),
+('BO001','04','MIG',NOW(),'MIG',NOW(),'바둑자료실',4,'','','',NULL);
+
+-- CM_CODE (CU001, 성별)
+INSERT INTO CM_CODE (L_CD,M_CD,FST_CRER_ID,FST_CRE_DTM,AUDIT_ID,AUDIT_DTM,CODE_NM,SORT_SEQ,REF1,REF2,REF3,ETC) VALUES
+('CU001','*','MIG',NOW(),'MIG',NOW(),'성별',0,NULL,NULL,NULL,NULL),
+('CU001','01','MIG',NOW(),'MIG',NOW(),'남',1,'','','',NULL),
+('CU001','02','MIG',NOW(),'MIG',NOW(),'여',2,'','','',NULL);
+
+-- CM_CODE (CU002, 회원등급)
+INSERT INTO CM_CODE (L_CD,M_CD,FST_CRER_ID,FST_CRE_DTM,AUDIT_ID,AUDIT_DTM,CODE_NM,SORT_SEQ,REF1,REF2,REF3,ETC) VALUES
+('CU002','*','MIG',NOW(),'MIG',NOW(),'회원등급',0,NULL,NULL,NULL,NULL),
+('CU002','gold','MIG',NOW(),'MIG',NOW(),'심화회원',3,'','','',NULL),
+('CU002','silver','MIG',NOW(),'MIG',NOW(),'일반회원',4,'','','',NULL),
+('CU002','vip','MIG',NOW(),'MIG',NOW(),'특별회원',2,'','','',NULL),
+('CU002','vvip','MIG',NOW(),'MIG',NOW(),'우대회원',1,'','','',NULL);
+
+-- CM_CODE (CU003, 기력)
+INSERT INTO CM_CODE (L_CD,M_CD,FST_CRER_ID,FST_CRE_DTM,AUDIT_ID,AUDIT_DTM,CODE_NM,SORT_SEQ,REF1,REF2,REF3,ETC) VALUES
+('CU003','*','MIG',NOW(),'MIG',NOW(),'기력',0,'','','',''),
+('CU003','A01','MIG',NOW(),'MIG',NOW(),'아마18급',1,'','','',''),
+('CU003','A02','MIG',NOW(),'MIG',NOW(),'아마17급',2,'','','',''),
+('CU003','A03','MIG',NOW(),'MIG',NOW(),'아마16급',3,'','','',''),
+('CU003','A04','MIG',NOW(),'MIG',NOW(),'아마15급',4,'','','',''),
+('CU003','A05','MIG',NOW(),'MIG',NOW(),'아마14급',5,'','','',''),
+('CU003','A06','MIG',NOW(),'MIG',NOW(),'아마13급',6,'','','',''),
+('CU003','A07','MIG',NOW(),'MIG',NOW(),'아마12급',7,'','','',''),
+('CU003','A08','MIG',NOW(),'MIG',NOW(),'아마11급',8,'','','',''),
+('CU003','A09','MIG',NOW(),'MIG',NOW(),'아마10급',9,'','','',''),
+('CU003','A10','MIG',NOW(),'MIG',NOW(),'아마9급',10,'','','',''),
+('CU003','A11','MIG',NOW(),'MIG',NOW(),'아마8급',11,'','','',''),
+('CU003','A12','MIG',NOW(),'MIG',NOW(),'아마7급',12,'','','',''),
+('CU003','A13','MIG',NOW(),'MIG',NOW(),'아마6급',13,'','','',''),
+('CU003','A14','MIG',NOW(),'MIG',NOW(),'아마5급',14,'','','',''),
+('CU003','A15','MIG',NOW(),'MIG',NOW(),'아마4급',15,'','','',''),
+('CU003','A16','MIG',NOW(),'MIG',NOW(),'아마3급',16,'','','',''),
+('CU003','A17','MIG',NOW(),'MIG',NOW(),'아마2급',17,'','','',''),
+('CU003','A18','MIG',NOW(),'MIG',NOW(),'아마1급',18,'','','',''),
+('CU003','A19','MIG',NOW(),'MIG',NOW(),'아마1단',19,'','','',''),
+('CU003','A20','MIG',NOW(),'MIG',NOW(),'아마2단',20,'','','',''),
+('CU003','A21','MIG',NOW(),'MIG',NOW(),'아마3단',21,'','','',''),
+('CU003','A22','MIG',NOW(),'MIG',NOW(),'아마4단',22,'','','',''),
+('CU003','A23','MIG',NOW(),'MIG',NOW(),'아마5단',23,'','','',''),
+('CU003','A24','MIG',NOW(),'MIG',NOW(),'아마6단',24,'','','',''),
+('CU003','A25','MIG',NOW(),'MIG',NOW(),'아마7단',25,'','','',''),
+('CU003','A26','MIG',NOW(),'MIG',NOW(),'아마8단',26,'','','',''),
+('CU003','P01','MIG',NOW(),'MIG',NOW(),'프로1단',27,'','','',''),
+('CU003','P02','MIG',NOW(),'MIG',NOW(),'프로2단',28,'','','',''),
+('CU003','P03','MIG',NOW(),'MIG',NOW(),'프로3단',29,'','','',''),
+('CU003','P04','MIG',NOW(),'MIG',NOW(),'프로4단',30,'','','',''),
+('CU003','P05','MIG',NOW(),'MIG',NOW(),'프로5단',31,'','','',''),
+('CU003','P06','MIG',NOW(),'MIG',NOW(),'프로6단',32,'','','',''),
+('CU003','P07','MIG',NOW(),'MIG',NOW(),'프로7단',33,'','','',''),
+('CU003','P08','MIG',NOW(),'MIG',NOW(),'프로8단',34,'','','',''),
+('CU003','P09','MIG',NOW(),'MIG',NOW(),'프로9단',35,'','','','');
+
+-- CM_CODE (CU004, 권한)
+INSERT INTO CM_CODE (L_CD,M_CD,FST_CRER_ID,FST_CRE_DTM,AUDIT_ID,AUDIT_DTM,CODE_NM,SORT_SEQ,REF1,REF2,REF3,ETC) VALUES
+('CU004','*','MIG',NOW(),'MIG',NOW(),'권한',0,NULL,NULL,NULL,NULL),
+('CU004','ROLE_ADMIN','MIG',NOW(),'MIG',NOW(),'관리자',1,'','','',NULL),
+('CU004','ROLE_MEMBER','MIG',NOW(),'MIG',NOW(),'유료회원',2,'','','',NULL),
+('CU004','ROLE_USER','MIG',NOW(),'MIG',NOW(),'무료회원',3,'','','',NULL);
+
+-- CM_CODE (CU005, 상품구분코드)
+INSERT INTO CM_CODE (L_CD,M_CD,FST_CRER_ID,FST_CRE_DTM,AUDIT_ID,AUDIT_DTM,CODE_NM,SORT_SEQ,REF1,REF2,REF3,ETC) VALUES
+('CU005','*','MIG',NOW(),'MIG',NOW(),'상품구분코드',0,NULL,NULL,NULL,NULL),
+('CU005','01','MIG',NOW(),'MIG',NOW(),'포석',1,'','','',NULL),
+('CU005','02','MIG',NOW(),'MIG',NOW(),'정석',2,'','','',NULL),
+('CU005','03','MIG',NOW(),'MIG',NOW(),'끝내기',3,'','','',NULL),
+('CU005','04','MIG',NOW(),'MIG',NOW(),'행마',4,'','','',NULL);
+
+-- CM_CODE (CU006, 다운로드상태)
+INSERT INTO CM_CODE (L_CD,M_CD,FST_CRER_ID,FST_CRE_DTM,AUDIT_ID,AUDIT_DTM,CODE_NM,SORT_SEQ,REF1,REF2,REF3,ETC) VALUES
+('CU006','*','MIG',NOW(),'MIG',NOW(),'다운로드상태',0,NULL,NULL,NULL,NULL),
+('CU006','01','MIG',NOW(),'MIG',NOW(),'대기',1,'','','',NULL),
+('CU006','02','MIG',NOW(),'MIG',NOW(),'승인',2,'','','',NULL),
+('CU006','03','MIG',NOW(),'MIG',NOW(),'완료',3,'','','',NULL),
+('CU006','04','MIG',NOW(),'MIG',NOW(),'취소',4,'','','',NULL);
+
+-- CM_MENU (메뉴관리)
+INSERT INTO CM_MENU (MENU_ID,FST_CRER_ID,FST_CRE_DTM,AUDIT_ID,AUDIT_DTM,UP_MENU_ID,MENU_DEPTH,MENU_NM,MENU_URL,VISIBLE_YN,DP_YN,MOBILE_DP_YN,SORT_SEQ,ETC) VALUES
+('root','MIG',NOW(),'MIG',NOW(),'#',0,'메뉴루트','','Y','Y','Y',0,''),
+('00001','MIG',NOW(),'MIG',NOW(),'root',1,'연구소 소개','/introduce/introduce/main','Y','Y','Y',1,'연구소 소개'),
+('00002','MIG',NOW(),'MIG',NOW(),'root',1,'AI 컨텐츠','/prod/main','Y','Y','Y',2,'AI 컨텐츠'),
+('00003','MIG',NOW(),'MIG',NOW(),'root',1,'AI 분석정보','/mypage/analyzeInfo/detail','Y','Y','Y',3,''),
+('00004','MIG',NOW(),'MIG',NOW(),'root',1,'게시판','/board/notice/main','Y','Y','Y',4,''),
+('00005','MIG',NOW(),'MIG',NOW(),'root',1,'관리자페이지','/admin/code/main','Y','Y','Y',5,''),
+('00006','MIG',NOW(),'MIG',NOW(),'root',1,'회원가입','/auth/signUp','Y','N','Y',6,''),
+('00007','MIG',NOW(),'MIG',NOW(),'root',1,'내정보 수정','/mypage/user/detail','Y','N','Y',7,''),
+('00008','MIG',NOW(),'MIG',NOW(),'00001',2,'연구소 소개','/introduce/introduce/main','Y','Y','Y',1,'연구소 소개'),
+('00009','MIG',NOW(),'MIG',NOW(),'00001',2,'커리큘럼','/introduce/curriculum/main','Y','Y','Y',2,'커리큘럼'),
+('00010','MIG',NOW(),'MIG',NOW(),'00002',2,'AI 컨텐츠','/prod/main','Y','Y','Y',1,'AI 컨텐츠'),
+('00011','MIG',NOW(),'MIG',NOW(),'00002',2,'AI 컨텐츠 다운로드','/down/prod/main','Y','Y','Y',2,'AI 컨텐츠 다운로드'),
+('00012','MIG',NOW(),'MIG',NOW(),'00004',2,'공지사항','/board/notice/main','Y','Y','Y',1,'공지사항'),
+('00013','MIG',NOW(),'MIG',NOW(),'00004',2,'자주묻는질문','/board/question/main','Y','Y','Y',2,'자주묻는질문'),
+('00014','MIG',NOW(),'MIG',NOW(),'00004',2,'바둑AI소식','/board/info/main','Y','Y','Y',3,'바둑AI소식'),
+('00015','MIG',NOW(),'MIG',NOW(),'00004',2,'바둑자료실','/board/storage/main','Y','Y','Y',4,'바둑자료실'),
+('00016','MIG',NOW(),'MIG',NOW(),'00005',2,'공통코드','/admin/code/main','Y','Y','Y',1,'공통코드'),
+('00017','MIG',NOW(),'MIG',NOW(),'00005',2,'메뉴관리','/admin/menu/main','Y','Y','Y',2,'메뉴관리'),
+('00018','MIG',NOW(),'MIG',NOW(),'00005',2,'사용자관리','/admin/user/main','Y','Y','Y',3,'사용자관리'),
+('00019','MIG',NOW(),'MIG',NOW(),'00005',2,'탈퇴회원관리','/admin/withdrawal/main','Y','Y','Y',4,'탈퇴회원관리'),
+('00020','MIG',NOW(),'MIG',NOW(),'00005',2,'분석정보','/admin/analyzeInfo/main','Y','Y','Y',5,'분석정보'),
+('00021','MIG',NOW(),'MIG',NOW(),'00005',2,'AI 컨텐츠','/admin/prod/main','Y','Y','Y',6,'AI 컨텐츠'),
+('00022','MIG',NOW(),'MIG',NOW(),'00005',2,'AI 컨텐츠 다운','/admin/down/prod/main','Y','Y','Y',7,'AI 컨텐츠 다운'),
+('00023','MIG',NOW(),'MIG',NOW(),'00005',2,'게시판','/admin/board/main','Y','Y','Y',8,'게시판'),
+('00031','MIG',NOW(),'MIG',NOW(),'00003',2,'AI 분석정보','/mypage/analyzeInfo/detail','Y','Y','Y',1,'AI 분석정보'),
+('00032','MIG',NOW(),'MIG',NOW(),'00007',2,'내정보 수정','/mypage/user/detail','Y','Y','Y',1,'내정보 수정'),
+('00024','MIG',NOW(),'MIG',NOW(),'00016',3,'공통코드 등록','/admin/code/insert','Y','Y','Y',1,'공통코드 등록'),
+('00025','MIG',NOW(),'MIG',NOW(),'00016',3,'공통코드 상세','/admin/code/detail','Y','Y','Y',2,'공통코드 상세'),
+('00026','MIG',NOW(),'MIG',NOW(),'00018',3,'사용자관리 상세','/admin/user/detail','Y','Y','Y',1,'사용자관리 상세'),
+('00027','MIG',NOW(),'MIG',NOW(),'00019',3,'탈퇴회원관리 상세','/admin/withdrawal/detail','Y','Y','Y',1,'탈퇴회원관리 상세'),
+('00028','MIG',NOW(),'MIG',NOW(),'00020',3,'분석정보 등록','/admin/analyzeInfo/insert','Y','Y','Y',1,'분석정보 등록'),
+('00029','MIG',NOW(),'MIG',NOW(),'00020',3,'분석정보 상세','/admin/analyzeInfo/detail','Y','Y','Y',2,'분석정보 상세'),
+('00030','MIG',NOW(),'MIG',NOW(),'00020',3,'분석정보 통계','/admin/analyzeInfo/statistics','Y','Y','Y',3,'분석정보 통계'),
+('00033','MIG',NOW(),'MIG',NOW(),'00021',3,'AI 컨텐츠 등록','/admin/prod/insert','Y','Y','Y',1,'AI 컨텐츠 등록'),
+('00034','MIG',NOW(),'MIG',NOW(),'00021',3,'AI 컨텐츠 상세','/admin/prod/detail','Y','Y','Y',2,'AI 컨텐츠 상세'),
+('00035','MIG',NOW(),'MIG',NOW(),'00023',3,'게시판 등록','/admin/board/insert','Y','Y','Y',1,'게시판 등록'),
+('00036','MIG',NOW(),'MIG',NOW(),'00023',3,'게시판 상세','/admin/board/detail','Y','Y','Y',2,'게시판 상세'),
+('00037','MIG',NOW(),'MIG',NOW(),'00012',3,'공지사항 상세','/board/notice/detail','Y','Y','Y',1,'공지사항 상세'),
+('00038','MIG',NOW(),'MIG',NOW(),'00013',3,'자주묻는질문 상세','/board/question/detail','Y','Y','Y',1,'자주묻는질문 상세'),
+('00039','MIG',NOW(),'MIG',NOW(),'00014',3,'바둑AI소식 상세','/board/info/detail','Y','Y','Y',1,'바둑AI소식 상세'),
+('00040','MIG',NOW(),'MIG',NOW(),'00015',3,'바둑자료실 상세','/board/storage/detail','Y','Y','Y',1,'바둑자료실 상세');
+
+-- CM_ROLE_MENU (메뉴룰관리)
+INSERT INTO CM_ROLE_MENU (ROLE_ID,MENU_ID,FST_CRER_ID,FST_CRE_DTM,AUDIT_ID,AUDIT_DTM) VALUES
+('ROLE_ADMIN','00003','MIG',NOW(),'MIG',NOW()),
+('ROLE_MEMBER','00003','MIG',NOW(),'MIG',NOW()),
+('ROLE_ADMIN','00005','MIG',NOW(),'MIG',NOW()),
+('ROLE_ADMIN','00011','MIG',NOW(),'MIG',NOW()),
+('ROLE_MEMBER','00011','MIG',NOW(),'MIG',NOW()),
+('ROLE_USER','00011','MIG',NOW(),'MIG',NOW()),
+('ROLE_ADMIN','00016','MIG',NOW(),'MIG',NOW()),
+('ROLE_ADMIN','00017','MIG',NOW(),'MIG',NOW()),
+('ROLE_ADMIN','00018','MIG',NOW(),'MIG',NOW()),
+('ROLE_ADMIN','00019','MIG',NOW(),'MIG',NOW()),
+('ROLE_ADMIN','00020','MIG',NOW(),'MIG',NOW()),
+('ROLE_ADMIN','00021','MIG',NOW(),'MIG',NOW()),
+('ROLE_ADMIN','00022','MIG',NOW(),'MIG',NOW()),
+('ROLE_ADMIN','00023','MIG',NOW(),'MIG',NOW()),
+('ROLE_ADMIN','00031','MIG',NOW(),'MIG',NOW()),
+('ROLE_MEMBER','00031','MIG',NOW(),'MIG',NOW()),
+('ROLE_ADMIN','00032','MIG',NOW(),'MIG',NOW()),
+('ROLE_MEMBER','00032','MIG',NOW(),'MIG',NOW()),
+('ROLE_USER','00032','MIG',NOW(),'MIG',NOW());
 
 -- 하위에서 상위를 조회하는 계층쿼리
 WITH RECURSIVE MENU_3 (MENU_ID, MENU_NM, UP_MENU_ID, MENU_DEPTH, MENU_URL, VISIBLE_YN, SORT_SEQ) AS
@@ -308,131 +423,3 @@ SELECT *
  ORDER BY MENU_3.MENU_ID
         , MENU_3.SORT_SEQ
 ;
-
-
----------------
--- MYSQL DML --
----------------
--- CM_CODE (BO001, 게시판구분)
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('BO001', '*', 'MIG', NOW(), 'MIG', NOW(), '게시판구분', '0', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('BO001', '01', 'MIG', NOW(), 'MIG', NOW(), '공지사항', '1', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('BO001', '02', 'MIG', NOW(), 'MIG', NOW(), '학습자료', '2', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('BO001', '03', 'MIG', NOW(), 'MIG', NOW(), '바둑AI소식', '3', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('BO001', '04', 'MIG', NOW(), 'MIG', NOW(), '바둑자료실', '4', '', '', '', '');
-
--- CM_CODE (CU001, 성별)
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU001', '*', 'MIG', NOW(), 'MIG', NOW(), '성별', '0', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU001', '01', 'MIG', NOW(), 'MIG', NOW(), '남', '1', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU001', '02', 'MIG', NOW(), 'MIG', NOW(), '여', '2', '', '', '', '');
-
--- CM_CODE (CU002, 회원등급)
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU002', '*', 'MIG', NOW(), 'MIG', NOW(), '회원등급', '0', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU002', 'VVIP', 'MIG', NOW(), 'MIG', NOW(), '우대회원', '1', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU002', 'VIP', 'MIG', NOW(), 'MIG', NOW(), '특별회원', '2', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU002', 'GOLD', 'MIG', NOW(), 'MIG', NOW(), '심화회원', '3', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU002', 'SILVER', 'MIG', NOW(), 'MIG', NOW(), '일반회원', '4', '', '', '', '');
-
--- CM_CODE (CU003, 기력)
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', '*', 'MIG', NOW(), 'MIG', NOW(), '기력', '0', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', 'A01', 'MIG', NOW(), 'MIG', NOW(), '아마18급', '1', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', 'A02', 'MIG', NOW(), 'MIG', NOW(), '아마17급', '2', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', 'A03', 'MIG', NOW(), 'MIG', NOW(), '아마16급', '3', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', 'A04', 'MIG', NOW(), 'MIG', NOW(), '아마15급', '4', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', 'A05', 'MIG', NOW(), 'MIG', NOW(), '아마14급', '5', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', 'A06', 'MIG', NOW(), 'MIG', NOW(), '아마13급', '6', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', 'A07', 'MIG', NOW(), 'MIG', NOW(), '아마12급', '7', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', 'A08', 'MIG', NOW(), 'MIG', NOW(), '아마11급', '8', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', 'A09', 'MIG', NOW(), 'MIG', NOW(), '아마10급', '9', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', 'A10', 'MIG', NOW(), 'MIG', NOW(), '아마9급', '10', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', 'A11', 'MIG', NOW(), 'MIG', NOW(), '아마8급', '11', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', 'A12', 'MIG', NOW(), 'MIG', NOW(), '아마7급', '12', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', 'A13', 'MIG', NOW(), 'MIG', NOW(), '아마6급', '13', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', 'A14', 'MIG', NOW(), 'MIG', NOW(), '아마5급', '14', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', 'A15', 'MIG', NOW(), 'MIG', NOW(), '아마4급', '15', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', 'A16', 'MIG', NOW(), 'MIG', NOW(), '아마3급', '16', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', 'A17', 'MIG', NOW(), 'MIG', NOW(), '아마2급', '17', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', 'A18', 'MIG', NOW(), 'MIG', NOW(), '아마1급', '18', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', 'A19', 'MIG', NOW(), 'MIG', NOW(), '아마1단', '19', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', 'A20', 'MIG', NOW(), 'MIG', NOW(), '아마2단', '20', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', 'A21', 'MIG', NOW(), 'MIG', NOW(), '아마3단', '21', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', 'A22', 'MIG', NOW(), 'MIG', NOW(), '아마4단', '22', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', 'A23', 'MIG', NOW(), 'MIG', NOW(), '아마5단', '23', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', 'A24', 'MIG', NOW(), 'MIG', NOW(), '아마6단', '24', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', 'A25', 'MIG', NOW(), 'MIG', NOW(), '아마7단', '25', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', 'A26', 'MIG', NOW(), 'MIG', NOW(), '아마8단', '26', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', 'P01', 'MIG', NOW(), 'MIG', NOW(), '프로1단', '27', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', 'P02', 'MIG', NOW(), 'MIG', NOW(), '프로2단', '28', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', 'P03', 'MIG', NOW(), 'MIG', NOW(), '프로3단', '29', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', 'P04', 'MIG', NOW(), 'MIG', NOW(), '프로4단', '30', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', 'P05', 'MIG', NOW(), 'MIG', NOW(), '프로5단', '31', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', 'P06', 'MIG', NOW(), 'MIG', NOW(), '프로6단', '32', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', 'P07', 'MIG', NOW(), 'MIG', NOW(), '프로7단', '33', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', 'P08', 'MIG', NOW(), 'MIG', NOW(), '프로8단', '34', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU003', 'P09', 'MIG', NOW(), 'MIG', NOW(), '프로9단', '35', '', '', '', '');
-
--- CM_CODE (CU004, 권한)
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU004', '*', 'MIG', NOW(), 'MIG', NOW(), '권한', '0', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU004', 'ADMIN', 'MIG', NOW(), 'MIG', NOW(), '관리자', '1', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU004', 'USER', 'MIG', NOW(), 'MIG', NOW(), '일반사용자', '2', '', '', '', '');
-
--- CM_CODE (CU005, 상품구분코드)
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU005', '*', 'MIG', NOW(), 'MIG', NOW(), '상품구분코드', '0', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU005', '01', 'MIG', NOW(), 'MIG', NOW(), '포석', '1', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU005', '02', 'MIG', NOW(), 'MIG', NOW(), '정석', '2', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU005', '03', 'MIG', NOW(), 'MIG', NOW(), '끝내기', '3', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('CU005', '04', 'MIG', NOW(), 'MIG', NOW(), '행마', '4', '', '', '', '');
-
--- CM_CODE (MS001, 메뉴버튼)
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('MS001', '*', 'MIG', NOW(), 'MIG', NOW(), '메뉴버튼', '0', '', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('MS001', '01', 'MIG', NOW(), 'MIG', NOW(), '조회', '1', 'btn-role-r', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('MS001', '02', 'MIG', NOW(), 'MIG', NOW(), '저장', '2', 'btn-role-c', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('MS001', '03', 'MIG', NOW(), 'MIG', NOW(), '삭제', '3', 'btn-role-d', '', '', '');
-INSERT INTO CM_CODE(L_CD, M_CD, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, CODE_NM, SORT_SEQ, REF1, REF2, REF3, ETC)VALUES('MS001', '04', 'MIG', NOW(), 'MIG', NOW(), '엑셀', '4', 'btn-role-e', '', '', '');
-
--- CM_MENU (메뉴관리 MIG)
-INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('root', 'admin', now(), 'admin', now(), '*', '0', '메뉴루트', '', 'Y', '0', '');
-INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00001', 'admin', now(), 'admin', now(), 'root', '1', '연구소 소개', '/introduce/introduce/main', 'Y', '1', '');
-INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00002', 'admin', now(), 'admin', now(), 'root', '1', 'AI 컨텐츠', '/prod/main', 'Y', '2', '');
-INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00003', 'admin', now(), 'admin', now(), 'root', '1', 'AI 분석정보', '/mypage/analyzeInfo/detail', 'Y', '3', '');
-INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00004', 'admin', now(), 'admin', now(), 'root', '1', '게시판', '/board/notice/main', 'Y', '4', '');
-INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00005', 'admin', now(), 'admin', now(), 'root', '1', '관리자페이지', '/admin/code/main', 'Y', '5', '');
-INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00006', 'admin', now(), 'admin', now(), 'root', '1', '회원가입', '/auth/signUp', 'Y', '6', '');
-INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00007', 'admin', now(), 'admin', now(), 'root', '1', '내정보 수정', '/mypage/user/detail', 'Y', '7', '');
-INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00008', 'admin', now(), 'admin', now(), '00001', '2', '연구소 소개', '/introduce/introduce/main', 'Y', '1', '');
-INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00009', 'admin', now(), 'admin', now(), '00001', '2', '커리큘럼', '/introduce/curriculum/main', 'Y', '2', '');
-INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00010', 'admin', now(), 'admin', now(), '00002', '2', 'AI 컨텐츠', '/prod/main', 'Y', '1', '');
-INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00011', 'admin', now(), 'admin', now(), '00002', '2', 'AI 컨텐츠 다운로드', '/down/prod/main', 'Y', '2', '');
-INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00012', 'admin', now(), 'admin', now(), '00004', '2', '공지사항', '/board/notice/main', 'Y', '1', '');
-INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00013', 'admin', now(), 'admin', now(), '00004', '2', '자주묻는질문', '/board/question/main', 'Y', '2', '');
-INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00014', 'admin', now(), 'admin', now(), '00004', '2', '바둑AI소식', '/board/info/main', 'Y', '3', '');
-INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00015', 'admin', now(), 'admin', now(), '00004', '2', '바둑자료실', '/board/storage/main', 'Y', '4', '');
-INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00016', 'admin', now(), 'admin', now(), '00005', '2', '공통코드', '/admin/code/main', 'Y', '1', '');
-INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00017', 'admin', now(), 'admin', now(), '00005', '2', '메뉴관리', '/admin/menu/main', 'Y', '2', '');
-INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00018', 'admin', now(), 'admin', now(), '00005', '2', '사용자관리', '/admin/user/main', 'Y', '3', '');
-INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00019', 'admin', now(), 'admin', now(), '00005', '2', '탈퇴회원관리', '/admin/withdrawal/main', 'Y', '4', '');
-INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00020', 'admin', now(), 'admin', now(), '00005', '2', '분석정보', '/admin/analyzeInfo/main', 'Y', '5', '');
-INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00021', 'admin', now(), 'admin', now(), '00005', '2', 'AI 컨텐츠', '/admin/prod/main', 'Y', '6', '');
-INSERT INTO CM_MENU(MENU_ID, FST_CRER_ID, FST_CRE_DTM, AUDIT_ID, AUDIT_DTM, UP_MENU_ID, MENU_DEPTH, MENU_NM, MENU_URL, VISIBLE_YN, SORT_SEQ, ETC)
-VALUES('00022', 'admin', now(), 'admin', now(), '00005', '2', 'AI 컨텐츠 다운', '/admin/down/prod/main', 'Y', '7', '');
