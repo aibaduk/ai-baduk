@@ -14,6 +14,7 @@ import com.ai.admin.dao.UserMapper;
 import com.ai.admin.vo.UserSearchVo;
 import com.ai.admin.vo.UserVo;
 import com.ai.common.exception.BizException;
+import com.ai.common.util.MessageUtils;
 import com.ai.common.web.CommonService;
 import com.ai.common.web.ExcelService;
 import com.ai.common.web.FileService;
@@ -45,7 +46,6 @@ public class UserService {
 
 	@Value("${upload.excel.analyze_info.path}")
 	private String ANALYZE_INFO_PATH;
-
 
 	/**
 	 * @implNote select user list.
@@ -93,19 +93,13 @@ public class UserService {
 	@Transactional
 	public void updatePassword(UserVo userVo) {
 		final UserVo persistUser = userMapper.selectUserOne(userVo);
+		// [20221016] 관리자는 기존 비밀번호 관계없이 패스워드 변경 가능하도록 수정
 		if (Objects.isNull(persistUser)) {
-			throw new BizException("회원정보를 찾을 수 없습니다.");
+			throw new BizException(MessageUtils.getMessage("ERROR.USER.001"));
 		}
 		if(!userVo.getNewPW().equals(userVo.getNewPWcheck())) {
-			throw new BizException("신규 비밀번호가 일치하지 않습니다.");
+			throw new BizException(MessageUtils.getMessage("ERROR.USER.004"));
 		}
-		// [20221016] 관리자는 기존 비밀번호 관계없이 패스워드 변경 가능하도록 수정
-//		if(userVo.getOldPW().equals(userVo.getNewPW())) {
-//			throw new BizException("기존 비밀번호와 신규 비밀번호가 일치합니다.\n다른 비밀번호를 입력하세요.");
-//		}
-//		if(!passwordEncoder.matches(userVo.getOldPW(), persistUser.getUserPw())) {
-//			throw new BizException("기존 비밀번호가 일치하지 않습니다.");
-//		}
 		CommonService.setSessionData(userVo);
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         userVo.setUserPw(passwordEncoder.encode(userVo.getNewPW()));

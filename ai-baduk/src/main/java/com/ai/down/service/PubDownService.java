@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ai.common.exception.BizException;
 import com.ai.common.util.Constants;
+import com.ai.common.util.MessageUtils;
 import com.ai.common.vo.FileVo;
 import com.ai.common.web.CommonService;
 import com.ai.common.web.FileService;
@@ -104,7 +105,7 @@ public class PubDownService {
 	public void zipFileDownload(String zipFileName, HttpServletResponse response, PubProdDownVo downVo) {
 		// 1. 정상적인 접근 체크
 		if (downMapper.selectIsExists(downVo)) {
-			throw new BizException("비정상적인 접근입니다.");
+			throw new BizException(MessageUtils.getMessage("ERROR.PROD.DOWN.001"));
 		}
 		// 2. 다운로드 상태 업데이트 처리
 		CommonService.setSessionData(downVo);

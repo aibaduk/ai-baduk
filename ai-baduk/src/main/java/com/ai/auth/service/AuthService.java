@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ai.auth.dao.AuthMapper;
 import com.ai.auth.vo.UserVo;
 import com.ai.common.exception.BizException;
+import com.ai.common.util.MessageUtils;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,7 +28,7 @@ public class AuthService implements UserDetailsService{
 	@Transactional
     public void adminJoinUser(UserVo userVo) {
     	if (selectExistsUser(userVo.getUserId())) {
-    		throw new BizException("동일한 ID로 가입된 회원이 존재합니다.");
+    		throw new BizException(MessageUtils.getMessage("ERROR.AUTH.001"));
     	}
     	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         userVo.setUserPw(passwordEncoder.encode(userVo.getPassword()));
@@ -38,7 +39,7 @@ public class AuthService implements UserDetailsService{
     @Transactional
     public void joinUser(UserVo userVo) {
     	if (selectExistsUser(userVo.getUserId())) {
-    		throw new BizException("동일한 ID로 가입된 회원이 존재합니다.");
+    		throw new BizException(MessageUtils.getMessage("ERROR.AUTH.001"));
     	}
     	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         userVo.setUserPw(passwordEncoder.encode(userVo.getPassword()));
