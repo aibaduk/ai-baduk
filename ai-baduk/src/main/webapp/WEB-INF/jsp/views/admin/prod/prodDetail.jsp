@@ -222,12 +222,14 @@ var prod = {
 		                                    	<input type="file" id="uploadFile" name="uploadFile" multiple style="display: none;">
 		                                    </span>
 		                                </li>
-		                                <li class="file_text">
-		                                    <c:forEach items="${prodDetailInfo.fileList }" var="file">
-	                                    		<a href="javascript:void(0)" class="file-download" data-name="${file.fileNm}_${file.fileOgNm}">${file.fileOgNm}</a>
-	                                    		<span class='custem_close btn-delete-file' data-id="${file.fileId}" data-name="${file.fileNm}_${file.fileOgNm}">&times;</span>
-	                                    	</c:forEach>
-		                                </li>
+		                                <c:if test="${not empty prodDetailInfo.fileList }">
+		                                	<li class="file_text">
+			                                    <c:forEach items="${prodDetailInfo.fileList }" var="file">
+		                                    		<a href="javascript:void(0)" class="file-download" data-name="${file.fileNm}_${file.fileOgNm}">${file.fileOgNm}</a>
+		                                    		<span class='custem_close btn-delete-file' data-id="${file.fileId}" data-name="${file.fileNm}_${file.fileOgNm}">&times;</span>
+		                                    	</c:forEach>
+			                                </li>
+		                                </c:if>
 		                                <li class="file">
 		                                    <div class="form-ele">
 		                                    	<label for="impo" class="fm-label">전시여부</label>
