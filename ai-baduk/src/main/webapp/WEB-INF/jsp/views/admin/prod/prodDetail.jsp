@@ -140,7 +140,6 @@ var prod = {
 			let prodClCd = $('#prodClCd').val();
 			let prodId = $('input:hidden[name=prodId]').val();
 			let param = {
-				menuId: '00021',
 				targetGubun: prodClCd,
 				targetId: prodId,
 				fileId: file.data('id'),
@@ -168,7 +167,7 @@ var prod = {
 			let targetGubun = $('#prodClCd').val();
 			let fileNm = file.data('name');
 			let fileOgNm = file.text();
-			window.location.href='/admin/prod/fileDownload?menuId=00021&targetId='+targetId+'&targetGubun='+targetGubun+'&fileNm='+fileNm+'&fileOgNm='+fileOgNm;
+			window.location.href='/admin/prod/fileDownload?targetId='+targetId+'&targetGubun='+targetGubun+'&fileNm='+fileNm+'&fileOgNm='+fileOgNm;
 		}
 	}
 }
@@ -246,7 +245,7 @@ var prod = {
 				                            </div>
 		                                </li>
 		                                <li class="tit">
-		                                    <span class="form-ele"><label for="tit">상품할인율</label><input type="text" id="prodDiscountRate" name="prodDiscountRate" value="${prodDetailInfo.prodDiscountRate }"></span>
+		                                    <span class="form-ele"><label for="tit">상품할인율</label><input type="text" id="prodDiscountRate" name="prodDiscountRate" class="dev-number" value="${prodDetailInfo.prodDiscountRate }" maxlength="3"></span>
 		                                </li>
 		                                <li class="tit">
 		                                    <span class="form-ele"><label for="tit">상품판매처</label><input type="text" id="prodMarket" name="prodMarket" value="${prodDetailInfo.prodMarket }"></span>

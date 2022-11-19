@@ -156,6 +156,7 @@ public class ProdService {
 	@Transactional
 	public void deleteProdFile(FileVo fileVo) {
 		// 1. 파일경로상에 있는 물리적인 파일 삭제
+		fileVo.setMenuId(Constants.FILE_CHNL_PROD);
 		String uploadPath = getUploadPath(fileVo.getTargetGubun(), fileVo.getTargetId());
 		fileService.fileDelete(uploadPath, fileVo.getFileNm());
 		// 2. 데이터베이스 파일 테이블 삭제
