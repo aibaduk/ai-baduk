@@ -13,6 +13,7 @@ import org.springframework.security.access.hierarchicalroles.RoleHierarchyUtils;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -80,8 +81,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests()
-        		.antMatchers("/static/**").permitAll()
-                .antMatchers("/").permitAll()
+        		.antMatchers("/").permitAll()
                 .antMatchers("/auth/login").permitAll()
                 .antMatchers("/auth/logout").permitAll()
                 .antMatchers("/auth/fail").permitAll()
@@ -124,5 +124,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
 //        auth.userDetailsService(authService).passwordEncoder(new BCryptPasswordEncoder());
         auth.authenticationProvider(daoAuthenticationProvider());
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+    	web.ignoring().antMatchers("/static/css/**", "/static/images/**", "/static/fonts/**", "/static/js/**");
     }
 }
